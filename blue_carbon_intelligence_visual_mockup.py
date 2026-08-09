@@ -1,160 +1,771 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
-st.set_page_config(page_title="Blue Carbon Intelligence", page_icon="🌊", layout="wide")
+st.set_page_config(
+    page_title="Blue Carbon Intelligence",
+    page_icon="🌊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
-# ---------- VISUAL SYSTEM ----------
-NAVY="#0D3150"; NAVY_DARK="#08263F"; BLUE="#2E79A8"; TEAL="#159A9C"
-GREEN="#4B9A68"; AMBER="#D99036"; RED="#C65B5B"; BG="#F3F7F9"
-WHITE="#FFFFFF"; BORDER="#D9E4E9"; INK="#203746"; MUTED="#6D7D88"
+# ============================================================
+# BLUE CARBON INTELLIGENCE
+# PROFESSIONAL GLOBAL OVERVIEW — V3
+#
+# Design principles:
+#   - Facts over scores
+#   - Decision-first navigation
+#   - Clear status language
+#   - Timely intelligence
+#   - Country intelligence accessible from anywhere
+#   - Scalable architecture
+#
+# IMPORTANT:
+# The geographic map uses real country boundaries from Plotly's
+# Natural Earth geometry. The example status dataset is clearly
+# labelled illustrative until connected to the verified database.
+# ============================================================
 
-st.markdown(f"""
+# -------------------- DESIGN TOKENS --------------------
+NAVY = "#0B3150"
+NAVY_2 = "#123F61"
+BLUE = "#2478A6"
+TEAL = "#12999B"
+GREEN = "#3F9162"
+GREEN_LIGHT = "#E5F2E9"
+BLUE_LIGHT = "#EAF4F8"
+TEAL_LIGHT = "#E7F5F5"
+AMBER = "#D28A2E"
+AMBER_LIGHT = "#FFF1DC"
+RED = "#B95353"
+RED_LIGHT = "#F9E8E8"
+INK = "#1F3545"
+MUTED = "#6E7F8A"
+BG = "#F4F7F8"
+CARD = "#FFFFFF"
+LINE = "#DCE5E9"
+
+st.markdown(
+    f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
-html,body,[class*="css"]{{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
-.stApp{{background:{BG};}}
-.block-container{{max-width:1540px;padding:0 1.4rem 2rem;}}
-[data-testid="stSidebar"]{{background:{NAVY_DARK};min-width:245px;max-width:245px;}}
-[data-testid="stSidebar"] *{{color:#F4F8FB!important;}}
-[data-testid="stSidebar"] label{{padding:7px 9px!important;border-radius:7px;font-size:.82rem;}}
-.top{{height:64px;margin:0 -1.4rem 1.1rem;padding:0 1.5rem;background:white;border-bottom:1px solid {BORDER};display:flex;align-items:center;justify-content:space-between;}}
-.logo{{display:flex;align-items:center;gap:10px;}}
-.mark{{width:34px;height:34px;border-radius:50%;background:{NAVY};color:white;display:flex;align-items:center;justify-content:center;}}
-.brand{{font-weight:700;font-size:17px;color:{NAVY};}}
-.subbrand{{font-size:9px;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;}}
-.search,.pill{{border:1px solid {BORDER};border-radius:8px;padding:8px 12px;color:{MUTED};font-size:.72rem;display:inline-block;margin-left:7px;}}
-.pill{{background:#EAF4F8;color:{NAVY};font-weight:600;}}
-.hero{{background:linear-gradient(110deg,{NAVY_DARK},{NAVY} 65%,#164D70);border-radius:14px;padding:28px 31px;color:white;min-height:205px;}}
-.kicker{{color:#A9D9D5;text-transform:uppercase;letter-spacing:.13em;font-size:.67rem;font-weight:600;}}
-.hero-title{{font-family:'Playfair Display',Georgia,serif;font-size:2.25rem;line-height:1.08;margin:9px 0;}}
-.hero-title em{{color:#8FD0B0;}}
-.hero-copy{{color:#D1E0E8;font-size:.82rem;line-height:1.55;max-width:600px;}}
-.hero-btn{{display:inline-block;background:{GREEN};padding:9px 14px;border-radius:7px;font-size:.74rem;font-weight:700;margin-top:14px;}}
-.stats{{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden;}}
-.stat{{padding:17px;background:rgba(255,255,255,.055);min-height:90px;}}
-.num{{font-family:'Playfair Display';font-size:1.65rem;}}
-.lab{{font-size:.61rem;text-transform:uppercase;letter-spacing:.07em;color:#BFD2DE;}}
-.note{{font-size:.63rem;color:#91B0BF;margin-top:4px;}}
-.live{{margin-top:11px;background:#0F3856;color:#D5E6EE;border-radius:7px;padding:7px 12px;font-size:.66rem;}}
-.section{{text-transform:uppercase;letter-spacing:.1em;color:{MUTED};font-size:.66rem;font-weight:700;margin:19px 0 7px;}}
-.card{{background:white;border:1px solid {BORDER};border-radius:11px;padding:15px 17px;box-shadow:0 2px 8px rgba(20,50,70,.025);}}
-.title{{color:{NAVY};font-weight:700;font-size:.93rem;}}
-.cardsub{{color:{MUTED};font-size:.71rem;margin-top:3px;line-height:1.45;}}
-.news{{padding:10px 0;border-bottom:1px solid #EDF1F3;}}
-.tag{{display:inline-block;font-size:.58rem;padding:3px 6px;border-radius:5px;background:#EAF4F8;color:{BLUE};font-weight:700;}}
-.date{{color:{MUTED};font-size:.60rem;margin-left:6px;}}
-.headline{{font-size:.73rem;font-weight:600;line-height:1.4;margin-top:5px;}}
-.signal{{font-size:1.7rem;color:{NAVY};font-weight:700;margin-top:11px;}}
-.badge{{display:inline-block;padding:4px 7px;border-radius:13px;font-size:.59rem;font-weight:700;margin:5px 3px 0 0;}}
-.g{{background:#E0F0E5;color:#2D7546}} .b{{background:#EAF4F8;color:#285F84}}
-.t{{background:#E7F5F5;color:#167779}} .a{{background:#FFF1DD;color:#95601E}}
-.r{{background:#FBEAEA;color:#A13F3F}}
-.quick{{background:white;border:1px solid {BORDER};border-radius:10px;padding:12px;text-align:center;}}
-.qicon{{font-size:18px}} .qtitle{{font-size:.68rem;font-weight:700;color:{NAVY};margin-top:4px}} .qsub{{font-size:.59rem;color:{MUTED}}}
-.stButton>button{{border:1px solid {BORDER};border-radius:7px;background:white;color:{NAVY};font-weight:600;}}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@500;600&display=swap');
+
+:root {{
+  --navy:{NAVY};
+  --blue:{BLUE};
+  --teal:{TEAL};
+  --green:{GREEN};
+  --ink:{INK};
+  --muted:{MUTED};
+  --bg:{BG};
+  --line:{LINE};
+}}
+
+html, body, [class*="css"] {{
+    font-family:'DM Sans',Arial,sans-serif;
+    color:var(--ink);
+}}
+.stApp {{ background:var(--bg); }}
+.block-container {{
+    max-width:1540px;
+    padding:0 1.15rem 2rem;
+}}
+
+[data-testid="stSidebar"] {{
+    background:#082A45;
+    min-width:236px;
+    max-width:236px;
+}}
+[data-testid="stSidebar"] * {{ color:#F2F7FA !important; }}
+[data-testid="stSidebar"] .stRadio label {{
+    border-radius:7px;
+    padding:7px 9px !important;
+    font-size:.78rem;
+}}
+[data-testid="stSidebar"] .stRadio label:hover {{
+    background:rgba(255,255,255,.07);
+}}
+
+.topbar {{
+    height:68px;
+    margin:0 -1.15rem 1.05rem;
+    padding:0 1.35rem;
+    background:var(--navy);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}}
+.brand-wrap {{ display:flex;align-items:center;gap:11px; }}
+.brand-icon {{
+    width:37px;height:37px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+    background:#12496A;
+}}
+.brand {{
+    font-size:17px;font-weight:700;letter-spacing:-.03em;
+}}
+.brand-small {{
+    font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+    color:#A9C6D6;margin-top:1px;
+}}
+.product-title {{
+    position:absolute;
+    left:250px;
+    font-size:1.35rem;
+    font-weight:600;
+}}
+.product-sub {{
+    font-size:.67rem;color:#BCD0DB;font-weight:400;margin-top:2px;
+}}
+.top-controls {{ display:flex;align-items:center;gap:8px; }}
+.top-control {{
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.04);
+    color:white;border-radius:7px;
+    padding:8px 11px;font-size:.68rem;
+}}
+.top-control.accent {{
+    background:#138C9D;border-color:#138C9D;font-weight:700;
+}}
+
+.hero {{
+    background:
+      radial-gradient(circle at 88% 20%,rgba(51,144,170,.26),transparent 27%),
+      linear-gradient(115deg,#082A45 0%,#0B3150 58%,#12516B 100%);
+    border-radius:13px;
+    color:white;
+    padding:27px 30px;
+    min-height:218px;
+    position:relative;
+    overflow:hidden;
+}}
+.hero:after {{
+    content:"";
+    position:absolute;
+    right:-105px;top:-170px;
+    width:370px;height:370px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 0 0 42px rgba(255,255,255,.015),
+               0 0 0 84px rgba(255,255,255,.01);
+}}
+.kicker {{
+    color:#A5D9D7;
+    font-size:.64rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    font-weight:700;
+}}
+.hero h1 {{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:2.55rem;
+    line-height:1.02;
+    margin:9px 0 9px;
+    font-weight:500;
+}}
+.hero h1 em {{ color:#8FD1AA;font-style:italic; }}
+.hero p {{
+    max-width:610px;
+    color:#D0E0E8;
+    font-size:.78rem;
+    line-height:1.6;
+    margin:0;
+}}
+.hero-link {{
+    display:inline-block;
+    margin-top:17px;
+    padding:9px 13px;
+    border-radius:7px;
+    background:#3F9162;
+    color:white;
+    font-size:.68rem;
+    font-weight:700;
+}}
+.hero-link.alt {{
+    background:transparent;
+    border:1px solid rgba(255,255,255,.22);
+    margin-left:6px;
+}}
+
+.hero-grid {{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    margin:0;
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:10px;
+    overflow:hidden;
+}}
+.hero-stat {{
+    padding:14px 15px;
+    min-height:91px;
+    background:rgba(255,255,255,.055);
+    border-right:1px solid rgba(255,255,255,.10);
+    border-bottom:1px solid rgba(255,255,255,.10);
+}}
+.hero-stat:nth-child(2n) {{ border-right:0; }}
+.hero-stat:nth-child(3), .hero-stat:nth-child(4) {{ border-bottom:0; }}
+.hero-num {{
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:1.55rem;
+}}
+.hero-label {{
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:.57rem;
+    color:#C1D5DF;
+    margin-top:2px;
+}}
+.hero-note {{ font-size:.60rem;color:#8FAEBD;margin-top:5px; }}
+
+.live {{
+    background:#0C3A57;
+    color:#D9E7ED;
+    border-radius:7px;
+    padding:7px 12px;
+    margin-top:9px;
+    font-size:.62rem;
+}}
+.live b {{ color:#8FD1AA;letter-spacing:.08em; }}
+
+.section-title {{
+    margin:18px 0 7px;
+    font-size:.62rem;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:700;
+}}
+
+.card {{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:11px;
+    box-shadow:0 2px 9px rgba(18,54,73,.025);
+}}
+.card-pad {{ padding:14px 16px; }}
+.card-title {{
+    font-size:.88rem;
+    color:var(--navy);
+    font-weight:700;
+}}
+.card-sub {{
+    font-size:.65rem;
+    color:var(--muted);
+    line-height:1.45;
+    margin-top:3px;
+}}
+
+.map-card {{ overflow:hidden; }}
+.map-head {{
+    padding:13px 15px 8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}}
+.map-hint {{
+    font-size:.58rem;color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:5px;padding:4px 7px;
+}}
+.map-layer {{
+    position:absolute;
+    z-index:10;
+    margin:14px 0 0 14px;
+    background:rgba(255,255,255,.97);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 11px;
+    width:176px;
+    box-shadow:0 3px 12px rgba(15,48,67,.09);
+}}
+.layer-title {{
+    color:var(--navy);font-size:.60rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;
+}}
+.layer-row {{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:5px 0;font-size:.61rem;color:var(--ink);
+}}
+.switch {{
+    width:22px;height:12px;border-radius:10px;background:#B8C8CF;
+    position:relative;display:inline-block;
+}}
+.switch.on {{ background:#1A9A9D; }}
+.switch:after {{
+    content:"";position:absolute;top:2px;left:2px;width:8px;height:8px;
+    background:white;border-radius:50%;
+}}
+.switch.on:after {{ left:12px; }}
+
+.legend {{
+    display:flex;gap:14px;justify-content:center;align-items:center;
+    padding:7px 10px 11px;font-size:.58rem;color:var(--muted);
+}}
+.dot {{
+    width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px;
+}}
+.d-green {{background:#29945E}} .d-teal {{background:#159A9C}}
+.d-amber {{background:#D99036}} .d-grey {{background:#AEBAC1}}
+
+.news-card {{ height:100%; }}
+.news-tabs {{
+    display:flex;gap:20px;padding:9px 14px 0;border-bottom:1px solid var(--line);
+}}
+.news-tab {{
+    font-size:.58rem;color:var(--muted);padding-bottom:8px;
+}}
+.news-tab.active {{
+    color:var(--navy);font-weight:700;border-bottom:2px solid var(--blue);
+}}
+.news-item {{
+    padding:11px 14px;border-bottom:1px solid #EDF1F3;
+}}
+.news-item:last-child {{border-bottom:0;}}
+.tag {{
+    display:inline-block;padding:3px 6px;border-radius:4px;
+    background:var(--blue-light);color:var(--blue);
+    font-size:.55rem;font-weight:700;
+}}
+.news-date {{font-size:.55rem;color:var(--muted);margin-left:6px;}}
+.news-head {{
+    font-size:.68rem;line-height:1.4;font-weight:600;
+    color:var(--ink);margin-top:5px;
+}}
+.news-arrow {{float:right;color:var(--blue);}}
+
+.info-card {{
+    min-height:177px;
+    padding:14px 15px;
+}}
+.info-icon {{
+    width:29px;height:29px;border-radius:7px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--blue-light);color:var(--blue);
+    font-size:15px;
+}}
+.info-title {{
+    margin-top:8px;color:var(--navy);
+    font-weight:700;font-size:.79rem;
+}}
+.info-sub {{
+    color:var(--muted);font-size:.61rem;line-height:1.45;
+    margin-top:3px;
+}}
+.info-footer {{
+    margin-top:12px;padding-top:9px;border-top:1px solid #EDF1F3;
+    color:var(--blue);font-size:.60rem;font-weight:600;
+}}
+.mini-row {{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:6px 0;border-bottom:1px solid #EEF2F4;font-size:.58rem;
+}}
+.mini-row:last-child {{border-bottom:0;}}
+.badge {{
+    padding:3px 6px;border-radius:10px;font-size:.54rem;font-weight:700;
+}}
+.bg {{background:{GREEN_LIGHT};color:#2D7045;}}
+.bb {{background:{BLUE_LIGHT};color:#285E80;}}
+.bt {{background:{TEAL_LIGHT};color:#137477;}}
+.ba {{background:{AMBER_LIGHT};color:#8D5D1E;}}
+.br {{background:{RED_LIGHT};color:#9A4141;}}
+
+.quick-card {{
+    border:1px solid var(--line);background:white;border-radius:9px;
+    padding:10px 11px;min-height:66px;
+}}
+.quick-icon {{
+    float:left;width:29px;height:29px;border-radius:7px;
+    background:#EDF5F8;display:flex;align-items:center;
+    justify-content:center;margin-right:8px;color:var(--blue);
+}}
+.quick-title {{font-size:.62rem;color:var(--navy);font-weight:700;padding-top:1px;}}
+.quick-sub {{font-size:.54rem;color:var(--muted);margin-top:2px;}}
+
+.footer {{
+    text-align:center;color:#7A8992;font-size:.56rem;margin-top:16px;
+}}
 </style>
+""",
+    unsafe_allow_html=True,
+)
+
+# -------------------- ILLUSTRATIVE DATA --------------------
+# Country boundaries are real Natural Earth geometries rendered by Plotly.
+# Status values below are placeholders for the eventual verified dataset.
+country_status = pd.DataFrame([
+    ["IDN","Indonesia",7],
+    ["VNM","Viet Nam",5],
+    ["PHL","Philippines",5],
+    ["KEN","Kenya",5],
+    ["KOR","Republic of Korea",7],
+    ["JPN","Japan",7],
+    ["AUS","Australia",5],
+    ["BRA","Brazil",4],
+    ["MEX","Mexico",4],
+    ["CRI","Costa Rica",4],
+    ["CHL","Chile",4],
+], columns=["iso","Country","conditions"])
+
+news = [
+    ("POLICY","14 NOV 2025","Indonesia submits Second NDC ahead of COP30 with new blue carbon targets"),
+    ("REGULATION","12 NOV 2025","PR 110/2025 enacted to strengthen the carbon economic value framework"),
+    ("AGREEMENT","10 NOV 2025","Indonesia–Singapore Article 6 implementation arrangement signed"),
+    ("MARKET","07 NOV 2025","Voluntary carbon market shows signs of stabilization in Q4 2025"),
+]
+
+# -------------------- TOP HEADER --------------------
+st.markdown("""
+<div class="topbar">
+  <div class="brand-wrap">
+    <div class="brand-icon">≈</div>
+    <div>
+      <div class="brand">BLUE CARBON</div>
+      <div class="brand-small">INTELLIGENCE</div>
+    </div>
+  </div>
+  <div class="product-title">
+    Global Market Intelligence
+    <div class="product-sub">Real-time intelligence for Article 6 and blue carbon markets</div>
+  </div>
+  <div class="top-controls">
+    <div class="top-control">⌕ &nbsp; Search countries, projects, news...</div>
+    <div class="top-control">◎ &nbsp; EN ▾</div>
+    <div class="top-control accent">COUNTRY VIEW →</div>
+  </div>
+</div>
 """, unsafe_allow_html=True)
 
-# ---------- DATA ----------
-countries = pd.DataFrame({
-"iso":["IDN","VNM","PHL","KEN","KOR","JPN","AUS","BRA","MEX","CRI","CHL"],
-"Country":["Indonesia","Viet Nam","Philippines","Kenya","Republic of Korea","Japan","Australia","Brazil","Mexico","Costa Rica","Chile"],
-"Status":[7,5,5,5,7,7,5,4,4,4,4]})
-news=[
-("POLICY","14 NOV 2025","Indonesia submits Second NDC with new blue carbon targets"),
-("REGULATION","12 NOV 2025","Article 6 authorization framework update"),
-("AGREEMENT","10 NOV 2025","Indonesia–Japan cooperation implementation update"),
-("MARKET","07 NOV 2025","Voluntary carbon market shows signs of stabilization")]
-
-# ---------- HEADER ----------
-st.markdown("""
-<div class="top">
- <div class="logo"><div class="mark">≈</div><div><div class="brand">BLUE CARBON</div><div class="subbrand">Intelligence</div></div></div>
- <div><span class="search">⌕ &nbsp; Search countries, projects, news...</span><span class="pill">GLOBAL ▾</span><span class="pill">COUNTRY VIEW →</span></div>
-</div>
-""",unsafe_allow_html=True)
-
-# ---------- SIDEBAR ----------
+# -------------------- SIDEBAR --------------------
 with st.sidebar:
-    st.markdown("<div style='font-size:17px;font-weight:700'>BLUE CARBON</div><div style='font-size:9px;letter-spacing:.13em;color:#AFC8D6'>INTELLIGENCE PLATFORM</div>",unsafe_allow_html=True)
+    st.markdown("""
+    <div style="padding:3px 2px 10px">
+      <div style="font-size:16px;font-weight:700">BLUE CARBON</div>
+      <div style="font-size:8px;letter-spacing:.16em;color:#A9C5D5">INTELLIGENCE PLATFORM</div>
+    </div>
+    """, unsafe_allow_html=True)
     st.divider()
-    st.markdown("<div style='font-size:.63rem;letter-spacing:.1em;color:#9EB9C8'>GLOBAL INTELLIGENCE</div>",unsafe_allow_html=True)
-    pages=["Global Overview","Global Enabling Conditions Map","Article 6 & Policy","Carbon Markets","Methodologies","Projects","News & Intelligence","Marine Spatial Planning"]
-    current=st.session_state.get("page","Global Overview")
-    st.session_state.page=st.radio("Navigation",pages,index=pages.index(current))
+
+    st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>GLOBAL INTELLIGENCE</div>", unsafe_allow_html=True)
+    pages = [
+        "Global Overview",
+        "Global Enabling Conditions Map",
+        "Article 6 & Policy",
+        "Carbon Markets",
+        "Methodologies",
+        "Projects",
+        "News & Intelligence",
+        "Marine Spatial Planning",
+    ]
+    current = st.session_state.get("page", "Global Overview")
+    selected = st.radio("Navigation", pages, index=pages.index(current))
+    st.session_state.page = selected
+
     st.divider()
-    st.markdown("<div style='font-size:.63rem;letter-spacing:.1em;color:#9EB9C8'>RESOURCES</div>",unsafe_allow_html=True)
-    for x in ["Documents Library","Data & Reports","Glossary","About the Platform"]: st.caption(x)
+    st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>RESOURCES</div>", unsafe_allow_html=True)
+    for item in ["Documents Library","Data & Reports","Glossary"]:
+        st.caption(item)
 
-page=st.session_state.page
+    st.divider()
+    st.markdown("""
+    <div style="font-size:.58rem;color:#AFC6D3;line-height:1.5">
+      PLATFORM STATUS<br>
+      <span style="color:#8FD1AA">●</span> Data architecture active<br>
+      <span style="color:#8FD1AA">●</span> Global framework
+    </div>
+    """, unsafe_allow_html=True)
 
-# ---------- GLOBAL OVERVIEW ----------
-if page=="Global Overview":
-    L,R=st.columns([1.05,.95],gap="large")
-    with L:
-        st.markdown("""<div class="hero">
-        <div class="kicker">ARTICLE 6 · ITMO · BLUE CARBON MARKETS</div>
-        <div class="hero-title">Blue carbon<br><em>market intelligence</em></div>
-        <div class="hero-copy">A single platform bringing together Article 6 enabling conditions, blue carbon commitments, methodologies, market activity and project intelligence.</div>
-        <span class="hero-btn">Explore the map →</span>
-        </div>""",unsafe_allow_html=True)
-    with R:
-        st.markdown("""<div class="hero" style="padding:17px"><div class="stats">
-        <div class="stat"><div class="num">127</div><div class="lab">Countries tracked</div><div class="note">Article 6 universe</div></div>
-        <div class="stat"><div class="num">36</div><div class="lab">Blue carbon in NDCs</div><div class="note">Current submissions</div></div>
-        <div class="stat"><div class="num">53</div><div class="lab">Article 6 frameworks</div><div class="note">Operational / adopted</div></div>
-        <div class="stat"><div class="num">186</div><div class="lab">Projects tracked</div><div class="note">Illustrative database</div></div>
-        </div></div>""",unsafe_allow_html=True)
+page = st.session_state.page
 
-    st.markdown("<div class='live'><b style='color:#8FD0B0'>● LIVE INTELLIGENCE</b> &nbsp; Indonesia–Japan Article 6 cooperation · Blue carbon NDC developments · Project pipeline updates · Methodology developments</div>",unsafe_allow_html=True)
+# ============================================================
+# GLOBAL OVERVIEW
+# ============================================================
+if page == "Global Overview":
 
-    st.markdown("<div class='section'>Global market intelligence</div>",unsafe_allow_html=True)
-    M,N=st.columns([1.7,.82],gap="medium")
-    with M:
-        st.markdown("<div class='card'><div class='title'>Global enabling conditions</div><div class='cardsub'>Explore the status of key Article 6 and blue carbon conditions across countries.</div></div>",unsafe_allow_html=True)
-        fig=px.choropleth(countries,locations="iso",color="Status",hover_name="Country",color_continuous_scale=["#E7EEF2","#C8E5D3","#5DA977","#167A52"])
-        fig.update_layout(height=360,margin=dict(l=0,r=0,t=0,b=0),coloraxis_showscale=False,
-                          geo=dict(showframe=False,showcoastlines=False,bgcolor="#EAF4F8",projection_type="natural earth"))
-        st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
-        st.markdown("<div style='text-align:center;font-size:.62rem;color:#697B86'>● Implemented &nbsp;&nbsp; <span style='color:#159A9C'>● In development</span> &nbsp;&nbsp; <span style='color:#D99036'>● Planned</span> &nbsp;&nbsp; ● Not available</div>",unsafe_allow_html=True)
-    with N:
-        st.markdown("<div class='card'><div class='title'>Latest Intelligence <span style='float:right;color:#2E79A8;font-size:.66rem'>View all →</span></div><div class='cardsub'>Policy, regulation, projects, markets and agreements.</div>",unsafe_allow_html=True)
-        for tag,date,headline in news:
-            st.markdown(f"<div class='news'><span class='tag'>{tag}</span><span class='date'>{date}</span><div class='headline'>{headline} <span style='float:right;color:{BLUE}'>→</span></div></div>",unsafe_allow_html=True)
-        st.markdown("</div>",unsafe_allow_html=True)
+    # HERO
+    left, right = st.columns([1.04, .96], gap="large")
 
-    st.markdown("<div class='section'>Explore the intelligence</div>",unsafe_allow_html=True)
-    cards=[("📜","Article 6 & Policy","Frameworks, NDCs, bilateral agreements and authorization pathways.","Article 6 & Policy"),
-           ("💰","Carbon Markets","Domestic markets, Article 6 activity, registries and market infrastructure.","Carbon Markets"),
-           ("🌿","Blue Carbon Methodologies","Recognized methods, ecosystem coverage and market applicability.","Methodologies"),
-           ("📂","Projects","Project stage, transaction pathway, blockers and next actions.","Projects")]
-    cols=st.columns(4)
-    for c,(icon,title,desc,target) in zip(cols,cards):
-        with c:
-            st.markdown(f"<div class='card' style='min-height:140px'><div style='font-size:20px'>{icon}</div><div class='title' style='margin-top:7px'>{title}</div><div class='cardsub'>{desc}</div></div>",unsafe_allow_html=True)
-            if st.button("Open →",key=target,use_container_width=True):
-                st.session_state.page=target; st.rerun()
+    with left:
+        st.markdown("""
+        <div class="hero">
+          <div class="kicker">ARTICLE 6 · ITMO · BLUE CARBON MARKETS</div>
+          <h1>Blue carbon<br><em>market intelligence</em></h1>
+          <p>
+            A single view of the policy, market, project and ecosystem conditions
+            shaping blue carbon transactions under Article 6.
+          </p>
+          <span class="hero-link">Explore the map →</span>
+          <span class="hero-link alt">Country intelligence →</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("<div class='section'>Key market signals</div>",unsafe_allow_html=True)
-    signals=[("Blue carbon in NDCs","36","24 unconditional","36 conditional / mixed","g","b"),
-             ("Article 6 cooperation","48","17 buyer countries","28 signed","t","g"),
-             ("Project pipeline","186","52 seeking finance","17 hard blockers","a","r")]
-    cols=st.columns(3)
-    for c,(title,num,b1,b2,k1,k2) in zip(cols,signals):
-        with c:
-            st.markdown(f"<div class='card'><div class='title'>{title}</div><div class='cardsub'>Current platform signal</div><div class='signal'>{num}</div><div class='cardsub'>countries / records identified</div><span class='badge {k1}'>{b1}</span><span class='badge {k2}'>{b2}</span></div>",unsafe_allow_html=True)
+    with right:
+        st.markdown("""
+        <div class="hero" style="padding:16px">
+          <div class="hero-grid">
+            <div class="hero-stat">
+              <div class="hero-num">127</div>
+              <div class="hero-label">Countries with DNA appointed</div>
+              <div class="hero-note">of 193 UNFCCC Parties tracked</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-num">53</div>
+              <div class="hero-label">Article 6 frameworks</div>
+              <div class="hero-note">Operational / adopted</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-num">28</div>
+              <div class="hero-label">Bilateral agreements</div>
+              <div class="hero-note">Signed cooperation arrangements</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-num">36</div>
+              <div class="hero-label">Blue carbon in NDCs</div>
+              <div class="hero-note">Current submissions tracked</div>
+            </div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("<div class='section'>Quick access</div>",unsafe_allow_html=True)
-    q=[("🌍","Country Profiles","Country context"),("📂","Project Pipeline","Find projects"),("📜","Policy & Frameworks","Laws & policies"),("🌊","Spatial Explorer","MSP & ecosystems"),("📄","Documents Library","Reports & data"),("↓","Data Download","Access datasets")]
-    cols=st.columns(6)
-    for c,(ic,t,s) in zip(cols,q):
-        with c: st.markdown(f"<div class='quick'><div class='qicon'>{ic}</div><div class='qtitle'>{t}</div><div class='qsub'>{s}</div></div>",unsafe_allow_html=True)
+    st.markdown("""
+    <div class="live">
+      <b>● LIVE INTELLIGENCE</b>
+      &nbsp;&nbsp; Latest policy · market · project · regulatory · agreement updates
+    </div>
+    """, unsafe_allow_html=True)
 
+    # MAP + NEWS
+    st.markdown("<div class='section-title'>Global enabling conditions</div>", unsafe_allow_html=True)
+    map_col, news_col = st.columns([1.72, .82], gap="medium")
+
+    with map_col:
+        st.markdown("""
+        <div class="card map-card">
+          <div class="map-head">
+            <div>
+              <div class="card-title">Global Enabling Conditions Map</div>
+              <div class="card-sub">Select an indicator to see where the conditions for blue carbon transactions exist.</div>
+            </div>
+            <div class="map-hint">Click a country for Country Intelligence →</div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Map-layer panel
+        st.markdown("""
+        <div class="map-layer">
+          <div class="layer-title">Map layers</div>
+          <div class="layer-row">DNA appointed <span class="switch on"></span></div>
+          <div class="layer-row">Article 6 framework <span class="switch on"></span></div>
+          <div class="layer-row">Domestic carbon market <span class="switch on"></span></div>
+          <div class="layer-row">Bilateral agreements <span class="switch on"></span></div>
+          <div class="layer-row">Blue carbon in NDCs <span class="switch on"></span></div>
+          <div class="layer-row">Article 6 authorizations <span class="switch on"></span></div>
+          <div class="layer-row">ITMOs issued <span class="switch"></span></div>
+          <div class="layer-row">Active blue carbon projects <span class="switch on"></span></div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        fig = px.choropleth(
+            country_status,
+            locations="iso",
+            color="conditions",
+            hover_name="Country",
+            hover_data={"iso":False, "conditions":False},
+            color_continuous_scale=[
+                [0.00, "#E7EEF2"],
+                [0.25, "#C8E5D3"],
+                [0.55, "#75B987"],
+                [0.80, "#3F9162"],
+                [1.00, "#16764F"],
+            ],
+        )
+        fig.update_geos(
+            showframe=False,
+            showcoastlines=True,
+            coastlinecolor="#D7E2E6",
+            bgcolor="#EAF4F8",
+            landcolor="#F5F8F9",
+            projection_type="natural earth",
+        )
+        fig.update_layout(
+            height=395,
+            margin=dict(l=0,r=0,t=0,b=0),
+            paper_bgcolor="#FFFFFF",
+            plot_bgcolor="#EAF4F8",
+            coloraxis_showscale=False,
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar":False})
+
+        st.markdown("""
+        <div class="legend">
+          <span><i class="dot d-green"></i>Implemented</span>
+          <span><i class="dot d-teal"></i>In Development</span>
+          <span><i class="dot d-amber"></i>Planned</span>
+          <span><i class="dot d-grey"></i>Not Available</span>
+          <span style="margin-left:8px">Map data status: illustrative prototype</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with news_col:
+        st.markdown("""
+        <div class="card news-card">
+          <div class="card-pad" style="padding-bottom:7px">
+            <div class="card-title">Latest Intelligence <span style="float:right;color:#2478A6;font-size:.60rem">View all →</span></div>
+            <div class="card-sub">The latest developments affecting blue carbon markets.</div>
+          </div>
+          <div class="news-tabs">
+            <div class="news-tab active">LATEST</div>
+            <div class="news-tab">REGULATION</div>
+            <div class="news-tab">PROJECTS</div>
+            <div class="news-tab">AGREEMENTS</div>
+          </div>
+        """, unsafe_allow_html=True)
+
+        for tag, date, headline in news:
+            st.markdown(f"""
+            <div class="news-item">
+              <span class="tag">{tag}</span><span class="news-date">{date}</span>
+              <div class="news-head">{headline}<span class="news-arrow">→</span></div>
+            </div>
+            """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    # FOUR WINDOWS
+    st.markdown("<div class='section-title'>Explore the intelligence</div>", unsafe_allow_html=True)
+
+    windows = [
+        ("📜","Article 6 & Policy",
+         "Frameworks, NDCs, bilateral agreements and authorization pathways.",
+         [("Article 6 frameworks","53","bg"),("Bilateral agreements","28","bt")],
+         "Article 6 & Policy"),
+        ("🌿","Blue Carbon Methodologies",
+         "Recognized methodologies, ecosystem coverage and Article 6 / CORSIA applicability.",
+         [("Recognized methods","12","bg"),("In review","4","ba")],
+         "Methodologies"),
+        ("📂","Projects",
+         "Real project activity, transaction stage, blockers and next actions.",
+         [("Projects tracked","186","bb"),("Hard blockers","17","br")],
+         "Projects"),
+        ("💰","Carbon Markets",
+         "Domestic markets, Article 6 activity and market infrastructure.",
+         [("Domestic markets","41","bt"),("Operational / developing","32","bg")],
+         "Carbon Markets"),
+    ]
+
+    cols = st.columns(4)
+    for col, (icon,title,desc,rows,target) in zip(cols,windows):
+        with col:
+            st.markdown(f"""
+            <div class="card info-card">
+              <div class="info-icon">{icon}</div>
+              <div class="info-title">{title}</div>
+              <div class="info-sub">{desc}</div>
+            """, unsafe_allow_html=True)
+            for label,value,klass in rows:
+                st.markdown(
+                    f"<div class='mini-row'><span>{label}</span><span class='badge {klass}'>{value}</span></div>",
+                    unsafe_allow_html=True,
+                )
+            st.markdown(
+                "<div class='info-footer'>Open explorer →</div></div>",
+                unsafe_allow_html=True,
+            )
+            if st.button("Open", key=f"window_{target}", use_container_width=True):
+                st.session_state.page = target
+                st.rerun()
+
+    # NDC / AGREEMENTS / MARKET SIGNALS
+    st.markdown("<div class='section-title'>Current blue carbon market signals</div>", unsafe_allow_html=True)
+    a,b,c = st.columns(3)
+
+    with a:
+        st.markdown("""
+        <div class="card card-pad">
+          <div class="card-title">Blue carbon in NDCs</div>
+          <div class="card-sub">Coastal and marine ecosystem commitments</div>
+          <div style="display:flex;justify-content:space-between;align-items:end;margin-top:12px">
+            <div><div style="font-size:1.55rem;font-weight:700;color:#0B3150">36</div><div class="card-sub">countries identified</div></div>
+            <div style="text-align:right"><span class="badge bg">24 unconditional</span><br><span class="badge bb">conditional / mixed</span></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with b:
+        st.markdown("""
+        <div class="card card-pad">
+          <div class="card-title">Article 6 cooperation</div>
+          <div class="card-sub">Bilateral relationships relevant to transactions</div>
+          <div style="display:flex;justify-content:space-between;align-items:end;margin-top:12px">
+            <div><div style="font-size:1.55rem;font-weight:700;color:#0B3150">28</div><div class="card-sub">signed arrangements</div></div>
+            <div style="text-align:right"><span class="badge bt">17 buyer countries</span><br><span class="badge bg">Operational / active</span></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with c:
+        st.markdown("""
+        <div class="card card-pad">
+          <div class="card-title">ITMOs issued</div>
+          <div class="card-sub">Countries with identified Article 6 issuance activity</div>
+          <div style="display:flex;justify-content:space-between;align-items:end;margin-top:12px">
+            <div><div style="font-size:1.55rem;font-weight:700;color:#0B3150">3</div><div class="card-sub">countries to date</div></div>
+            <div style="text-align:right"><span class="badge bg">Issued</span><br><span class="badge bb">Track transactions</span></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # QUICK ACCESS
+    st.markdown("<div class='section-title'>Quick access</div>", unsafe_allow_html=True)
+    quick = [
+        ("🌍","Country Profiles","Country context"),
+        ("📂","Project Pipeline","Find active projects"),
+        ("📜","Policy & Frameworks","Laws & regulations"),
+        ("🌊","Spatial Explorer","MSP & ecosystem data"),
+        ("📄","Documents Library","Reports & source documents"),
+        ("↓","Data Download","Access datasets"),
+    ]
+    cols = st.columns(6)
+    for col,(icon,title,sub) in zip(cols,quick):
+        with col:
+            st.markdown(f"""
+            <div class="quick-card">
+              <div class="quick-icon">{icon}</div>
+              <div class="quick-title">{title}</div>
+              <div class="quick-sub">{sub}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+# ============================================================
+# OTHER TABS — architecture preserved
+# ============================================================
 else:
-    titles={"Global Enabling Conditions Map":"Global Enabling Conditions Map","Article 6 & Policy":"Article 6 & Policy Explorer","Carbon Markets":"Carbon Markets Explorer","Methodologies":"Blue Carbon Methodologies Explorer","Projects":"Projects Explorer","News & Intelligence":"News & Intelligence Explorer","Marine Spatial Planning":"Marine Spatial Planning"}
-    st.title(titles[page])
-    st.markdown("<div class='card'><div class='title'>Visual refinement in progress</div><div class='cardsub'>This section remains part of the agreed platform architecture. We will carry the same visual system from the Global Overview into each page one at a time.</div></div>",unsafe_allow_html=True)
+    titles = {
+        "Global Enabling Conditions Map":"Global Enabling Conditions Map",
+        "Article 6 & Policy":"Article 6 & Policy Explorer",
+        "Carbon Markets":"Carbon Markets Explorer",
+        "Methodologies":"Blue Carbon Methodologies Explorer",
+        "Projects":"Projects Explorer",
+        "News & Intelligence":"News & Intelligence Explorer",
+        "Marine Spatial Planning":"Marine Spatial Planning",
+    }
+    st.markdown(f"""
+    <div class="card card-pad" style="margin-top:15px">
+      <div style="font-size:1.45rem;color:{NAVY};font-weight:700">{titles[page]}</div>
+      <div class="card-sub" style="margin-top:6px">
+        This page keeps the agreed platform architecture. Its detailed visual design
+        will follow the same Global Overview design system.
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown("<div style='text-align:center;color:#71808B;font-size:.65rem;padding-top:16px'>Blue Carbon Intelligence · Visual concept prototype · Illustrative data only</div>",unsafe_allow_html=True)
+st.markdown(
+    "<div class='footer'>Blue Carbon Intelligence · Professional concept prototype · "
+    "Illustrative status data pending integration with verified source datasets.</div>",
+    unsafe_allow_html=True,
+)
