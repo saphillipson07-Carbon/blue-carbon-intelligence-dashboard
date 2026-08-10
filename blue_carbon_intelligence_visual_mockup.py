@@ -98,56 +98,59 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- Shared navigation state ----------------
-if "page" not in st.session_state:
-    st.session_state.page = "Global Overview"
+# ---------------- Clean navigation state ----------------
+PERMANENT_PAGES = [
+    "Global Overview",
+    "Global Enabling Conditions Map",
+    "Article 6 & Policy",
+    "Carbon Markets",
+    "Methodologies",
+    "Projects",
+    "News & Intelligence",
+    "Marine Spatial Planning",
+]
+
+if "active_page" not in st.session_state:
+    navigate_to("Global Overview")
 if "selected_country" not in st.session_state:
     st.session_state.selected_country = "Indonesia"
 if "project_detail_id" not in st.session_state:
     st.session_state.project_detail_id = None
 
-pages = [
-    "Global Overview","Global Enabling Conditions Map","Article 6 & Policy",
-    "Carbon Markets","Methodologies","Projects","News & Intelligence",
-    "Marine Spatial Planning"
-]
-# IMPORTANT: Country Intelligence and Project Detail are internal views,
-# not permanent sidebar tabs.
+def navigate_to(page):
+    st.session_state.active_page = page
+    if page != "Project Detail":
+        st.session_state.project_detail_id = None
 
-# ---------------- Header ----------------
-st.markdown("""
-<div class="topbar">
-  <div><div class="brand">BLUE CARBON</div><div class="brand-sub">INTELLIGENCE</div></div>
-  <div class="product">Global Market Intelligence
-    <small>Real-time intelligence for Article 6 and blue carbon markets</small>
-  </div>
-  <div class="top-control">⌕ &nbsp; Search countries, projects, news...</div>
-  <div class="top-control">◎ &nbsp; EN ▾</div>
-  <div class="top-control top-accent">COUNTRY VIEW →</div>
-</div>
-""", unsafe_allow_html=True)
+def select_sidebar_page():
+    st.session_state.active_page = st.session_state.main_navigation
+    st.session_state.project_detail_id = None
 
-# ---------------- Sidebar ----------------
 with st.sidebar:
-    st.markdown("<div style='font-size:16px;font-weight:700'>BLUE CARBON</div><div style='font-size:8px;letter-spacing:.16em;color:#A9C5D5'>INTELLIGENCE PLATFORM</div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:16px;font-weight:700'>BLUE CARBON</div>"
+        "<div style='font-size:8px;letter-spacing:.16em;color:#A9C5D5'>INTELLIGENCE PLATFORM</div>",
+        unsafe_allow_html=True,
+    )
     st.divider()
-    st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>GLOBAL INTELLIGENCE</div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>GLOBAL INTELLIGENCE</div>",
+        unsafe_allow_html=True,
+    )
 
-    # The sidebar is controlled only by the radio widget itself.
-    # Internal views never attempt to overwrite this widget's state.
-    sidebar_page = st.radio("Navigation", pages, index=pages.index(st.session_state.get("sidebar_page","Global Overview")))
-    st.session_state.sidebar_page = sidebar_page
-
-    # If user deliberately clicks a permanent tab, leave any internal view.
-    if st.session_state.page in ("Country Intelligence","Project Detail") and sidebar_page != st.session_state.page:
-        if st.session_state.get("_last_sidebar_page") != sidebar_page:
-            st.session_state.page = sidebar_page
-            st.session_state.project_detail_id = None
-    st.session_state._last_sidebar_page = sidebar_page
+    st.radio(
+        "Navigation",
+        PERMANENT_PAGES,
+        key="main_navigation",
+        on_change=select_sidebar_page,
+    )
 
     st.divider()
-    st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>RESOURCES</div>", unsafe_allow_html=True)
-    for item in ["Documents Library","Data & Reports","Glossary"]:
+    st.markdown(
+        "<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>RESOURCES</div>",
+        unsafe_allow_html=True,
+    )
+    for item in ["Documents Library", "Data & Reports", "Glossary"]:
         st.caption(item)
 
 country_options = countries["country"].tolist()
@@ -155,16 +158,16 @@ country_options = countries["country"].tolist()
 def go_country(country):
     st.session_state.selected_country = country
     st.session_state.project_detail_id = None
-    st.session_state.page = "Country Intelligence"
+    st.session_state.active_page = "Country Intelligence"
 
 def go_project(project_id):
     st.session_state.project_detail_id = project_id
-    st.session_state.page = "Project Detail"
+    st.session_state.active_page = "Project Detail"
 
 # ============================================================
 # GLOBAL OVERVIEW
 # ============================================================
-if st.session_state.page == "Global Overview":
+if st.session_state.active_page == "Global Overview":
     a,b = st.columns([1.04,.96],gap="large")
     with a:
         st.markdown("""
@@ -233,16 +236,16 @@ if st.session_state.page == "Global Overview":
         with col:
             st.markdown(f"<div class='card pad' style='min-height:125px'><div style='font-size:18px'>{icon}</div><div class='title'>{title}</div><div class='sub'>{desc}</div></div>",unsafe_allow_html=True)
             if st.button("Open",key="global_"+target,use_container_width=True):
-                st.session_state.page=target
+                st.session_state.active_page=target
                 st.rerun()
 
 # ============================================================
 # COUNTRY INTELLIGENCE
 # ============================================================
-elif st.session_state.page == "Country Intelligence":
+elif st.session_state.active_page == "Country Intelligence":
     st.markdown("<div class='section'>Country intelligence</div>",unsafe_allow_html=True)
     if st.button("← Back to Global Overview", key="country_back"):
-        st.session_state.page="Global Overview"
+        navigate_to("Global Overview")
         st.rerun()
 
     country=st.selectbox("Country profile",country_options,index=country_options.index(st.session_state.selected_country))
@@ -275,7 +278,7 @@ elif st.session_state.page == "Country Intelligence":
 # ============================================================
 # PROJECT EXPLORER
 # ============================================================
-elif st.session_state.page == "Projects":
+elif st.session_state.active_page == "Projects":
     st.markdown("<div class='section'>Project intelligence</div>",unsafe_allow_html=True)
     st.markdown("<div class='card pad'><div class='title'>Project Explorer</div><div class='sub'>A real market overview of project activity, transaction stage and blockers. No readiness score.</div></div>",unsafe_allow_html=True)
 
@@ -316,19 +319,19 @@ elif st.session_state.page == "Projects":
 # ============================================================
 # PROJECT DETAIL
 # ============================================================
-elif st.session_state.page == "Project Detail":
+elif st.session_state.active_page == "Project Detail":
     project_id=st.session_state.get("project_detail_id")
     record=projects[projects.project_id==project_id]
     if record.empty:
         st.error("Project record not found.")
         if st.button("← Back to Projects"):
-            st.session_state.page="Projects"
+            navigate_to("Projects")
             st.rerun()
     else:
         r=record.iloc[0]
         if st.button("← Back to Project Explorer", key="project_detail_back"):
             st.session_state.project_detail_id=None
-            st.session_state.page="Projects"
+            navigate_to("Projects")
             st.rerun()
 
         st.markdown(f"""
@@ -376,6 +379,6 @@ else:
         "News & Intelligence":"News & Intelligence Explorer",
         "Marine Spatial Planning":"Marine Spatial Planning",
     }
-    st.markdown(f"<div class='card pad'><div style='font-size:1.45rem;font-weight:700;color:{NAVY}'>{titles[st.session_state.page]}</div><div class='sub'>This page keeps the agreed navigation architecture and will use the shared platform data model.</div></div>",unsafe_allow_html=True)
+    st.markdown(f"<div class='card pad'><div style='font-size:1.45rem;font-weight:700;color:{NAVY}'>{titles[st.session_state.active_page]}</div><div class='sub'>This page keeps the agreed navigation architecture and will use the shared platform data model.</div></div>",unsafe_allow_html=True)
 
 st.markdown("<div class='footer'>Blue Carbon Intelligence · V6.3 functional concept · Illustrative data pending verified source integration</div>",unsafe_allow_html=True)
