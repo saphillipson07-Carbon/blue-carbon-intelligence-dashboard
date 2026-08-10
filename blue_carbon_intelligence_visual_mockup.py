@@ -79,6 +79,28 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .good {{background:#E5F2E9;color:#2D7045;}} .dev {{background:#E7F5F5;color:#137477;}}
 .plan {{background:#FFF1DC;color:#8D5D1E;}} .bad {{background:#F9E8E8;color:#9A4141;}}
 .na {{background:#EEF2F4;color:#63727B;}}
+
+.project-toolbar {background:white;border:1px solid #DCE5E9;border-radius:11px;padding:14px 16px;margin-top:10px;}
+.project-toolbar-title {font-size:.68rem;font-weight:700;color:#0B3150;text-transform:uppercase;letter-spacing:.08em;}
+.project-toolbar-note {font-size:.60rem;color:#6E7F8A;margin-top:3px;}
+.project-snapshot {display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;}
+.snapshot-card {background:white;border:1px solid #DCE5E9;border-radius:10px;padding:12px 14px;}
+.snapshot-number {font-family:'Playfair Display';font-size:1.45rem;color:#0B3150;}
+.snapshot-label {font-size:.53rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+.snapshot-note {font-size:.55rem;color:#84939B;margin-top:4px;}
+.project-result {background:white;border:1px solid #DCE5E9;border-radius:11px;margin:8px 0;padding:0;overflow:hidden;}
+.project-result-head {padding:13px 15px 10px;border-bottom:1px solid #E9EFF2;}
+.project-result-id {font-size:.84rem;font-weight:700;color:#0B3150;}
+.project-result-meta {font-size:.59rem;color:#6E7F8A;margin-top:3px;}
+.project-result-body {padding:11px 15px;}
+.project-result-grid {display:grid;grid-template-columns:1.1fr 1.1fr 1.4fr 1.2fr;gap:8px;}
+.result-cell {background:#F7FAFB;border:1px solid #E7EEF1;border-radius:7px;padding:8px 9px;min-height:55px;}
+.result-label {font-size:.49rem;text-transform:uppercase;letter-spacing:.06em;color:#7A8992;}
+.result-value {font-size:.60rem;font-weight:700;color:#0B3150;margin-top:4px;line-height:1.3;}
+.project-result-foot {display:flex;align-items:center;justify-content:space-between;padding:9px 15px;background:#FBFCFC;border-top:1px solid #E9EFF2;}
+.project-note {font-size:.56rem;color:#6E7F8A;}
+.project-action {font-size:.59rem;font-weight:700;color:#167F8A;}
+
 .project-row {{background:white;border:1px solid {LINE};border-radius:11px;padding:14px 16px;margin-bottom:8px;}}
 .project-link {{font-size:.86rem;font-weight:700;color:{NAVY};}}
 .project-meta {{font-size:.61rem;color:{MUTED};margin-top:3px;}}
@@ -279,42 +301,131 @@ elif st.session_state.active_page == "Country Intelligence":
 # PROJECT EXPLORER
 # ============================================================
 elif st.session_state.active_page == "Projects":
-    st.markdown("<div class='section'>Project intelligence</div>",unsafe_allow_html=True)
-    st.markdown("<div class='card pad'><div class='title'>Project Explorer</div><div class='sub'>A real market overview of project activity, transaction stage and blockers. No readiness score.</div></div>",unsafe_allow_html=True)
+    st.markdown("<div class='section'>Project intelligence</div>", unsafe_allow_html=True)
 
-    f1,f2,f3=st.columns(3)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">Project Explorer</div>
+      <div class="sub">Track real project activity, Article 6 progress and the issues that can move or delay a transaction. No readiness score is applied.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Descriptive market snapshot — not a score.
+    total_projects = len(projects)
+    country_count = projects["country"].nunique()
+    hard_blockers = int((projects["blocker_type"].astype(str).str.lower() == "hard blocker").sum())
+    progressing = int(projects["stage"].astype(str).str.lower().isin(["development", "validation"]).sum())
+
+    st.markdown(f"""
+    <div class="project-snapshot">
+      <div class="snapshot-card"><div class="snapshot-number">{total_projects}</div><div class="snapshot-label">Projects tracked</div><div class="snapshot-note">Current project records</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{country_count}</div><div class="snapshot-label">Countries</div><div class="snapshot-note">With project activity</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{progressing}</div><div class="snapshot-label">Progressing</div><div class="snapshot-note">Development or validation</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{hard_blockers}</div><div class="snapshot-label">Hard blockers</div><div class="snapshot-note">Issues requiring resolution</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="project-toolbar">
+      <div class="project-toolbar-title">Filter project activity</div>
+      <div class="project-toolbar-note">Use the filters to narrow the project view. Status is shown as market information, not a numerical assessment.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    f1, f2, f3, f4 = st.columns(4)
     with f1:
-        country_filter=st.selectbox("Country",["All"]+country_options,key="project_country_filter")
+        country_filter = st.selectbox(
+            "Country",
+            ["All"] + sorted(projects["country"].dropna().unique().tolist()),
+            key="project_country_filter_v72"
+        )
     with f2:
-        ecosystem_filter=st.selectbox("Ecosystem",["All"]+sorted(projects.ecosystem.unique().tolist()),key="project_ecosystem_filter")
+        ecosystem_filter = st.selectbox(
+            "Ecosystem",
+            ["All"] + sorted(projects["ecosystem"].dropna().unique().tolist()),
+            key="project_ecosystem_filter_v72"
+        )
     with f3:
-        blocker_filter=st.selectbox("Blocker",["All"]+sorted(projects.blocker_type.unique().tolist()),key="project_blocker_filter")
+        stage_filter = st.selectbox(
+            "Project stage",
+            ["All"] + sorted(projects["stage"].dropna().unique().tolist()),
+            key="project_stage_filter_v72"
+        )
+    with f4:
+        blocker_filter = st.selectbox(
+            "Blocker",
+            ["All"] + sorted(projects["blocker_type"].dropna().unique().tolist()),
+            key="project_blocker_filter_v72"
+        )
 
-    view=projects.copy()
-    if country_filter!="All": view=view[view.country==country_filter]
-    if ecosystem_filter!="All": view=view[view.ecosystem==ecosystem_filter]
-    if blocker_filter!="All": view=view[view.blocker_type==blocker_filter]
+    view = projects.copy()
+    if country_filter != "All":
+        view = view[view["country"] == country_filter]
+    if ecosystem_filter != "All":
+        view = view[view["ecosystem"] == ecosystem_filter]
+    if stage_filter != "All":
+        view = view[view["stage"] == stage_filter]
+    if blocker_filter != "All":
+        view = view[view["blocker_type"] == blocker_filter]
 
-    st.markdown(f"<div class='section'>{len(view)} project records</div>",unsafe_allow_html=True)
+    st.markdown(
+        f"<div class='section'>{len(view)} project records matching current filters</div>",
+        unsafe_allow_html=True
+    )
 
-    # IMPORTANT: the visible project title IS the actual Streamlit button.
-    # The button is styled as a project-link, so there is no fake HTML
-    # affordance pretending to be clickable.
-    for _,r in view.iterrows():
-        st.markdown(f"""
-        <div class="project-row">
-          <div class="project-link">{r.project_id} · {r.country} · {r.ecosystem}</div>
-          <div class="project-meta">{r.stage} · {r.assessment_stage}</div>
-          <div class="project-grid">
-            <div class="project-cell"><div class="cell-label">Market status</div><div class="cell-value">{r.stage}</div></div>
-            <div class="project-cell"><div class="cell-label">Blocker</div><div class="cell-value">{r.blocker_type}</div></div>
-            <div class="project-cell"><div class="cell-label">Primary issue</div><div class="cell-value">{r.primary_blocker}</div></div>
-          </div>
-        </div>
-        """,unsafe_allow_html=True)
-        if st.button(f"Open {r.project_id} →", key=f"project_open_{r.project_id}", use_container_width=True):
-            go_project(r.project_id)
-            st.rerun()
+    if view.empty:
+        st.markdown(
+            "<div class='card pad'><div class='title'>No project records match these filters.</div>"
+            "<div class='sub'>Clear one or more filters to return to the wider project market view.</div></div>",
+            unsafe_allow_html=True
+        )
+    else:
+        for _, r in view.iterrows():
+            blocker = str(r.get("blocker_type", "No Data"))
+            blocker_cls = "bad" if blocker.lower() == "hard blocker" else "plan" if blocker.lower() == "soft blocker" else "na"
+            article_note = str(r.get("transaction_note", "No transaction note recorded"))
+
+            st.markdown(f"""
+            <div class="project-result">
+              <div class="project-result-head">
+                <div class="project-result-id">{r.project_id} · {r.country} · {r.ecosystem}</div>
+                <div class="project-result-meta">{r.stage} · {r.assessment_stage}</div>
+              </div>
+              <div class="project-result-body">
+                <div class="project-result-grid">
+                  <div class="result-cell">
+                    <div class="result-label">Market status</div>
+                    <div class="result-value">{r.stage}</div>
+                  </div>
+                  <div class="result-cell">
+                    <div class="result-label">CAAS assessment</div>
+                    <div class="result-value">{r.assessment_stage}</div>
+                  </div>
+                  <div class="result-cell">
+                    <div class="result-label">Blocker</div>
+                    <div class="result-value"><span class="badge {blocker_cls}">{blocker}</span></div>
+                  </div>
+                  <div class="result-cell">
+                    <div class="result-label">Primary issue</div>
+                    <div class="result-value">{r.primary_blocker}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="project-result-foot">
+                <div class="project-note"><b>Article 6:</b> {article_note}</div>
+                <div class="project-action">Open project →</div>
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # This is the real Streamlit interaction mapped to the exact project.
+            if st.button(
+                f"Open {r.project_id} · {r.country} →",
+                key=f"project_open_v72_{r.project_id}",
+                use_container_width=True
+            ):
+                go_project(r.project_id)
+                st.rerun()
 
 # ============================================================
 # PROJECT DETAIL
