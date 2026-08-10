@@ -652,25 +652,31 @@ elif page == "Projects":
         else:
             for _,r in view.iterrows():
                 state, state_cls = project_market_state(r)
+
+                # The project name itself is the interaction target.
+                # The button is styled to read as the top line of the project card,
+                # so users do not have to discover a separate "View" control.
+                if st.button(
+                    f"{r.project_id}  ·  {r.country}  ·  {r.ecosystem}    →",
+                    key=f"project_open_{r.project_id}",
+                    use_container_width=True,
+                ):
+                    st.session_state.project_detail_id = r.project_id
+                    st.rerun()
+
                 st.markdown(f"""
-                <div class="project-row">
-                  <div style="display:grid;grid-template-columns:1.45fr .72fr .72fr .9fr .85fr auto;gap:10px;align-items:center">
+                <div class="project-row" style="margin-top:-9px;border-top-left-radius:0;border-top-right-radius:0">
+                  <div style="display:grid;grid-template-columns:1fr .75fr .75fr 1.05fr 1fr;gap:10px;align-items:center">
                     <div>
-                      <div class="project-id">{r.project_id}</div>
-                      <div class="project-name">{r.country} · {r.ecosystem}</div>
                       <div class="project-meta">{r.stage} · CAAS: {r.assessment_stage}</div>
                     </div>
                     <div><div class="project-id">Market state</div><span class="badge {state_cls}">{state}</span></div>
                     <div><div class="project-id">Blocker</div>{badge(r.blocker_type)}</div>
                     <div><div class="project-id">Issue</div><div class="project-meta">{r.primary_blocker}</div></div>
                     <div><div class="project-id">Pathway</div><div class="project-meta">{r.transaction_note}</div></div>
-                    <div class="project-action">Open →</div>
                   </div>
                 </div>
                 """,unsafe_allow_html=True)
-                if st.button(f"View {r.project_id}", key=f"view_project_{r.project_id}", use_container_width=False):
-                    st.session_state.project_detail_id = r.project_id
-                    st.rerun()
 
         st.markdown("""
         <div style="font-size:.55rem;color:#7A8992;margin-top:10px">
