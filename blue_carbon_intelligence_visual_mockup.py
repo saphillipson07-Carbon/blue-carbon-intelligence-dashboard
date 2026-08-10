@@ -130,9 +130,10 @@ with st.sidebar:
     pages = ["Global Overview","Global Enabling Conditions Map","Article 6 & Policy","Carbon Markets","Methodologies","Projects","News & Intelligence","Marine Spatial Planning"]
     current = st.session_state.get("page","Global Overview")
 
-    # Country Intelligence is an internal destination reached from the map/profile
-    # and is intentionally NOT a new sidebar tab. The sidebar keeps the agreed
-    # navigation names while allowing the internal country route to render.
+    # Country Intelligence is an internal destination and is intentionally NOT
+    # a permanent sidebar tab. The sidebar widget keeps its own state.
+    # IMPORTANT: never assign to the radio widget's session-state key after
+    # the widget has been created; Streamlit raises StreamlitAPIException.
     if "nav" not in st.session_state:
         st.session_state.nav = current if current in pages else "Global Overview"
 
@@ -153,6 +154,19 @@ with st.sidebar:
 page = st.session_state.page
 country_options = countries["country"].tolist()
 selected_country = st.session_state.get("selected_country","Indonesia")
+
+# ---------- NAVIGATION CALLBACKS ----------
+def go_global():
+    # Do not mutate the sidebar radio's state here. It is already a Streamlit
+    # widget and changing its key during the same run can raise an API error.
+    st.session_state.page = "Global Overview"
+
+def go_country():
+    # Country Intelligence is an internal view, not a permanent sidebar tab.
+    st.session_state.page = "Country Intelligence"
+
+def go_page(target):
+    st.session_state.page = target
 
 # ============================================================
 # GLOBAL OVERVIEW
@@ -263,9 +277,11 @@ if page == "Global Overview":
             )
             st.session_state.selected_country = chosen
         with c2:
-            if st.button("Open Country Profile →",use_container_width=True):
-                st.session_state.page="Country Intelligence"
-                st.rerun()
+            st.button(
+                "Open Country Profile →",
+                use_container_width=True,
+                on_click=go_country,
+            )
 
         st.markdown("""
         <div style="font-size:.56rem;color:#6E7F8A;text-align:center;padding:4px">
@@ -291,10 +307,13 @@ if page == "Global Overview":
     for col,(icon,title,desc,target) in zip(cols,windows):
         with col:
             st.markdown(f"<div class='card' style='padding:14px;min-height:135px'><div style='font-size:18px'>{icon}</div><div class='title' style='margin-top:7px'>{title}</div><div class='sub'>{desc}</div><div style='margin-top:12px;color:{BLUE};font-size:.60rem;font-weight:600'>Open explorer →</div></div>",unsafe_allow_html=True)
-            if st.button("Open",key=f"open_{target}",use_container_width=True):
-                st.session_state.page=target
-                st.session_state.nav=target
-                st.rerun()
+            st.button(
+                "Open",
+                key=f"open_{target}",
+                use_container_width=True,
+                on_click=go_page,
+                args=(target,),
+            )
 
     st.markdown("<div class='section'>Current blue carbon market signals</div>",unsafe_allow_html=True)
     cards=[
@@ -312,10 +331,11 @@ if page == "Global Overview":
 # ============================================================
 elif page == "Country Intelligence":
 
-    if st.button("← Back to Global Overview", key="back_to_global"):
-        st.session_state.page = "Global Overview"
-        st.session_state.nav = "Global Overview"
-        st.rerun()
+    st.button(
+        "← Back to Global Overview",
+        key="back_to_global",
+        on_click=go_global,
+    )
 
     country = st.selectbox(
         "Country profile",
