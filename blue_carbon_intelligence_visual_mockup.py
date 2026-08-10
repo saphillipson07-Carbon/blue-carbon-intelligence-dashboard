@@ -100,38 +100,38 @@ html,body,[class*="css"]{{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .blocker{{padding:10px 12px;border-left:4px solid {RED};background:#FDF5F5;border-radius:6px;margin-top:7px;}}
 .footer{{text-align:center;color:#7A8992;font-size:.55rem;margin-top:16px;}}
 
-.project-hero{background:linear-gradient(110deg,#082A45,#0D405A);border-radius:12px;color:white;padding:20px 22px;margin-bottom:12px;}
-.project-hero h2{font-family:'Playfair Display',Georgia,serif;font-size:1.65rem;font-weight:500;margin:4px 0 5px;}
-.project-hero p{font-size:.67rem;color:#C9DCE5;max-width:760px;line-height:1.5;margin:0;}
-.filterbar{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:11px 12px;margin-bottom:12px;}
-.project-row{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:13px 15px;margin-bottom:7px;transition:.15s;}
-.project-row:hover{border-color:#B7CDD6;box-shadow:0 2px 10px rgba(18,54,73,.06);}
-.project-id{font-size:.55rem;color:#6E7F8A;letter-spacing:.08em;text-transform:uppercase;font-weight:700;}
-.project-name{font-size:.78rem;color:#0B3150;font-weight:700;margin-top:3px;}
-.project-meta{font-size:.58rem;color:#6E7F8A;margin-top:4px;line-height:1.45;}
-.project-action{font-size:.60rem;color:#2478A6;font-weight:700;}
-.state-active{background:#E5F2E9;color:#2D7045;}
-.state-progress{background:#E7F5F5;color:#137477;}
-.state-early{background:#FFF1DC;color:#8D5D1E;}
-.state-blocked{background:#F9E8E8;color:#9A4141;}
-.metric-card{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:12px 14px;min-height:82px;}
-.metric-num{font-size:1.35rem;color:#0B3150;font-weight:700;}
-.metric-label{font-size:.55rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.07em;}
-.detail-banner{background:white;border:1px solid #DCE5E9;border-radius:11px;padding:17px;margin-bottom:10px;}
-.detail-title{font-size:1.35rem;color:#0B3150;font-weight:700;}
-.detail-sub{font-size:.64rem;color:#6E7F8A;margin-top:4px;}
-.detail-section{font-size:.61rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin:16px 0 7px;}
-.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
-.info-box{background:#F8FAFB;border:1px solid #E7EEF1;border-radius:7px;padding:9px;}
-.info-label{font-size:.52rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.05em;}
-.info-value{font-size:.65rem;color:#0B3150;font-weight:700;margin-top:3px;}
-.blocker-hard{border-left:4px solid #B95353;background:#FDF5F5;border-radius:6px;padding:10px 12px;}
-.blocker-soft{border-left:4px solid #D28A2E;background:#FFFBF3;border-radius:6px;padding:10px 12px;}
-.next-action{border-left:4px solid #2478A6;background:#F3F8FB;border-radius:6px;padding:10px 12px;}
-.path2{display:flex;gap:4px;margin-top:8px;}
-.path2 .pstep{flex:1;background:#EEF2F4;color:#687983;border-radius:5px;padding:8px 4px;text-align:center;font-size:.52rem;}
-.path2 .pdone{background:#E5F2E9;color:#2D7045;font-weight:700;}
-.path2 .pcurrent{background:#E7F5F5;color:#137477;font-weight:700;}
+.project-hero{{background:linear-gradient(110deg,#082A45,#0D405A);border-radius:12px;color:white;padding:20px 22px;margin-bottom:12px;}}
+.project-hero h2{{font-family:'Playfair Display',Georgia,serif;font-size:1.65rem;font-weight:500;margin:4px 0 5px;}}
+.project-hero p{{font-size:.67rem;color:#C9DCE5;max-width:760px;line-height:1.5;margin:0;}}
+.filterbar{{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:11px 12px;margin-bottom:12px;}}
+.project-row{{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:13px 15px;margin-bottom:7px;transition:.15s;}}
+.project-row:hover{{border-color:#B7CDD6;box-shadow:0 2px 10px rgba(18,54,73,.06);}}
+.project-id{{font-size:.55rem;color:#6E7F8A;letter-spacing:.08em;text-transform:uppercase;font-weight:700;}}
+.project-name{{font-size:.78rem;color:#0B3150;font-weight:700;margin-top:3px;}}
+.project-meta{{font-size:.58rem;color:#6E7F8A;margin-top:4px;line-height:1.45;}}
+.project-action{{font-size:.60rem;color:#2478A6;font-weight:700;}}
+.state-active{{background:#E5F2E9;color:#2D7045;}}
+.state-progress{{background:#E7F5F5;color:#137477;}}
+.state-early{{background:#FFF1DC;color:#8D5D1E;}}
+.state-blocked{{background:#F9E8E8;color:#9A4141;}}
+.metric-card{{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:12px 14px;min-height:82px;}}
+.metric-num{{font-size:1.35rem;color:#0B3150;font-weight:700;}}
+.metric-label{{font-size:.55rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.07em;}}
+.detail-banner{{background:white;border:1px solid #DCE5E9;border-radius:11px;padding:17px;margin-bottom:10px;}}
+.detail-title{{font-size:1.35rem;color:#0B3150;font-weight:700;}}
+.detail-sub{{font-size:.64rem;color:#6E7F8A;margin-top:4px;}}
+.detail-section{{font-size:.61rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin:16px 0 7px;}}
+.info-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}}
+.info-box{{background:#F8FAFB;border:1px solid #E7EEF1;border-radius:7px;padding:9px;}}
+.info-label{{font-size:.52rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.05em;}}
+.info-value{{font-size:.65rem;color:#0B3150;font-weight:700;margin-top:3px;}}
+.blocker-hard{{border-left:4px solid #B95353;background:#FDF5F5;border-radius:6px;padding:10px 12px;}}
+.blocker-soft{{border-left:4px solid #D28A2E;background:#FFFBF3;border-radius:6px;padding:10px 12px;}}
+.next-action{{border-left:4px solid #2478A6;background:#F3F8FB;border-radius:6px;padding:10px 12px;}}
+.path2{{display:flex;gap:4px;margin-top:8px;}}
+.path2 .pstep{{flex:1;background:#EEF2F4;color:#687983;border-radius:5px;padding:8px 4px;text-align:center;font-size:.52rem;}}
+.path2 .pdone{{background:#E5F2E9;color:#2D7045;font-weight:700;}}
+.path2 .pcurrent{{background:#E7F5F5;color:#137477;font-weight:700;}}
 </style>
 """, unsafe_allow_html=True)
 
