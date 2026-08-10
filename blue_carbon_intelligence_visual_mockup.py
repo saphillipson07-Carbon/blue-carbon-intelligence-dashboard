@@ -79,28 +79,6 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .good {{background:#E5F2E9;color:#2D7045;}} .dev {{background:#E7F5F5;color:#137477;}}
 .plan {{background:#FFF1DC;color:#8D5D1E;}} .bad {{background:#F9E8E8;color:#9A4141;}}
 .na {{background:#EEF2F4;color:#63727B;}}
-
-.project-toolbar {background:white;border:1px solid #DCE5E9;border-radius:11px;padding:14px 16px;margin-top:10px;}
-.project-toolbar-title {font-size:.68rem;font-weight:700;color:#0B3150;text-transform:uppercase;letter-spacing:.08em;}
-.project-toolbar-note {font-size:.60rem;color:#6E7F8A;margin-top:3px;}
-.project-snapshot {display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;}
-.snapshot-card {background:white;border:1px solid #DCE5E9;border-radius:10px;padding:12px 14px;}
-.snapshot-number {font-family:'Playfair Display';font-size:1.45rem;color:#0B3150;}
-.snapshot-label {font-size:.53rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
-.snapshot-note {font-size:.55rem;color:#84939B;margin-top:4px;}
-.project-result {background:white;border:1px solid #DCE5E9;border-radius:11px;margin:8px 0;padding:0;overflow:hidden;}
-.project-result-head {padding:13px 15px 10px;border-bottom:1px solid #E9EFF2;}
-.project-result-id {font-size:.84rem;font-weight:700;color:#0B3150;}
-.project-result-meta {font-size:.59rem;color:#6E7F8A;margin-top:3px;}
-.project-result-body {padding:11px 15px;}
-.project-result-grid {display:grid;grid-template-columns:1.1fr 1.1fr 1.4fr 1.2fr;gap:8px;}
-.result-cell {background:#F7FAFB;border:1px solid #E7EEF1;border-radius:7px;padding:8px 9px;min-height:55px;}
-.result-label {font-size:.49rem;text-transform:uppercase;letter-spacing:.06em;color:#7A8992;}
-.result-value {font-size:.60rem;font-weight:700;color:#0B3150;margin-top:4px;line-height:1.3;}
-.project-result-foot {display:flex;align-items:center;justify-content:space-between;padding:9px 15px;background:#FBFCFC;border-top:1px solid #E9EFF2;}
-.project-note {font-size:.56rem;color:#6E7F8A;}
-.project-action {font-size:.59rem;font-weight:700;color:#167F8A;}
-
 .project-row {{background:white;border:1px solid {LINE};border-radius:11px;padding:14px 16px;margin-bottom:8px;}}
 .project-link {{font-size:.86rem;font-weight:700;color:{NAVY};}}
 .project-meta {{font-size:.61rem;color:{MUTED};margin-top:3px;}}
@@ -117,6 +95,28 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .step.current {{background:#D9F1F1;color:#137477;font-weight:700;}}
 .blocker {{padding:10px 12px;border-left:4px solid {RED};background:#FDF5F5;border-radius:6px;margin-top:7px;}}
 .footer {{text-align:center;color:#7A8992;font-size:.55rem;margin-top:16px;}}
+
+.project-toolbar {{background:white;border:1px solid #DCE5E9;border-radius:11px;padding:14px 16px;margin-top:10px;}}
+.project-toolbar-title {{font-size:.68rem;font-weight:700;color:#0B3150;text-transform:uppercase;letter-spacing:.08em;}}
+.project-toolbar-note {{font-size:.60rem;color:#6E7F8A;margin-top:3px;}}
+.project-snapshot {{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0;}}
+.snapshot-card {{background:white;border:1px solid #DCE5E9;border-radius:10px;padding:12px 14px;}}
+.snapshot-number {{font-family:'Playfair Display';font-size:1.45rem;color:#0B3150;}}
+.snapshot-label {{font-size:.53rem;color:#6E7F8A;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}}
+.snapshot-note {{font-size:.55rem;color:#84939B;margin-top:4px;}}
+.project-result {{background:white;border:1px solid #DCE5E9;border-radius:11px;margin:8px 0;padding:0;overflow:hidden;}}
+.project-result-head {{padding:13px 15px 10px;border-bottom:1px solid #E9EFF2;}}
+.project-result-id {{font-size:.84rem;font-weight:700;color:#0B3150;}}
+.project-result-meta {{font-size:.59rem;color:#6E7F8A;margin-top:3px;}}
+.project-result-body {{padding:11px 15px;}}
+.project-result-grid {{display:grid;grid-template-columns:1.1fr 1.1fr 1.4fr 1.2fr;gap:8px;}}
+.result-cell {{background:#F7FAFB;border:1px solid #E7EEF1;border-radius:7px;padding:8px 9px;min-height:55px;}}
+.result-label {{font-size:.49rem;text-transform:uppercase;letter-spacing:.06em;color:#7A8992;}}
+.result-value {{font-size:.60rem;font-weight:700;color:#0B3150;margin-top:4px;line-height:1.3;}}
+.project-result-foot {{display:flex;align-items:center;justify-content:space-between;padding:9px 15px;background:#FBFCFC;border-top:1px solid #E9EFF2;}}
+.project-note {{font-size:.56rem;color:#6E7F8A;}}
+.project-action {{font-size:.59rem;font-weight:700;color:#167F8A;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -310,7 +310,6 @@ elif st.session_state.active_page == "Projects":
     </div>
     """, unsafe_allow_html=True)
 
-    # Descriptive market snapshot — not a score.
     total_projects = len(projects)
     country_count = projects["country"].nunique()
     hard_blockers = int((projects["blocker_type"].astype(str).str.lower() == "hard blocker").sum())
@@ -334,29 +333,13 @@ elif st.session_state.active_page == "Projects":
 
     f1, f2, f3, f4 = st.columns(4)
     with f1:
-        country_filter = st.selectbox(
-            "Country",
-            ["All"] + sorted(projects["country"].dropna().unique().tolist()),
-            key="project_country_filter_v72"
-        )
+        country_filter = st.selectbox("Country", ["All"] + sorted(projects["country"].dropna().unique().tolist()), key="project_country_filter_v72")
     with f2:
-        ecosystem_filter = st.selectbox(
-            "Ecosystem",
-            ["All"] + sorted(projects["ecosystem"].dropna().unique().tolist()),
-            key="project_ecosystem_filter_v72"
-        )
+        ecosystem_filter = st.selectbox("Ecosystem", ["All"] + sorted(projects["ecosystem"].dropna().unique().tolist()), key="project_ecosystem_filter_v72")
     with f3:
-        stage_filter = st.selectbox(
-            "Project stage",
-            ["All"] + sorted(projects["stage"].dropna().unique().tolist()),
-            key="project_stage_filter_v72"
-        )
+        stage_filter = st.selectbox("Project stage", ["All"] + sorted(projects["stage"].dropna().unique().tolist()), key="project_stage_filter_v72")
     with f4:
-        blocker_filter = st.selectbox(
-            "Blocker",
-            ["All"] + sorted(projects["blocker_type"].dropna().unique().tolist()),
-            key="project_blocker_filter_v72"
-        )
+        blocker_filter = st.selectbox("Blocker", ["All"] + sorted(projects["blocker_type"].dropna().unique().tolist()), key="project_blocker_filter_v72")
 
     view = projects.copy()
     if country_filter != "All":
@@ -368,10 +351,7 @@ elif st.session_state.active_page == "Projects":
     if blocker_filter != "All":
         view = view[view["blocker_type"] == blocker_filter]
 
-    st.markdown(
-        f"<div class='section'>{len(view)} project records matching current filters</div>",
-        unsafe_allow_html=True
-    )
+    st.markdown(f"<div class='section'>{len(view)} project records matching current filters</div>", unsafe_allow_html=True)
 
     if view.empty:
         st.markdown(
@@ -393,22 +373,10 @@ elif st.session_state.active_page == "Projects":
               </div>
               <div class="project-result-body">
                 <div class="project-result-grid">
-                  <div class="result-cell">
-                    <div class="result-label">Market status</div>
-                    <div class="result-value">{r.stage}</div>
-                  </div>
-                  <div class="result-cell">
-                    <div class="result-label">CAAS assessment</div>
-                    <div class="result-value">{r.assessment_stage}</div>
-                  </div>
-                  <div class="result-cell">
-                    <div class="result-label">Blocker</div>
-                    <div class="result-value"><span class="badge {blocker_cls}">{blocker}</span></div>
-                  </div>
-                  <div class="result-cell">
-                    <div class="result-label">Primary issue</div>
-                    <div class="result-value">{r.primary_blocker}</div>
-                  </div>
+                  <div class="result-cell"><div class="result-label">Market status</div><div class="result-value">{r.stage}</div></div>
+                  <div class="result-cell"><div class="result-label">CAAS assessment</div><div class="result-value">{r.assessment_stage}</div></div>
+                  <div class="result-cell"><div class="result-label">Blocker</div><div class="result-value"><span class="badge {blocker_cls}">{blocker}</span></div></div>
+                  <div class="result-cell"><div class="result-label">Primary issue</div><div class="result-value">{r.primary_blocker}</div></div>
                 </div>
               </div>
               <div class="project-result-foot">
@@ -418,12 +386,7 @@ elif st.session_state.active_page == "Projects":
             </div>
             """, unsafe_allow_html=True)
 
-            # This is the real Streamlit interaction mapped to the exact project.
-            if st.button(
-                f"Open {r.project_id} · {r.country} →",
-                key=f"project_open_v72_{r.project_id}",
-                use_container_width=True
-            ):
+            if st.button(f"Open {r.project_id} · {r.country} →", key=f"project_open_v72_{r.project_id}", use_container_width=True):
                 go_project(r.project_id)
                 st.rerun()
 
