@@ -111,7 +111,7 @@ PERMANENT_PAGES = [
 ]
 
 if "active_page" not in st.session_state:
-    navigate_to("Global Overview")
+    st.session_state.active_page = "Global Overview"
 if "selected_country" not in st.session_state:
     st.session_state.selected_country = "Indonesia"
 if "project_detail_id" not in st.session_state:
