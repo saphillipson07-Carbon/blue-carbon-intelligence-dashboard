@@ -129,8 +129,22 @@ with st.sidebar:
     st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>GLOBAL INTELLIGENCE</div>",unsafe_allow_html=True)
     pages = ["Global Overview","Global Enabling Conditions Map","Article 6 & Policy","Carbon Markets","Methodologies","Projects","News & Intelligence","Marine Spatial Planning"]
     current = st.session_state.get("page","Global Overview")
-    selected_page = st.radio("Navigation",pages,index=pages.index(current))
-    st.session_state.page = selected_page
+
+    # Country Intelligence is an internal destination reached from the map/profile
+    # and is intentionally NOT a new sidebar tab. The sidebar keeps the agreed
+    # navigation names while allowing the internal country route to render.
+    if "nav" not in st.session_state:
+        st.session_state.nav = current if current in pages else "Global Overview"
+
+    def _nav_changed():
+        st.session_state.page = st.session_state.nav
+
+    st.radio(
+        "Navigation",
+        pages,
+        key="nav",
+        on_change=_nav_changed,
+    )
     st.divider()
     st.markdown("<div style='font-size:.60rem;letter-spacing:.11em;color:#9EB8C8'>RESOURCES</div>",unsafe_allow_html=True)
     for item in ["Documents Library","Data & Reports","Glossary"]:
@@ -278,7 +292,9 @@ if page == "Global Overview":
         with col:
             st.markdown(f"<div class='card' style='padding:14px;min-height:135px'><div style='font-size:18px'>{icon}</div><div class='title' style='margin-top:7px'>{title}</div><div class='sub'>{desc}</div><div style='margin-top:12px;color:{BLUE};font-size:.60rem;font-weight:600'>Open explorer →</div></div>",unsafe_allow_html=True)
             if st.button("Open",key=f"open_{target}",use_container_width=True):
-                st.session_state.page=target;st.rerun()
+                st.session_state.page=target
+                st.session_state.nav=target
+                st.rerun()
 
     st.markdown("<div class='section'>Current blue carbon market signals</div>",unsafe_allow_html=True)
     cards=[
@@ -295,6 +311,11 @@ if page == "Global Overview":
 # COUNTRY INTELLIGENCE
 # ============================================================
 elif page == "Country Intelligence":
+
+    if st.button("← Back to Global Overview", key="back_to_global"):
+        st.session_state.page = "Global Overview"
+        st.session_state.nav = "Global Overview"
+        st.rerun()
 
     country = st.selectbox(
         "Country profile",
