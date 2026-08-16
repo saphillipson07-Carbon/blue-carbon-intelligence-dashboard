@@ -1,0 +1,9 @@
+country,market_name,market_type,status,article6_integration,registry,platform,last_updated
+Indonesia,IDXCarbon,ETS,Operational,Implemented,SRN PPI,IDX Carbon,2025-11-12
+Viet Nam,Vietnam Carbon Market,ETS (Pilot),In Development,In Development,VCR,VNX,2025-10-30
+Philippines,Philippine Carbon Market,Voluntary,In Development,In Development,PCRS,Not Available,2025-10-01
+Republic of Korea,K-ETS,ETS,Operational,Implemented,KRX Registry,KRX,2025-10-28
+Japan,GX-ETS,ETS,Operational,Implemented,JCM Registry,JPX,2025-10-28
+Australia,Australian Carbon Credit Unit Scheme,Compliance + Voluntary,Operational,Implemented,ANREU,CER Registry,2025-10-15
+Mexico,Mexico ETS,ETS,Operational,In Development,Mexico Emissions Registry,Not Available,2025-09-20
+Chile,Chile Carbon Tax Offsets,Carbon Tax Offset,Operational,In Development,Chile Registry,Not Available,2025-09-05

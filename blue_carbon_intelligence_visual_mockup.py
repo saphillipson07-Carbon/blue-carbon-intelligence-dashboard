@@ -15,6 +15,8 @@ countries = pd.read_csv(DATA / "countries.csv")
 bilateral = pd.read_csv(DATA / "bilateral_agreements.csv")
 projects = pd.read_csv(DATA / "projects.csv")
 news = pd.read_csv(DATA / "news.csv")
+markets = pd.read_csv(DATA / "markets.csv")
+methodologies = pd.read_csv(DATA / "methodologies.csv")
 
 status_cols = {
     "DNA appointed":"dna_appointed",
@@ -117,6 +119,12 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .project-note {{font-size:.56rem;color:#6E7F8A;}}
 .project-action {{font-size:.59rem;font-weight:700;color:#167F8A;}}
 
+.list-row {{background:white;border:1px solid {LINE};border-radius:10px;padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px;}}
+.list-row-main {{flex:1;}}
+.list-row-title {{font-size:.72rem;font-weight:700;color:{NAVY};}}
+.list-row-sub {{font-size:.58rem;color:{MUTED};margin-top:2px;}}
+.list-row-meta {{font-size:.58rem;color:{MUTED};text-align:right;white-space:nowrap;}}
+.flag {{display:inline-block;font-size:.54rem;font-weight:700;letter-spacing:.05em;color:{RED};margin-right:6px;}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -449,17 +457,356 @@ elif st.session_state.active_page == "Project Detail":
         st.markdown(f"<div class='blocker'><b style='font-size:.65rem;color:{RED}'>Priority action</b><div style='font-size:.65rem;margin-top:4px'>Confirm and document the {r.primary_blocker.lower()} and its implications for the host-country Article 6 pathway.</div><div style='font-size:.58rem;color:{MUTED};margin-top:5px'>{r.transaction_note}</div></div>",unsafe_allow_html=True)
 
 # ============================================================
-# OTHER AGREED TABS
+# GLOBAL ENABLING CONDITIONS MAP
+# ============================================================
+elif st.session_state.active_page == "Global Enabling Conditions Map":
+    if st.button("← Back to Global Overview", key="gecm_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>Global enabling conditions</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">Global Enabling Conditions Map</div>
+      <div class="sub">Where the factual foundations for Article 6 and blue carbon transactions exist. Status only — not a readiness score or country ranking.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    f1, f2 = st.columns([1.4, 1])
+    with f1:
+        layer_name = st.selectbox("Map indicator", list(status_cols.keys()), key="gecm_layer")
+    with f2:
+        role_filter = st.selectbox("Market role", ["All"] + sorted(countries["market_role"].dropna().unique().tolist()), key="gecm_role")
+
+    layer_col = status_cols[layer_name]
+    view = countries if role_filter == "All" else countries[countries.market_role == role_filter]
+    order = {"Implemented": 0, "In Development": 1, "Planned": 2, "Not Available": 3, "No Data": 4}
+    mapdf = view[["iso", "country", layer_col]].copy()
+    mapdf["code"] = mapdf[layer_col].map(order).fillna(4)
+    fig = px.choropleth(mapdf, locations="iso", color="code", hover_name="country",
+                         custom_data=[mapdf[layer_col]],
+                         color_continuous_scale=["#2E8B62", "#159A9C", "#D28A2E", "#AEB9BE", "#E5EAED"],
+                         range_color=[0, 4])
+    fig.update_traces(hovertemplate="<b>%{hovertext}</b><br>" + layer_name + ": %{customdata[0]}<extra></extra>")
+    fig.update_geos(showframe=False, showcoastlines=True, coastlinecolor="#D6E1E5",
+                     bgcolor="#EAF4F8", landcolor="#F5F8F9", projection_type="natural earth")
+    fig.update_layout(height=400, margin=dict(l=0, r=0, t=0, b=0), coloraxis_showscale=False,
+                       paper_bgcolor="white", plot_bgcolor="#EAF4F8")
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.caption("Geography: real country boundaries. Status records: illustrative until verified data integration.")
+
+    st.markdown(f"<div class='section'>{layer_name} — by country</div>", unsafe_allow_html=True)
+    for _, r in view.sort_values("country").iterrows():
+        st.markdown(f"""
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">{r.country}</div>
+            <div class="list-row-sub">{r.market_role}</div>
+          </div>
+          <div>{badge(r[layer_col])}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button(f"Open Country Profile → {r.country}", key=f"gecm_open_{r.iso}", use_container_width=True):
+            go_country(r.country)
+            st.rerun()
+
+# ============================================================
+# ARTICLE 6 & POLICY
+# ============================================================
+elif st.session_state.active_page == "Article 6 & Policy":
+    if st.button("← Back to Global Overview", key="a6_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>Article 6 & Policy Explorer</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">Article 6 & Policy Explorer</div>
+      <div class="sub">National frameworks, NDC commitments, bilateral agreements and authorization status. Status vocabulary only — no composite scores.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    op_count = int((countries.article6_framework == "Implemented").sum())
+    ndc_count = int((countries.blue_carbon_ndc == "Implemented").sum())
+    agree_count = int((bilateral.status == "Operational").sum())
+    auth_count = int((countries.article6_authorization == "Implemented").sum())
+    st.markdown(f"""
+    <div class="project-snapshot">
+      <div class="snapshot-card"><div class="snapshot-number">{op_count}</div><div class="snapshot-label">Article 6 frameworks implemented</div><div class="snapshot-note">of {len(countries)} countries tracked</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{ndc_count}</div><div class="snapshot-label">Blue carbon in NDCs</div><div class="snapshot-note">Implemented submissions</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{agree_count}</div><div class="snapshot-label">Bilateral agreements</div><div class="snapshot-note">Operational cooperation</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{auth_count}</div><div class="snapshot-label">Authorizations issued</div><div class="snapshot-note">Article 6 LoA activity</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    f1, f2 = st.columns(2)
+    with f1:
+        status_filter = st.selectbox("Article 6 framework status", ["All"] + sorted(countries["article6_framework"].dropna().unique().tolist()), key="a6_status_filter")
+    with f2:
+        ndc_filter = st.selectbox("Blue carbon in NDC", ["All"] + sorted(countries["blue_carbon_ndc"].dropna().unique().tolist()), key="a6_ndc_filter")
+
+    view = countries.copy()
+    if status_filter != "All":
+        view = view[view.article6_framework == status_filter]
+    if ndc_filter != "All":
+        view = view[view.blue_carbon_ndc == ndc_filter]
+
+    st.markdown("<div class='section'>National frameworks & NDC commitments</div>", unsafe_allow_html=True)
+    for _, r in view.sort_values("country").iterrows():
+        st.markdown(f"""
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">{r.country}</div>
+            <div class="list-row-sub">DNA: {badge(r.dna_appointed)} &nbsp; NDC blue carbon: {badge(r.blue_carbon_ndc)} &nbsp; Authorization: {badge(r.article6_authorization)}</div>
+          </div>
+          <div>{badge(r.article6_framework)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button(f"Open Country Profile → {r.country}", key=f"a6_open_{r.iso}", use_container_width=True):
+            go_country(r.country)
+            st.rerun()
+
+    st.markdown("<div class='section'>Bilateral agreements</div>", unsafe_allow_html=True)
+    for _, r in bilateral.iterrows():
+        st.markdown(f"""
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">{r.country_a} · {r.country_b}</div>
+            <div class="list-row-sub">Signed {r.signed}</div>
+          </div>
+          <div>{badge(r.status)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    st.caption("Data reflects illustrative records pending integration with verified UNFCCC and national sources.")
+
+# ============================================================
+# CARBON MARKETS
+# ============================================================
+elif st.session_state.active_page == "Carbon Markets":
+    if st.button("← Back to Global Overview", key="markets_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>Carbon Markets Explorer</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">Carbon Markets Explorer</div>
+      <div class="sub">Domestic, voluntary and Article 6 carbon market intelligence — a market directory, not a country ranking.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    op_markets = int((markets.status == "Operational").sum())
+    a6_markets = int((markets.article6_integration == "Implemented").sum())
+    st.markdown(f"""
+    <div class="project-snapshot">
+      <div class="snapshot-card"><div class="snapshot-number">{len(markets)}</div><div class="snapshot-label">Markets tracked</div><div class="snapshot-note">Domestic and voluntary</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{op_markets}</div><div class="snapshot-label">Operational</div><div class="snapshot-note">Active market infrastructure</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{a6_markets}</div><div class="snapshot-label">Article 6 integrated</div><div class="snapshot-note">Linked to Article 6 activity</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">{markets.country.nunique()}</div><div class="snapshot-label">Countries</div><div class="snapshot-note">With market records</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    type_filter = st.selectbox("Market type", ["All"] + sorted(markets["market_type"].dropna().unique().tolist()), key="markets_type_filter")
+    view = markets if type_filter == "All" else markets[markets.market_type == type_filter]
+
+    st.markdown("<div class='section'>Carbon market directory</div>", unsafe_allow_html=True)
+    for _, r in view.iterrows():
+        st.markdown(f"""
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">{r.country} · {r.market_name}</div>
+            <div class="list-row-sub">{r.market_type} · Registry: {r.registry} · Platform: {r.platform} · Updated {r.last_updated}</div>
+          </div>
+          <div>{badge(r.status)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button(f"Open Country Profile → {r.country}", key=f"market_open_{r.country}", use_container_width=True):
+            go_country(r.country)
+            st.rerun()
+    st.caption("Prices, where shown, would always carry date, unit and source context. No prices are shown in this illustrative prototype.")
+
+# ============================================================
+# METHODOLOGIES
+# ============================================================
+elif st.session_state.active_page == "Methodologies":
+    if st.button("← Back to Global Overview", key="method_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>Blue Carbon Methodologies Explorer</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">Blue Carbon Methodologies Explorer</div>
+      <div class="sub">Search and filter standards and methodologies applicable to blue carbon projects. Applicability is evidence-based, never a score.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    search = st.text_input("Search methodologies", key="method_search", placeholder="e.g. mangroves, VM0033, Gold Standard")
+    f1, f2 = st.columns(2)
+    with f1:
+        eco_filter = st.selectbox("Ecosystem", ["All", "Mangrove", "Seagrass", "Salt Marsh"], key="method_eco_filter")
+    with f2:
+        a6_filter = st.selectbox("Article 6 eligible", ["All", "Yes", "No"], key="method_a6_filter")
+
+    view = methodologies.copy()
+    if search:
+        mask = view.apply(lambda row: search.lower() in " ".join(row.astype(str)).lower(), axis=1)
+        view = view[mask]
+    if eco_filter != "All":
+        view = view[view.ecosystem.str.contains(eco_filter, case=False, na=False)]
+    if a6_filter != "All":
+        view = view[view.article6_eligible == a6_filter]
+
+    st.markdown(f"<div class='section'>{len(view)} methodologies matching current filters</div>", unsafe_allow_html=True)
+    for _, r in view.iterrows():
+        st.markdown(f"""
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">{r['name']} · {r.standard}</div>
+            <div class="list-row-sub">{r.ecosystem} · {r.activity} · Article 6: {r.article6_eligible} · CORSIA: {r.corsia_eligible}</div>
+          </div>
+          <div>{badge(r.status)}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        related = projects[projects.ecosystem.str.contains(r.ecosystem.split(",")[0].strip(), case=False, na=False)]
+        if not related.empty:
+            with st.expander(f"Related projects ({len(related)})"):
+                for _, p in related.iterrows():
+                    if st.button(f"{p.project_id} · {p.country} · {p.ecosystem} →", key=f"method_project_{r['name']}_{p.project_id}", use_container_width=True):
+                        go_project(p.project_id)
+                        st.rerun()
+
+# ============================================================
+# NEWS & INTELLIGENCE
+# ============================================================
+elif st.session_state.active_page == "News & Intelligence":
+    if st.button("← Back to Global Overview", key="news_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>News & Intelligence Explorer</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card pad">
+      <div class="title">News & Intelligence Explorer</div>
+      <div class="sub">Timely developments in policy, markets, projects, methodologies and financing that could affect a decision.</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    news_sorted = news.sort_values("date", ascending=False)
+    f1, f2 = st.columns(2)
+    with f1:
+        type_filter = st.selectbox("Category", ["All"] + sorted(news_sorted["type"].dropna().unique().tolist()), key="news_type_filter")
+    with f2:
+        country_filter = st.selectbox("Country", ["All"] + sorted(news_sorted["country"].dropna().unique().tolist()), key="news_country_filter")
+
+    view = news_sorted.copy()
+    if type_filter != "All":
+        view = view[view.type == type_filter]
+    if country_filter != "All":
+        view = view[view.country == country_filter]
+
+    m, n = st.columns([1.7, 1], gap="medium")
+    with m:
+        st.markdown(f"<div class='section'>{len(view)} updates matching current filters</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card' style='overflow:hidden'>", unsafe_allow_html=True)
+        if view.empty:
+            st.markdown("<div class='pad sub'>No intelligence items match these filters.</div>", unsafe_allow_html=True)
+        for _, r in view.iterrows():
+            st.markdown(f"<div class='news-item'><span class='tag'>{r.type}</span><span class='date'>{r.date}</span><span class='date'>· {r.country}</span><div class='headline'>{r.headline}</div></div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with n:
+        c = st.session_state.selected_country
+        spotlight = news_sorted[news_sorted.country == c]
+        st.markdown(f"""
+        <div class="card pad">
+          <div class="title">Country spotlight</div>
+          <div class="sub">{c} · {len(spotlight)} tagged updates</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button(f"View Country Intelligence → {c}", key="news_spotlight_open", use_container_width=True):
+            go_country(c)
+            st.rerun()
+        st.caption("Every intelligence item should ultimately link to its underlying source record.")
+
+# ============================================================
+# MARINE SPATIAL PLANNING
+# ============================================================
+elif st.session_state.active_page == "Marine Spatial Planning":
+    if st.button("← Back to Global Overview", key="msp_back"):
+        navigate_to("Global Overview")
+        st.rerun()
+
+    st.markdown("<div class='section'>Marine Spatial Planning & Opportunity Assessment</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="detail-head">
+      <div class="kicker">SPATIAL DECISION SUPPORT</div>
+      <div class="detail-title">Where could a blue carbon project be developed?</div>
+      <div class="detail-sub">A guided, four-step area assessment — not a suitability score.</div>
+      <div class="path">
+        <div class="step done">1 · Select Area</div>
+        <div class="step current">2 · Assess Area</div>
+        <div class="step">3 · Review Results</div>
+        <div class="step">4 · Generate Report</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<div class='section'>Selected area — Cenderawasih Bay, Indonesia (example)</div>", unsafe_allow_html=True)
+    example_pts = pd.DataFrame([
+        {"lat": -2.51, "lon": 134.65, "label": "Selected area (14,250 ha)"},
+        {"lat": -2.35, "lon": 134.85, "label": "Project: BC-001 Mangrove Restoration (Development)"},
+        {"lat": -2.65, "lon": 134.50, "label": "Project: BC-002 Seagrass Restoration (Validation)"},
+    ])
+    fig = px.scatter_geo(example_pts, lat="lat", lon="lon", hover_name="label", color_discrete_sequence=[TEAL])
+    fig.update_traces(marker=dict(size=14, line=dict(width=1, color="white")))
+    fig.update_geos(showframe=False, showcoastlines=True, coastlinecolor="#D6E1E5",
+                     bgcolor="#EAF4F8", landcolor="#F5F8F9", projection_type="natural earth",
+                     center=dict(lat=-2.5, lon=134.6), lataxis_range=[-8, 3], lonaxis_range=[128, 140])
+    fig.update_layout(height=380, margin=dict(l=0, r=0, t=0, b=0), paper_bgcolor="white")
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    st.caption("Area drawing/upload tools are illustrative in this prototype; a production build would support interactive polygon drawing.")
+
+    a, b = st.columns(2)
+    with a:
+        st.markdown(f"""
+        <div class="card pad">
+          <div class="title">Opportunities</div>
+          <div class="sub">Suitable ecosystem present</div>
+          <div class="sub">Adequate area for development</div>
+          <div class="sub">Methodologies available (VM0033)</div>
+          <div class="sub">Potential Article 6 pathway</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with b:
+        st.markdown(f"""
+        <div class="blocker" style="margin-top:0;border-left-color:{AMBER};background:#FFF8EE">
+          <b style="font-size:.65rem;color:{AMBER}">Considerations</b>
+          <div style="font-size:.62rem;margin-top:5px">Protected area overlap · Land tenure unverified · Community consultation needed · Data gaps in local mapping</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<div class='section'>Area assessment summary</div>", unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="project-snapshot">
+      <div class="snapshot-card"><div class="snapshot-number">14,250</div><div class="snapshot-label">Area (ha)</div><div class="snapshot-note">Mangrove ecosystem</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">2</div><div class="snapshot-label">Existing projects nearby</div><div class="snapshot-note">BC-001, BC-002</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">0</div><div class="snapshot-label">Hard constraints</div><div class="snapshot-note">None identified</div></div>
+      <div class="snapshot-card"><div class="snapshot-number">4</div><div class="snapshot-label">Soft constraints</div><div class="snapshot-note">Require further investigation</div></div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.caption("Screening-level finding only — not confirmed feasibility. All spatial data are indicative and require field verification.")
+    if st.button("Generate Area Assessment Report →", key="msp_report", use_container_width=True):
+        st.success("Illustrative only — report generation is not wired up in this prototype.")
+
+# ============================================================
+# FALLBACK
 # ============================================================
 else:
-    titles={
-        "Global Enabling Conditions Map":"Global Enabling Conditions Map",
-        "Article 6 & Policy":"Article 6 & Policy Explorer",
-        "Carbon Markets":"Carbon Markets Explorer",
-        "Methodologies":"Blue Carbon Methodologies Explorer",
-        "News & Intelligence":"News & Intelligence Explorer",
-        "Marine Spatial Planning":"Marine Spatial Planning",
-    }
-    st.markdown(f"<div class='card pad'><div style='font-size:1.45rem;font-weight:700;color:{NAVY}'>{titles[st.session_state.active_page]}</div><div class='sub'>This page keeps the agreed navigation architecture and will use the shared platform data model.</div></div>",unsafe_allow_html=True)
+    st.markdown(f"<div class='card pad'><div style='font-size:1.2rem;font-weight:700;color:{NAVY}'>Page not found</div><div class='sub'>Unrecognized navigation state.</div></div>", unsafe_allow_html=True)
+    if st.button("← Back to Global Overview", key="fallback_back"):
+        navigate_to("Global Overview")
+        st.rerun()
 
 st.markdown("<div class='footer'>Blue Carbon Intelligence · V6.3 functional concept · Illustrative data pending verified source integration</div>",unsafe_allow_html=True)
