@@ -118,7 +118,6 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .project-action {{font-size:.59rem;font-weight:700;color:#167F8A;}}
 
 
-.back-row {margin:2px 0 10px;}
 </style>
 """, unsafe_allow_html=True)
 
