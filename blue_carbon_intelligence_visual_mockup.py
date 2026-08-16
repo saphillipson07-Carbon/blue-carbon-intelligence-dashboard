@@ -117,6 +117,8 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .project-note {{font-size:.56rem;color:#6E7F8A;}}
 .project-action {{font-size:.59rem;font-weight:700;color:#167F8A;}}
 
+
+.back-row {margin:2px 0 10px;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -301,6 +303,12 @@ elif st.session_state.active_page == "Country Intelligence":
 # PROJECT EXPLORER
 # ============================================================
 elif st.session_state.active_page == "Projects":
+    back_col, _ = st.columns([1.6, 6])
+    with back_col:
+        if st.button("← Back to Global Overview", key="projects_back_global", use_container_width=True):
+            navigate_to("Global Overview")
+            st.rerun()
+
     st.markdown("<div class='section'>Project intelligence</div>", unsafe_allow_html=True)
 
     st.markdown("""
