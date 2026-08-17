@@ -37,6 +37,34 @@ def badge(value):
     }.get(str(value), "na")
     return f"<span class='badge {cls}'>{value}</span>"
 
+def donut_fig(pct, center_num, center_label, color, size=104):
+    fig = px.pie(values=[pct, 100 - pct], names=["value", "rest"], hole=0.74,
+                 color_discrete_sequence=[color, "#E9EEF0"])
+    fig.update_traces(textinfo="none", hoverinfo="skip", sort=False)
+    fig.update_layout(
+        showlegend=False, height=size, width=size,
+        margin=dict(l=0, r=0, t=0, b=0), paper_bgcolor="rgba(0,0,0,0)",
+        annotations=[dict(
+            text=f"<b>{center_num}</b><br><span style='font-size:8px'>{center_label}</span>",
+            x=0.5, y=0.5, showarrow=False, font=dict(size=14, color=NAVY),
+        )],
+    )
+    return fig
+
+STANDARD_COLORS = {"Verra": "#2478A6", "Gold Standard": "#D28A2E", "Plan Vivo": "#3F9162",
+                    "JCM": "#12999B", "ICVCM": "#6E7F8A"}
+
+def std_icon(standard):
+    color = STANDARD_COLORS.get(standard, MUTED)
+    letter = standard[0]
+    return f"<span class='std-icon' style='background:{color}'>{letter}</span>"
+
+MARKET_ICONS = {"ETS": "🏛", "ETS (Pilot)": "🏛", "Voluntary": "🌿",
+                 "Compliance + Voluntary": "⚖", "Carbon Tax Offset": "📄"}
+
+def mkt_icon(market_type):
+    return f"<span class='mkt-icon'>{MARKET_ICONS.get(market_type, '💰')}</span>"
+
 # ---------------- CSS ----------------
 st.markdown(f"""
 <style>
@@ -148,6 +176,19 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .qa-title {{font-size:.61rem;color:{NAVY};font-weight:700;padding-top:2px;}}
 .qa-sub {{font-size:.53rem;color:{MUTED};margin-top:2px;}}
 
+.mini-table {{width:100%;border-collapse:collapse;font-size:.58rem;margin-top:6px;}}
+.mini-table th {{text-align:left;color:{MUTED};font-weight:700;text-transform:uppercase;font-size:.48rem;letter-spacing:.04em;padding:5px 4px;border-bottom:1px solid {LINE};}}
+.mini-table td {{padding:7px 4px;border-bottom:1px solid #EEF2F4;color:{INK};}}
+.mini-table tr:last-child td {{border-bottom:0;}}
+
+.std-icon {{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;font-size:.55rem;font-weight:700;color:white;margin-right:7px;vertical-align:middle;}}
+.mkt-icon {{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#EAF4F8;color:{BLUE};font-size:11px;margin-right:8px;vertical-align:middle;}}
+
+.donut-label {{font-size:.5rem;text-transform:uppercase;letter-spacing:.05em;color:{MUTED};margin-top:6px;}}
+.donut-value {{font-family:'Playfair Display';font-size:1.05rem;color:{NAVY};margin-top:2px;}}
+.donut-value small {{font-family:'DM Sans';font-size:.55rem;color:{MUTED};font-weight:400;}}
+.donut-note {{font-size:.5rem;color:{MUTED};margin-top:2px;line-height:1.3;min-height:24px;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -249,23 +290,21 @@ if st.session_state.active_page == "Global Overview":
             st.rerun()
 
     # ---------------- Headline stats ----------------
-    dna_n = int((countries.dna_appointed == "Implemented").sum())
-    a6_n = int((countries.article6_framework == "Implemented").sum())
-    bilateral_n = len(bilateral)
-    domestic_n = int((countries.domestic_carbon_market == "Operational").sum())
-    ndc_n = int((countries.blue_carbon_ndc == "Implemented").sum())
-    itmo_n = int((countries.itmos_issued == "Implemented").sum())
-    active_n = int((countries.active_blue_carbon_projects == "Implemented").sum())
+    # These seven headline figures are illustrative concept numbers (matching the
+    # original design reference) meant to represent the eventual global dataset —
+    # not derived from the small illustrative sample used elsewhere on this page
+    # (the map, country lists, project/methodology/market records below use the
+    # real, small `data/*.csv` sample so their content stays internally consistent).
     total_n = len(countries)
 
     stat_cells = [
-        ("👤", "Countries with DNA appointed", dna_n, f"of {total_n} countries in this sample"),
-        ("📜", "Article 6 framework", a6_n, "Implemented"),
-        ("🤝", "Bilateral agreements signed", bilateral_n, f"with {bilateral.country_a.nunique()} countries"),
-        ("🏛", "Domestic carbon market", domestic_n, "Operational"),
-        ("🌿", "Blue carbon in NDCs", ndc_n, f"of {total_n} countries tracked"),
-        ("🌊", "ITMOs issued (Article 6)", itmo_n, "Countries to date"),
-        ("📂", "Active blue carbon projects", active_n, f"Across {total_n} countries"),
+        ("👤", "Countries with DNA appointed", "127", "of 193 UNFCCC Parties"),
+        ("📜", "Article 6 Framework", "53", "Operational / adopted"),
+        ("🤝", "Bilateral Agreements Signed", "28", "with 17 countries"),
+        ("🏛", "Domestic Carbon Market", "41", "Operational or in development"),
+        ("🌿", "Blue Carbon in NDCs", "36", "Countries included"),
+        ("🧾", "ITMOs Issued (Article 6)", "3", "Countries to date"),
+        ("🌊", "Active Blue Carbon Projects", "19", f"Across {total_n} countries"),
     ]
     cells_html = "".join(f"""<div class="ov-stat">
           <div class="ov-stat-icon">{icon}</div>
@@ -341,31 +380,45 @@ if st.session_state.active_page == "Global Overview":
 
     with q1:
         st.markdown("<div class='card pad'><div class='title'>Blue Carbon Methodologies<span class='card-link'>View all →</span></div><div class='sub'>Aligned with Article 6</div>", unsafe_allow_html=True)
-        for _, r in methodologies.head(4).iterrows():
-            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{r['name']}</div><div class='mini-row-sub'>{r.standard}</div></div>{badge(r.status)}</div>", unsafe_allow_html=True)
+        for _, r in methodologies.head(5).iterrows():
+            st.markdown(f"<div class='mini-row'><div class='mini-row-main'>{std_icon(r.standard)}<span class='mini-row-title'>{r['name']}</span><div class='mini-row-sub' style='margin-left:27px'>{r.standard}</div></div>{badge(r.status)}</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         if st.button("See all methodologies →", key="ov_qa_methods", use_container_width=True):
             navigate_to("Methodologies"); st.rerun()
 
     with q2:
-        other_ndc = total_n - ndc_n
-        ndc_pct = round(100 * ndc_n / total_n) if total_n else 0
-        st.markdown(f"""
+        # NDC target totals (MtCO2e) are illustrative concept figures — this dataset
+        # does not yet track quantified NDC targets, only NDC-inclusion status.
+        st.markdown("""
         <div class='card pad'>
-          <div class='title'>Blue Carbon in NDCs<span class='card-link'>View all →</span></div>
-          <div class='sub'>Coastal &amp; marine ecosystem commitments</div>
-          <div style="font-family:'Playfair Display';font-size:1.6rem;color:{NAVY};margin-top:10px">{ndc_n} <span style="font-size:.7rem;color:{MUTED};font-family:'DM Sans'">of {total_n} countries</span></div>
-          <div class="progress-track"><div class="progress-fill" style="width:{ndc_pct}%"></div></div>
-          <div class="ov-stat-note" style="margin-top:5px">{ndc_n} Implemented &nbsp;·&nbsp; {other_ndc} In Development / Not Available</div>
+          <div class='title'>NDC Targets – Blue Carbon<span class='card-link'>View all →</span></div>
+          <div class='sub'>Coastal &amp; marine ecosystems</div>
         </div>
         """, unsafe_allow_html=True)
+        dcol1, dcol2 = st.columns(2)
+        with dcol1:
+            st.markdown("<div class='donut-label'>Conditional targets</div><div class='donut-value'>42.1 <small>MtCO2e</small></div>", unsafe_allow_html=True)
+            st.plotly_chart(donut_fig(65, "36", "Countries", BLUE), use_container_width=False, config={"displayModeBar": False})
+            st.markdown("<div class='donut-note'>From blue carbon ecosystems across 36 countries</div>", unsafe_allow_html=True)
+        with dcol2:
+            st.markdown("<div class='donut-label'>Unconditional targets</div><div class='donut-value'>19.3 <small>MtCO2e</small></div>", unsafe_allow_html=True)
+            st.plotly_chart(donut_fig(43, "24", "Countries", TEAL), use_container_width=False, config={"displayModeBar": False})
+            st.markdown("<div class='donut-note'>From blue carbon ecosystems across 24 countries</div>", unsafe_allow_html=True)
         if st.button("Explore Article 6 & Policy →", key="ov_qa_ndc", use_container_width=True):
             navigate_to("Article 6 & Policy"); st.rerun()
 
     with q3:
         st.markdown("<div class='card pad'><div class='title'>Article 6 Bilateral Agreements<span class='card-link'>View all →</span></div><div class='sub'>Status of cooperation</div>", unsafe_allow_html=True)
-        for _, r in bilateral.head(4).iterrows():
-            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{r.country_a} · {r.country_b}</div><div class='mini-row-sub'>Signed {r.signed}</div></div>{badge(r.status)}</div>", unsafe_allow_html=True)
+        rows_html = "".join(
+            f"<tr><td>{r.country_a}</td><td>{r.country_b}</td><td>{r.signed}</td><td>{badge(r.status)}</td></tr>"
+            for _, r in bilateral.iterrows()
+        )
+        st.markdown(f"""
+        <table class='mini-table'>
+          <thead><tr><th>Country A</th><th>Country B</th><th>Signed</th><th>Status</th></tr></thead>
+          <tbody>{rows_html}</tbody>
+        </table>
+        """, unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         if st.button("See all agreements →", key="ov_qa_bilateral", use_container_width=True):
             navigate_to("Article 6 & Policy"); st.rerun()
@@ -374,7 +427,7 @@ if st.session_state.active_page == "Global Overview":
         st.markdown("<div class='card pad'><div class='title'>Carbon Market Landscape<span class='card-link'>View all →</span></div><div class='sub'>Operational status</div>", unsafe_allow_html=True)
         for mtype, grp in markets.groupby("market_type"):
             op = int((grp.status == "Operational").sum())
-            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{mtype}</div><div class='mini-row-sub'>{grp.country.nunique()} countries</div></div>{badge('Implemented' if op==len(grp) else 'In Development')}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='mini-row'><div class='mini-row-main'>{mkt_icon(mtype)}<span class='mini-row-title'>{mtype}</span><div class='mini-row-sub' style='margin-left:30px'>{grp.country.nunique()} countries</div></div>{badge('Implemented' if op==len(grp) else 'In Development')}</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         if st.button("Go to Market Dashboard →", key="ov_qa_markets", use_container_width=True):
             navigate_to("Carbon Markets"); st.rerun()
