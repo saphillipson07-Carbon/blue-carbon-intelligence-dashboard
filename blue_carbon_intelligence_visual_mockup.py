@@ -126,6 +126,28 @@ html,body,[class*="css"] {{font-family:'DM Sans',Arial,sans-serif;color:{INK};}}
 .list-row-meta {{font-size:.58rem;color:{MUTED};text-align:right;white-space:nowrap;}}
 .flag {{display:inline-block;font-size:.54rem;font-weight:700;letter-spacing:.05em;color:{RED};margin-right:6px;}}
 
+.ov-stats {{display:grid;grid-template-columns:repeat(7,1fr);gap:9px;margin:12px 0 16px;}}
+.ov-stat {{background:white;border:1px solid {LINE};border-radius:11px;padding:12px 13px;min-height:112px;}}
+.ov-stat-icon {{width:28px;height:28px;border-radius:8px;background:#EAF4F8;color:{BLUE};display:flex;align-items:center;justify-content:center;font-size:13px;margin-bottom:8px;}}
+.ov-stat-label {{font-size:.5rem;text-transform:uppercase;letter-spacing:.04em;color:{MUTED};line-height:1.35;min-height:20px;}}
+.ov-stat-num {{font-family:'Playfair Display';font-size:1.4rem;color:{NAVY};margin-top:4px;}}
+.ov-stat-note {{font-size:.53rem;color:{MUTED};margin-top:2px;}}
+
+.mini-row {{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #EEF2F4;font-size:.6rem;}}
+.mini-row:last-child {{border-bottom:0;}}
+.mini-row-main {{flex:1;min-width:0;}}
+.mini-row-title {{color:{INK};font-weight:600;}}
+.mini-row-sub {{color:{MUTED};font-size:.55rem;margin-top:1px;}}
+.card-link {{font-size:.58rem;color:{BLUE};font-weight:700;float:right;}}
+
+.progress-track {{background:#EEF2F4;border-radius:5px;height:6px;overflow:hidden;margin-top:5px;}}
+.progress-fill {{background:{GREEN};height:100%;border-radius:5px;}}
+
+.qa-card {{background:white;border:1px solid {LINE};border-radius:9px;padding:10px 11px;min-height:64px;}}
+.qa-icon {{float:left;width:28px;height:28px;border-radius:7px;background:#EDF5F8;display:flex;align-items:center;justify-content:center;margin-right:8px;color:{BLUE};font-size:13px;}}
+.qa-title {{font-size:.61rem;color:{NAVY};font-weight:700;padding-top:2px;}}
+.qa-sub {{font-size:.53rem;color:{MUTED};margin-top:2px;}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -199,29 +221,68 @@ def go_project(project_id):
 # GLOBAL OVERVIEW
 # ============================================================
 if st.session_state.active_page == "Global Overview":
-    a,b = st.columns([1.04,.96],gap="large")
-    with a:
-        st.markdown("""
-        <div class="hero">
-          <div class="kicker">ARTICLE 6 · ITMO · BLUE CARBON MARKETS</div>
-          <h1>Blue carbon<br><em>market intelligence</em></h1>
-          <p>A single view of the policy, market, project and ecosystem conditions shaping blue carbon transactions under Article 6.</p>
-          <span class="btn">Explore the map →</span>
-        </div>
-        """, unsafe_allow_html=True)
-    with b:
-        st.markdown("""
-        <div class="hero" style="padding:16px">
-          <div class="hero-grid">
-            <div class="stat"><div class="num">127</div><div class="lab">Countries with DNA appointed</div><div class="note">of 193 UNFCCC Parties tracked</div></div>
-            <div class="stat"><div class="num">53</div><div class="lab">Article 6 frameworks</div><div class="note">Operational / adopted</div></div>
-            <div class="stat"><div class="num">28</div><div class="lab">Bilateral agreements</div><div class="note">Signed cooperation arrangements</div></div>
-            <div class="stat"><div class="num">36</div><div class="lab">Blue carbon in NDCs</div><div class="note">Current submissions tracked</div></div>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+    # ---------------- Top bar ----------------
+    st.markdown("""
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:#12496A;display:flex;align-items:center;justify-content:center;font-size:15px">🌊</div>
+        <div><div class="brand">BLUE CARBON</div><div class="brand-sub">INTELLIGENCE</div></div>
+      </div>
+      <div class="product">Global Market Intelligence<small>Real-time intelligence for Article 6 and blue carbon markets</small></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    tcol1, tcol2 = st.columns([3, 1])
+    with tcol1:
+        search_pick = st.selectbox(
+            "Search countries, projects, news...", [""] + country_options,
+            format_func=lambda x: "🔍  Search a country..." if x == "" else x,
+            key="ov_search", label_visibility="collapsed",
+        )
+        if search_pick:
+            go_country(search_pick)
+            st.session_state.ov_search = ""
+            st.rerun()
+    with tcol2:
+        if st.button("Country View →", key="ov_country_view", use_container_width=True):
+            go_country(st.session_state.selected_country)
+            st.rerun()
+
+    # ---------------- Headline stats ----------------
+    dna_n = int((countries.dna_appointed == "Implemented").sum())
+    a6_n = int((countries.article6_framework == "Implemented").sum())
+    bilateral_n = len(bilateral)
+    domestic_n = int((countries.domestic_carbon_market == "Operational").sum())
+    ndc_n = int((countries.blue_carbon_ndc == "Implemented").sum())
+    itmo_n = int((countries.itmos_issued == "Implemented").sum())
+    active_n = int((countries.active_blue_carbon_projects == "Implemented").sum())
+    total_n = len(countries)
+
+    stat_cells = [
+        ("👤", "Countries with DNA appointed", dna_n, f"of {total_n} countries in this sample"),
+        ("📜", "Article 6 framework", a6_n, "Implemented"),
+        ("🤝", "Bilateral agreements signed", bilateral_n, f"with {bilateral.country_a.nunique()} countries"),
+        ("🏛", "Domestic carbon market", domestic_n, "Operational"),
+        ("🌿", "Blue carbon in NDCs", ndc_n, f"of {total_n} countries tracked"),
+        ("🌊", "ITMOs issued (Article 6)", itmo_n, "Countries to date"),
+        ("📂", "Active blue carbon projects", active_n, f"Across {total_n} countries"),
+    ]
+    cells_html = "".join(f"""<div class="ov-stat">
+          <div class="ov-stat-icon">{icon}</div>
+          <div class="ov-stat-label">{label}</div>
+          <div class="ov-stat-num">{num}</div>
+          <div class="ov-stat-note">{note}</div>
+        </div>""" for icon, label, num, note in stat_cells)
+    st.markdown(f"<div class='ov-stats'>{cells_html}</div>", unsafe_allow_html=True)
+    sa1, sa2 = st.columns([6, 1])
+    with sa2:
+        if st.button("View all countries →", key="ov_view_all_countries", use_container_width=True):
+            navigate_to("Global Enabling Conditions Map")
+            st.rerun()
+
     st.markdown("<div class='live'><b>● LIVE INTELLIGENCE</b> &nbsp;&nbsp; Latest policy · market · project · regulatory · agreement updates</div>", unsafe_allow_html=True)
 
+    # ---------------- Map + Latest Intelligence ----------------
     st.markdown("<div class='section'>Global enabling conditions</div>", unsafe_allow_html=True)
     m,n = st.columns([1.72,.82],gap="medium")
     with m:
@@ -252,22 +313,91 @@ if st.session_state.active_page == "Global Overview":
         st.caption("Geography: real country boundaries. Status records: illustrative until verified data integration.")
 
     with n:
-        st.markdown("<div class='card' style='overflow:hidden'><div class='pad'><div class='title'>Latest Intelligence</div><div class='sub'>Policy, regulation, projects, markets and agreements.</div></div>",unsafe_allow_html=True)
-        for _,r in news.iterrows():
+        st.markdown("<div class='card' style='overflow:hidden'><div class='pad' style='padding-bottom:0'><div class='title'>Latest Intelligence</div><div class='sub'>Policy, regulation, projects, markets and agreements.</div></div>",unsafe_allow_html=True)
+        news_tab_groups = {
+            "Latest News": None,
+            "Regulatory Updates": ["POLICY", "REGULATION"],
+            "New Projects": ["PROJECT"],
+            "Agreements": ["AGREEMENT"],
+        }
+        if "ov_news_tab" not in st.session_state:
+            st.session_state.ov_news_tab = "Latest News"
+        tcols = st.columns(len(news_tab_groups))
+        for col, t in zip(tcols, news_tab_groups):
+            with col:
+                if st.button(t, key=f"ov_newstab_{t}", use_container_width=True,
+                             type="primary" if st.session_state.ov_news_tab == t else "secondary"):
+                    st.session_state.ov_news_tab = t
+                    st.rerun()
+        active_types = news_tab_groups[st.session_state.ov_news_tab]
+        shown_news = news if active_types is None else news[news.type.isin(active_types)]
+        for _,r in shown_news.sort_values("date", ascending=False).head(5).iterrows():
             st.markdown(f"<div class='news-item'><span class='tag'>{r.type}</span><span class='date'>{r.date}</span><div class='headline'>{r.headline}</div></div>",unsafe_allow_html=True)
         st.markdown("</div>",unsafe_allow_html=True)
 
-    st.markdown("<div class='section'>Explore the intelligence</div>",unsafe_allow_html=True)
-    cols=st.columns(4)
-    windows=[("📜","Article 6 & Policy","Frameworks, NDCs, bilateral agreements.","Article 6 & Policy"),
-             ("🌿","Blue Carbon Methodologies","Methods and applicability.","Methodologies"),
-             ("📂","Projects","Project activity, blockers and next actions.","Projects"),
-             ("💰","Carbon Markets","Markets and infrastructure.","Carbon Markets")]
-    for col,(icon,title,desc,target) in zip(cols,windows):
+    # ---------------- Methodologies / NDC / Bilateral / Markets ----------------
+    st.markdown("<div class='section'>Blue carbon intelligence at a glance</div>", unsafe_allow_html=True)
+    q1, q2, q3, q4 = st.columns(4, gap="medium")
+
+    with q1:
+        st.markdown("<div class='card pad'><div class='title'>Blue Carbon Methodologies<span class='card-link'>View all →</span></div><div class='sub'>Aligned with Article 6</div>", unsafe_allow_html=True)
+        for _, r in methodologies.head(4).iterrows():
+            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{r['name']}</div><div class='mini-row-sub'>{r.standard}</div></div>{badge(r.status)}</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        if st.button("See all methodologies →", key="ov_qa_methods", use_container_width=True):
+            navigate_to("Methodologies"); st.rerun()
+
+    with q2:
+        other_ndc = total_n - ndc_n
+        ndc_pct = round(100 * ndc_n / total_n) if total_n else 0
+        st.markdown(f"""
+        <div class='card pad'>
+          <div class='title'>Blue Carbon in NDCs<span class='card-link'>View all →</span></div>
+          <div class='sub'>Coastal &amp; marine ecosystem commitments</div>
+          <div style="font-family:'Playfair Display';font-size:1.6rem;color:{NAVY};margin-top:10px">{ndc_n} <span style="font-size:.7rem;color:{MUTED};font-family:'DM Sans'">of {total_n} countries</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:{ndc_pct}%"></div></div>
+          <div class="ov-stat-note" style="margin-top:5px">{ndc_n} Implemented &nbsp;·&nbsp; {other_ndc} In Development / Not Available</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Explore Article 6 & Policy →", key="ov_qa_ndc", use_container_width=True):
+            navigate_to("Article 6 & Policy"); st.rerun()
+
+    with q3:
+        st.markdown("<div class='card pad'><div class='title'>Article 6 Bilateral Agreements<span class='card-link'>View all →</span></div><div class='sub'>Status of cooperation</div>", unsafe_allow_html=True)
+        for _, r in bilateral.head(4).iterrows():
+            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{r.country_a} · {r.country_b}</div><div class='mini-row-sub'>Signed {r.signed}</div></div>{badge(r.status)}</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        if st.button("See all agreements →", key="ov_qa_bilateral", use_container_width=True):
+            navigate_to("Article 6 & Policy"); st.rerun()
+
+    with q4:
+        st.markdown("<div class='card pad'><div class='title'>Carbon Market Landscape<span class='card-link'>View all →</span></div><div class='sub'>Operational status</div>", unsafe_allow_html=True)
+        for mtype, grp in markets.groupby("market_type"):
+            op = int((grp.status == "Operational").sum())
+            st.markdown(f"<div class='mini-row'><div class='mini-row-main'><div class='mini-row-title'>{mtype}</div><div class='mini-row-sub'>{grp.country.nunique()} countries</div></div>{badge('Implemented' if op==len(grp) else 'In Development')}</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        if st.button("Go to Market Dashboard →", key="ov_qa_markets", use_container_width=True):
+            navigate_to("Carbon Markets"); st.rerun()
+
+    # ---------------- Quick access ----------------
+    st.markdown("<div class='section'>Quick access</div>", unsafe_allow_html=True)
+    quick = [
+        ("🌍","Country Profiles","Explore country context","Country Intelligence"),
+        ("📂","Project Pipeline","Find blue carbon projects","Projects"),
+        ("📜","Policy & Frameworks","Laws, policies & regulations","Article 6 & Policy"),
+        ("🌊","Marine Spatial Planning","Maps & ecosystem data","Marine Spatial Planning"),
+        ("📄","Documents Library","Guides, reports & data",None),
+        ("↓","Data Download","Access datasets",None),
+    ]
+    qcols = st.columns(6)
+    for col,(icon,title,sub,target) in zip(qcols,quick):
         with col:
-            st.markdown(f"<div class='card pad' style='min-height:125px'><div style='font-size:18px'>{icon}</div><div class='title'>{title}</div><div class='sub'>{desc}</div></div>",unsafe_allow_html=True)
-            if st.button("Open",key="global_"+target,use_container_width=True):
-                st.session_state.active_page=target
+            st.markdown(f"<div class='qa-card'><div class='qa-icon'>{icon}</div><div class='qa-title'>{title}</div><div class='qa-sub'>{sub}</div></div>", unsafe_allow_html=True)
+            if target and st.button("Open", key=f"ov_quick_{title}", use_container_width=True):
+                if target == "Country Intelligence":
+                    go_country(st.session_state.selected_country)
+                else:
+                    navigate_to(target)
                 st.rerun()
 
 # ============================================================
