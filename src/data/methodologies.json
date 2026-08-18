@@ -1,0 +1,47 @@
+[
+  {
+    "name": "VM0033",
+    "standard": "Verra",
+    "ecosystem": "Mangrove, Seagrass, Salt Marsh",
+    "activity": "Restoration",
+    "article6_eligible": "Yes",
+    "corsia_eligible": "Yes",
+    "status": "Approved"
+  },
+  {
+    "name": "Mangroves Methodology",
+    "standard": "Gold Standard",
+    "ecosystem": "Mangrove",
+    "activity": "Restoration / Conservation",
+    "article6_eligible": "Yes",
+    "corsia_eligible": "No",
+    "status": "Approved"
+  },
+  {
+    "name": "Mangroves (Plan Vivo)",
+    "standard": "Plan Vivo",
+    "ecosystem": "Mangrove",
+    "activity": "Restoration",
+    "article6_eligible": "No",
+    "corsia_eligible": "No",
+    "status": "Approved"
+  },
+  {
+    "name": "Blue Carbon Guidelines",
+    "standard": "JCM",
+    "ecosystem": "Mangrove",
+    "activity": "Restoration",
+    "article6_eligible": "Yes",
+    "corsia_eligible": "No",
+    "status": "In Review"
+  },
+  {
+    "name": "Blue Carbon Principles",
+    "standard": "ICVCM",
+    "ecosystem": "Mangrove, Seagrass",
+    "activity": "Cross-cutting eligibility",
+    "article6_eligible": "No",
+    "corsia_eligible": "No",
+    "status": "Emerging"
+  }
+]

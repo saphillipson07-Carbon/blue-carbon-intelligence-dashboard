@@ -1,0 +1,82 @@
+[
+  {
+    "country": "Indonesia",
+    "market_name": "IDXCarbon",
+    "market_type": "ETS",
+    "status": "Operational",
+    "article6_integration": "Implemented",
+    "registry": "SRN PPI",
+    "platform": "IDX Carbon",
+    "last_updated": "2025-11-12"
+  },
+  {
+    "country": "Viet Nam",
+    "market_name": "Vietnam Carbon Market",
+    "market_type": "ETS (Pilot)",
+    "status": "In Development",
+    "article6_integration": "In Development",
+    "registry": "VCR",
+    "platform": "VNX",
+    "last_updated": "2025-10-30"
+  },
+  {
+    "country": "Philippines",
+    "market_name": "Philippine Carbon Market",
+    "market_type": "Voluntary",
+    "status": "In Development",
+    "article6_integration": "In Development",
+    "registry": "PCRS",
+    "platform": "Not Available",
+    "last_updated": "2025-10-01"
+  },
+  {
+    "country": "Republic of Korea",
+    "market_name": "K-ETS",
+    "market_type": "ETS",
+    "status": "Operational",
+    "article6_integration": "Implemented",
+    "registry": "KRX Registry",
+    "platform": "KRX",
+    "last_updated": "2025-10-28"
+  },
+  {
+    "country": "Japan",
+    "market_name": "GX-ETS",
+    "market_type": "ETS",
+    "status": "Operational",
+    "article6_integration": "Implemented",
+    "registry": "JCM Registry",
+    "platform": "JPX",
+    "last_updated": "2025-10-28"
+  },
+  {
+    "country": "Australia",
+    "market_name": "Australian Carbon Credit Unit Scheme",
+    "market_type": "Compliance + Voluntary",
+    "status": "Operational",
+    "article6_integration": "Implemented",
+    "registry": "ANREU",
+    "platform": "CER Registry",
+    "last_updated": "2025-10-15"
+  },
+  {
+    "country": "Mexico",
+    "market_name": "Mexico ETS",
+    "market_type": "ETS",
+    "status": "Operational",
+    "article6_integration": "In Development",
+    "registry": "Mexico Emissions Registry",
+    "platform": "Not Available",
+    "last_updated": "2025-09-20"
+  },
+  {
+    "country": "Chile",
+    "market_name": "Chile Carbon Tax Offsets",
+    "market_type": "Carbon Tax Offset",
+    "status": "Operational",
+    "article6_integration": "In Development",
+    "registry": "Chile Registry",
+    "platform": "Not Available",
+    "last_updated": "2025-09-05"
+  }
+]

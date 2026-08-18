@@ -1,0 +1,52 @@
+[
+  {
+    "project_id": "BC-001",
+    "country": "Indonesia",
+    "ecosystem": "Mangrove Restoration",
+    "stage": "Development",
+    "assessment_stage": "CAAS review",
+    "blocker_type": "Hard blocker",
+    "primary_blocker": "Carbon rights / tenure pathway",
+    "transaction_note": "Article 6 pathway under review"
+  },
+  {
+    "project_id": "BC-002",
+    "country": "Indonesia",
+    "ecosystem": "Seagrass Restoration",
+    "stage": "Validation",
+    "assessment_stage": "CAAS review",
+    "blocker_type": "Soft blocker",
+    "primary_blocker": "Community consultation",
+    "transaction_note": "Methodology confirmed"
+  },
+  {
+    "project_id": "BC-003",
+    "country": "Viet Nam",
+    "ecosystem": "Mangrove Restoration",
+    "stage": "Early Stage",
+    "assessment_stage": "Pre-feasibility",
+    "blocker_type": "Soft blocker",
+    "primary_blocker": "Project boundary confirmation",
+    "transaction_note": "Article 6 pathway not confirmed"
+  },
+  {
+    "project_id": "BC-004",
+    "country": "Philippines",
+    "ecosystem": "Mangrove Conservation",
+    "stage": "Development",
+    "assessment_stage": "PDD preparation",
+    "blocker_type": "Hard blocker",
+    "primary_blocker": "Authorization pathway",
+    "transaction_note": "Host-country process under review"
+  },
+  {
+    "project_id": "BC-005",
+    "country": "Kenya",
+    "ecosystem": "Mangrove Restoration",
+    "stage": "Early Stage",
+    "assessment_stage": "Pre-feasibility",
+    "blocker_type": "Soft blocker",
+    "primary_blocker": "Land / tenure verification",
+    "transaction_note": "Potential Article 6 route"
+  }
+]

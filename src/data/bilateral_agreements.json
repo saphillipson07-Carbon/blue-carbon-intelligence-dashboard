@@ -1,0 +1,32 @@
+[
+  {
+    "country_a": "Indonesia",
+    "country_b": "Japan",
+    "signed": "Oct 2024",
+    "status": "Operational"
+  },
+  {
+    "country_a": "Indonesia",
+    "country_b": "Singapore",
+    "signed": "Nov 2025",
+    "status": "Operational"
+  },
+  {
+    "country_a": "Indonesia",
+    "country_b": "Republic of Korea",
+    "signed": "Jun 2024",
+    "status": "Operational"
+  },
+  {
+    "country_a": "Chile",
+    "country_b": "Switzerland",
+    "signed": "Feb 2024",
+    "status": "Operational"
+  },
+  {
+    "country_a": "Ghana",
+    "country_b": "Sweden",
+    "signed": "May 2024",
+    "status": "In Progress"
+  }
+]
