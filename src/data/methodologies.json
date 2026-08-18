@@ -6,7 +6,11 @@
     "activity": "Restoration",
     "article6_eligible": "Yes",
     "corsia_eligible": "Yes",
-    "status": "Approved"
+    "status": "Approved",
+    "note": "Verified: VM0033 underlies roughly 99% of blue carbon credit issuance to date, the dominant methodology for tidal wetland and seagrass restoration.",
+    "verified": true,
+    "source": "https://calyxglobal.com/research-hub/research/blue-carbon-what-the-rising-tide-of-coastal-conservation-means-for-the-voluntary-carbon-market",
+    "source_label": "Calyx Global — Blue Carbon research"
   },
   {
     "name": "Mangroves Methodology",

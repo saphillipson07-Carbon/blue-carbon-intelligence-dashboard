@@ -1,51 +1,81 @@
 [
   {
-    "date": "2025-11-14",
-    "type": "POLICY",
-    "headline": "Indonesia submits Second NDC with new blue carbon targets",
-    "country": "Indonesia"
+    "date": "2026-08-07",
+    "type": "MARKET",
+    "headline": "Experts call for critical reassessment of Indonesia's carbon market readiness",
+    "country": "Indonesia",
+    "verified": true,
+    "source": "http://www.thejakartapost.com/adv/2026/08/07/experts-indonesias-carbon-market-has-a-tremendous-need-to-be-reassessed",
+    "source_label": "The Jakarta Post"
   },
   {
-    "date": "2025-11-12",
+    "date": "2026-08-04",
+    "type": "POLICY",
+    "headline": "Forestry Minister reaffirms commitment to strengthening Indonesia's national carbon trading ecosystem",
+    "country": "Indonesia",
+    "verified": true,
+    "source": "https://en.antaranews.com/amp/news/425589/indonesia-strengthens-national-carbon-trading-ecosystem",
+    "source_label": "ANTARA News"
+  },
+  {
+    "date": "2026-07-09",
     "type": "REGULATION",
-    "headline": "Article 6 authorization framework update",
-    "country": "Indonesia"
+    "headline": "Indonesia launches Carbon Unit Registry System (SRUK), replacing SRN-PPI for trading under MOF Reg 6/2026",
+    "country": "Indonesia",
+    "verified": true,
+    "source": "https://icapcarbonaction.com/en/ets/indonesian-economic-value-carbon-nilai-ekonomi-karbon-trading-scheme",
+    "source_label": "ICAP \u2014 Indonesian Economic Value of Carbon Trading Scheme"
+  },
+  {
+    "date": "2026-07-06",
+    "type": "PROJECT",
+    "headline": "Ministry of Forestry approves four forestry carbon projects with 30M+ tCO2e potential",
+    "country": "Indonesia",
+    "verified": true,
+    "source": "https://carboncredits.com/singapore-indonesia-article-6-carbon-credit-agreement/",
+    "source_label": "carboncredits.com"
+  },
+  {
+    "date": "2026-06-29",
+    "type": "MARKET",
+    "headline": "Vietnam officially launches first domestic carbon trading exchange on the Hanoi Stock Exchange (HNX)",
+    "country": "Viet Nam",
+    "verified": true,
+    "source": "https://theinvestor.vn/vietnam-officially-launches-first-carbon-trading-exchange-d19425.html",
+    "source_label": "The Investor"
+  },
+  {
+    "date": "2026-05-19",
+    "type": "REGULATION",
+    "headline": "Vietnam's regulation on international trading of carbon credits enters into force, setting transfer-volume caps",
+    "country": "Viet Nam",
+    "verified": true,
+    "source": "https://icapcarbonaction.com/en/ets/vietnam",
+    "source_label": "ICAP \u2014 Vietnam ETS"
+  },
+  {
+    "date": "2026-05-02",
+    "type": "AGREEMENT",
+    "headline": "Japan and Viet Nam upgrade Joint Crediting Mechanism (JCM) so verified credits qualify as ITMOs",
+    "country": "Viet Nam",
+    "verified": true,
+    "source": "https://www.green.earth/news/japan-and-vietnam-upgrade-jcm-to-meet-article-6-rules",
+    "source_label": "green.earth"
   },
   {
     "date": "2025-11-10",
     "type": "AGREEMENT",
     "headline": "Indonesia\u2013Singapore Article 6 implementation arrangement signed",
-    "country": "Indonesia"
-  },
-  {
-    "date": "2025-11-07",
-    "type": "MARKET",
-    "headline": "Voluntary carbon market shows signs of stabilization in Q4 2025",
-    "country": "Global"
-  },
-  {
-    "date": "2025-11-05",
-    "type": "PROJECT",
-    "headline": "Wakatobi Seagrass Restoration advances to validation stage",
-    "country": "Indonesia"
-  },
-  {
-    "date": "2025-10-30",
-    "type": "MARKET",
-    "headline": "Vietnam Carbon Market pilot phase update published",
-    "country": "Viet Nam"
+    "country": "Indonesia",
+    "verified": true,
+    "source": "https://carboncredits.com/singapore-indonesia-article-6-carbon-credit-agreement/",
+    "source_label": "carboncredits.com"
   },
   {
     "date": "2025-10-22",
     "type": "METHODOLOGY",
     "headline": "Verra opens VM0033 v2 draft for public consultation",
     "country": "Global"
-  },
-  {
-    "date": "2025-10-15",
-    "type": "AGREEMENT",
-    "headline": "Japan and Viet Nam progress Article 6.2 cooperation roadmap",
-    "country": "Viet Nam"
   },
   {
     "date": "2025-10-08",

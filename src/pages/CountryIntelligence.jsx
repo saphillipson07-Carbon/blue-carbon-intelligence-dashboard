@@ -36,7 +36,11 @@ export default function CountryIntelligence() {
 
       <div className="card pad">
         <div style={{ fontSize: '1.55rem', fontWeight: 700, color: 'var(--navy)' }}>{row.country}</div>
-        <div style={{ marginTop: 6 }}><span className="badge dev">{row.market_role}</span></div>
+        <div style={{ marginTop: 6 }}>
+          <span className="badge dev">{row.market_role}</span>
+          {row.verified && <span className="badge good" style={{ marginLeft: 6 }}>Verified · {row.last_verified}</span>}
+        </div>
+        {row.notes && <div className="sub" style={{ marginTop: 8 }}>{row.notes}</div>}
       </div>
 
       <div className="section">Key enabling conditions</div>
@@ -63,6 +67,19 @@ export default function CountryIntelligence() {
           <span className="project-link">{p.project_id} · {p.country} · {p.ecosystem}  →</span>
         </button>
       ))}
+
+      {row.sources && row.sources.length > 0 && (
+        <>
+          <div className="section">Sources</div>
+          <div className="card pad">
+            {row.sources.map((s, i) => (
+              <div key={i} style={{ fontSize: '.62rem', marginTop: i ? 6 : 0 }}>
+                <a href={s.url} target="_blank" rel="noreferrer">{s.label}</a>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 }

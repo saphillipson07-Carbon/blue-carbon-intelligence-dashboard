@@ -99,15 +99,26 @@ export default function ArticleSixPolicy() {
 
       <div className="section">Bilateral agreements</div>
       {bilateral.map((r, i) => (
-        <div className="list-row" key={i}>
-          <div className="list-row-main">
-            <div className="list-row-title">{r.country_a} · {r.country_b}</div>
-            <div className="list-row-sub">Signed {r.signed}</div>
+        <div className="list-row" key={i} style={{ flexDirection: 'column', alignItems: 'stretch' }}>
+          <div style={{ display: 'flex', width: '100%' }}>
+            <div className="list-row-main">
+              <div className="list-row-title">
+                {r.country_a} · {r.country_b}
+                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
+              </div>
+              <div className="list-row-sub">Signed {r.signed}</div>
+            </div>
+            <div><Badge value={r.status} /></div>
           </div>
-          <div><Badge value={r.status} /></div>
+          {r.note && <div className="sub" style={{ marginTop: 6 }}>{r.note}</div>}
+          {r.source && (
+            <div className="sub" style={{ marginTop: 4 }}>
+              <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || 'Source'}</a>
+            </div>
+          )}
         </div>
       ))}
-      <div className="sub">Data reflects illustrative records pending integration with verified UNFCCC and national sources.</div>
+      <div className="sub">Entries marked "Verified" are sourced and dated as of this update; other records are illustrative pending integration with verified UNFCCC and national sources.</div>
     </>
   );
 }

@@ -5,19 +5,27 @@
     "market_type": "ETS",
     "status": "Operational",
     "article6_integration": "Implemented",
-    "registry": "SRN PPI",
+    "registry": "SRUK (from Jul 2026; SRN-PPI now reporting-only)",
     "platform": "IDX Carbon",
-    "last_updated": "2025-11-12"
+    "last_updated": "2026-02-28",
+    "price_note": "~IDR 67,000/tCO2e (~US$4) average across 2025; negotiated-market volume 118,796 tCO2e year-to-date through Feb 2026. Domestic compliance-market price, not a blue carbon-specific figure.",
+    "verified": true,
+    "source": "https://www.idxcarbon.co.id/document/share/161/caf49365-34e4-4582-8cd3-bb660ebb126c",
+    "source_label": "IDXCarbon Monthly Report, February 2026"
   },
   {
     "country": "Viet Nam",
-    "market_name": "Vietnam Carbon Market",
+    "market_name": "Vietnam Pilot ETS (Decree 119/2025)",
     "market_type": "ETS (Pilot)",
     "status": "In Development",
     "article6_integration": "In Development",
-    "registry": "VCR",
-    "platform": "VNX",
-    "last_updated": "2025-10-30"
+    "registry": "Not publicly available",
+    "platform": "Hanoi Stock Exchange (HNX) — pilot exchange launched 29 Jun 2026",
+    "last_updated": "2026-06-29",
+    "price_note": "Allowance caps: 243.1M tCO2e (2025), 268.4M tCO2e (2026) across ~110 facilities (power, steel, cement). No trades reported yet since the HNX pilot exchange launched — participants still testing the system as of this update.",
+    "verified": true,
+    "source": "https://theinvestor.vn/vietnams-carbon-market-sees-no-new-trades-after-launch-as-participants-test-waters-d19788.html",
+    "source_label": "The Investor — Vietnam's carbon market sees no new trades after launch"
   },
   {
     "country": "Philippines",

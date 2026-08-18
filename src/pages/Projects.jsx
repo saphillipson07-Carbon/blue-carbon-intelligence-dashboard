@@ -133,7 +133,10 @@ export default function Projects() {
               </div>
             </div>
             <div className="project-result-foot">
-              <div className="project-note"><b>Article 6:</b> {note}</div>
+              <div className="project-note">
+                {r.verified ? <span style={{ color: 'var(--green, #2D7045)' }}>✓ Verified record{r.last_verified ? ` (${r.last_verified})` : ''}</span> : <b>Article 6:</b>}
+                {!r.verified && <> {note}</>}
+              </div>
               <div className="project-action">Open project →</div>
             </div>
           </button>

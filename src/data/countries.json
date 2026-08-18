@@ -8,24 +8,41 @@
     "domestic_carbon_market": "Operational",
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
-    "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "article6_authorization": "Implemented",
+    "itmos_issued": "In Development",
     "active_blue_carbon_projects": "Implemented",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-08-18",
+    "notes": "Article 6 framework operational under Presidential Regulation 110/2025 and Ministerial Regulation 6/2026 (forestry). Letters of Authorization (LoA) issued in 2025, ending a three-year freeze on international credit transfers; Ministry of Forestry approved 4 forestry carbon projects on 6 Jul 2026 (~30M+ tCO2e potential). No confirmed ITMO unit transfer has been publicly reported yet for Indonesia (blue carbon or otherwise) as of this date.",
+    "sources": [
+      { "label": "Fastmarkets — Indonesia clears forestry projects to issue carbon credits after three-year freeze", "url": "https://www.fastmarkets.com/insights/indonesia-clears-forestry-projects-to-issue-carbon-credits-after-three-year-freeze/" },
+      { "label": "IDNFinancials — Indonesia's carbon market targeted to be operational in June 2026", "url": "https://www.idnfinancials.com/news/61026/indonesias-carbon-market-targeted-to-be-operational-in-june-2026" },
+      { "label": "ANTARA News — Indonesia strengthens national carbon trading ecosystem", "url": "https://en.antaranews.com/amp/news/425589/indonesia-strengthens-national-carbon-trading-ecosystem" }
+    ]
   },
   {
     "iso": "VNM",
     "country": "Viet Nam",
     "market_role": "Host Country",
-    "article6_framework": "In Development",
+    "article6_framework": "Implemented",
     "dna_appointed": "Implemented",
     "domestic_carbon_market": "In Development",
-    "bilateral_agreements": "In Development",
+    "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Implemented",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-08-18",
+    "notes": "Regulation on international trading of carbon credits entered into force 19 May 2026, setting caps on transferable volumes. Domestic pilot ETS (Decree 119/2025) launched Aug 2025 (110 facilities across power, steel, cement); pilot domestic exchange launched on the Hanoi Stock Exchange (HNX) 29 Jun 2026, running through 2028 with reportedly no new trades yet as participants test the system. National Blue Carbon Action Partnership (NBCAP) Secretariat established Jan 2026 to lead a national blue carbon roadmap. No confirmed ITMO transfer publicly reported yet.",
+    "sources": [
+      { "label": "ICAP — Vietnam issues rules for pilot ETS, launching August 2025", "url": "https://icapcarbonaction.com/en/news/vietnam-issues-rules-pilot-ets-launching-august-2025" },
+      { "label": "The Investor — Vietnam officially launches first carbon trading exchange", "url": "https://theinvestor.vn/vietnam-officially-launches-first-carbon-trading-exchange-d19425.html" },
+      { "label": "The Investor — Vietnam's carbon market sees no new trades after launch as participants test waters", "url": "https://theinvestor.vn/vietnams-carbon-market-sees-no-new-trades-after-launch-as-participants-test-waters-d19788.html" },
+      { "label": "ForestsNews (CIFOR-ICRAF) — Viet Nam turning blue carbon pilot projects into national climate action", "url": "https://www.forestsnews.org/161583/blue-carbon-viet-nam-national-climate-action" }
+    ]
   },
   {
     "iso": "PHL",

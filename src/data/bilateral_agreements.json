@@ -3,30 +3,70 @@
     "country_a": "Indonesia",
     "country_b": "Japan",
     "signed": "Oct 2024",
-    "status": "Operational"
+    "status": "Operational",
+    "note": "Builds on the long-standing Japan–Indonesia Joint Crediting Mechanism (JCM), formalized under an Article 6.2 mutual recognition arrangement.",
+    "verified": false
   },
   {
     "country_a": "Indonesia",
     "country_b": "Singapore",
     "signed": "Nov 2025",
-    "status": "Operational"
+    "status": "Operational",
+    "note": "Lets Indonesian carbon credits count toward Singapore's climate targets under Article 6; part of Singapore's wider push (11 Implementation Agreements signed as of Jun 2026).",
+    "verified": true,
+    "source": "https://carboncredits.com/singapore-indonesia-article-6-carbon-credit-agreement/",
+    "source_label": "carboncredits.com — Singapore and Indonesia Seal Landmark Carbon Credit Deal"
   },
   {
     "country_a": "Indonesia",
     "country_b": "Republic of Korea",
     "signed": "Jun 2024",
-    "status": "Operational"
+    "status": "Operational",
+    "note": "Indonesia has signed Article 6.2 MOUs with Singapore, South Korea and Japan.",
+    "verified": false
+  },
+  {
+    "country_a": "Indonesia",
+    "country_b": "Norway",
+    "signed": "Nov 2025",
+    "status": "In Progress",
+    "note": "Mutual Expression of Interest signed at COP30 (PLN + GGGI, witnessed by both countries' ministers) targeting 12M tCO2e from grid-connected renewable energy projects — not blue carbon-specific. A full Mitigation Outcome Purchase Agreement was targeted for completion by end of 2025; not confirmed finalized as of this update.",
+    "verified": true,
+    "source": "https://carbon-pulse.com/456474/",
+    "source_label": "Carbon Pulse — Indonesia and Norway sign Article 6.2 deal for renewable energy credits"
+  },
+  {
+    "country_a": "Viet Nam",
+    "country_b": "Japan",
+    "signed": "2 May 2026",
+    "status": "Operational",
+    "note": "Formal update to the Japan–Vietnam Joint Crediting Mechanism (JCM) so verified credits qualify as ITMOs under Article 6; partnership runs to 2030 with automatic 5-year extension.",
+    "verified": true,
+    "source": "https://www.green.earth/news/japan-and-vietnam-upgrade-jcm-to-meet-article-6-rules",
+    "source_label": "green.earth — Japan and Vietnam upgrade JCM to meet Article 6 rules"
+  },
+  {
+    "country_a": "Viet Nam",
+    "country_b": "Singapore",
+    "signed": "16 Sep 2025",
+    "status": "In Progress",
+    "note": "Implementation Agreement signed Sep 2025; Vietnam's government approved it domestically via Resolution 235/NQ-CP, with the Ministry of Foreign Affairs completing external procedures for entry into force.",
+    "verified": true,
+    "source": "https://en.nhandan.vn/viet-nam-approves-carbon-credit-pact-with-singapore-under-paris-agreement-post165513.html",
+    "source_label": "Nhan Dan — Viet Nam approves carbon credit pact with Singapore under Paris Agreement"
   },
   {
     "country_a": "Chile",
     "country_b": "Switzerland",
     "signed": "Feb 2024",
-    "status": "Operational"
+    "status": "Operational",
+    "verified": false
   },
   {
     "country_a": "Ghana",
     "country_b": "Sweden",
     "signed": "May 2024",
-    "status": "In Progress"
+    "status": "In Progress",
+    "verified": false
   }
 ]

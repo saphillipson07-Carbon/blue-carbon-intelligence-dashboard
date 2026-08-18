@@ -51,7 +51,13 @@ export default function NewsIntelligence() {
                 <span className="tag">{r.type}</span>
                 <span className="date">{r.date}</span>
                 <span className="date">· {r.country}</span>
+                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
                 <div className="headline">{r.headline}</div>
+                {r.source && (
+                  <div className="sub" style={{ marginTop: 3 }}>
+                    <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || 'Source'} →</a>
+                  </div>
+                )}
               </div>
             ))}
           </div>

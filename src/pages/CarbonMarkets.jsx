@@ -56,6 +56,24 @@ export default function CarbonMarkets() {
         </div>
       </div>
 
+      <div className="card pad" style={{ borderLeft: '3px solid var(--blue)' }}>
+        <div className="title">Market intelligence — carbon prices & blue carbon trades</div>
+        <div className="sub" style={{ marginTop: 6 }}>
+          General nature-based voluntary carbon market credits traded in a €7–24/tCO2e ($7–24) range through 2026; high-integrity (A–AAA-rated)
+          credits averaged ~$14.80/t versus ~$3.50/t for low-quality (CCC–B) credits. Mangrove-specific credits have commanded a premium in some
+          Asian markets, reported around $26–34/tCO2e. Indonesia's domestic compliance market (IDXCarbon) has traded far lower, averaging
+          ~US$4/tCO2e in 2025 — a different market segment, not a blue carbon voluntary-credit price.
+        </div>
+        <div className="sub" style={{ marginTop: 6, fontStyle: 'italic' }}>
+          Blue carbon-specific transaction prices for Indonesia or Viet Nam individually are <b>not publicly available</b> — no registry or
+          exchange currently publishes mangrove/seagrass-credit-specific pricing broken out by country.
+        </div>
+        <div className="sub" style={{ marginTop: 6 }}>
+          Sources: <a href="https://www.regreener.earth/blog/carbon-credit-prices-today-trends-and-forecasts-for-2026" target="_blank" rel="noreferrer">Regreener — Carbon Credit Prices 2026</a>
+          {' · '}<a href="https://www.idxcarbon.co.id/document/share/161/caf49365-34e4-4582-8cd3-bb660ebb126c" target="_blank" rel="noreferrer">IDXCarbon Monthly Report, Feb 2026</a>
+        </div>
+      </div>
+
       <select className="select-input" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
         <option value={ALL}>All market types</option>
         {types.map((t) => <option key={t}>{t}</option>)}
@@ -66,17 +84,23 @@ export default function CarbonMarkets() {
         <button
           key={i}
           className="list-row"
-          style={{ width: '100%', textAlign: 'left', cursor: 'pointer' }}
+          style={{ width: '100%', textAlign: 'left', cursor: 'pointer', flexDirection: 'column', alignItems: 'stretch' }}
           onClick={() => goCountry(r.country)}
         >
-          <div className="list-row-main">
-            <div className="list-row-title">{r.country} · {r.market_name}</div>
-            <div className="list-row-sub">{r.market_type} · Registry: {r.registry} · Platform: {r.platform} · Updated {r.last_updated}</div>
+          <div style={{ display: 'flex', width: '100%' }}>
+            <div className="list-row-main">
+              <div className="list-row-title">
+                {r.country} · {r.market_name}
+                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
+              </div>
+              <div className="list-row-sub">{r.market_type} · Registry: {r.registry} · Platform: {r.platform} · Updated {r.last_updated}</div>
+            </div>
+            <div><Badge value={r.status} /></div>
           </div>
-          <div><Badge value={r.status} /></div>
+          {r.price_note && <div className="sub" style={{ marginTop: 6 }}>{r.price_note}</div>}
         </button>
       ))}
-      <div className="sub">Prices, where shown, would always carry date, unit and source context. No prices are shown in this illustrative prototype.</div>
+      <div className="sub">Entries marked "Verified" are sourced and dated as of this update; other records are illustrative pending integration with verified sources.</div>
     </>
   );
 }
