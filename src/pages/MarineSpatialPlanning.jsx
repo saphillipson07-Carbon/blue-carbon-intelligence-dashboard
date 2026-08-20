@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AcehMap from '../components/AcehMap';
 import { projects } from '../data';
 
 // Real, verified project cluster (see Projects Explorer for full source
 // citations on each record) — used as a worked example for the MSP
-// workflow rather than a fabricated scenario. Screen positions are
-// illustrative placement along a schematic coastline, not GPS coordinates;
-// none of these projects have publicly mapped boundaries.
-const CLUSTER_COUNTRY = 'Indonesia';
+// workflow rather than a fabricated scenario. Coordinates are regency
+// (district)-level centroids for real, named administrative areas in Aceh
+// where Yagasu operates — not exact project site coordinates, which aren't
+// publicly available for these projects.
 const CLUSTER_IDS = ['BC-101', 'BC-102', 'BC-103'];
-const CLUSTER_POSITIONS = { 'BC-101': { x: 40, y: 32 }, 'BC-102': { x: 62, y: 46 }, 'BC-103': { x: 50, y: 66 } };
+const CLUSTER_LOCATIONS = {
+  'BC-101': { lat: 5.4, lon: 95.4, regency: 'Aceh Besar' },
+  'BC-102': { lat: 5.0, lon: 97.1, regency: 'Aceh Utara' },
+  'BC-103': { lat: 4.6, lon: 97.6, regency: 'Aceh Timur' },
+};
 
 function parseHa(v) {
   const n = parseFloat(String(v).replace(/,/g, ''));
@@ -45,47 +50,16 @@ export default function MarineSpatialPlanning() {
       </div>
 
       <div className="section">Selected area — Aceh & North Sumatra, Indonesia (verified project cluster)</div>
-      <div
-        style={{
-          position: 'relative',
-          height: 320,
-          borderRadius: 8,
-          background: 'linear-gradient(160deg, #EAF4F8 0%, #DCEEF2 60%, #CFE8ED 100%)',
-          border: '1px solid var(--line)',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          title={`Assessment area — ${totalHa.toLocaleString()} ha across ${cluster.length} projects`}
-          style={{
-            position: 'absolute', left: '50%', top: '48%', transform: 'translate(-50%, -50%)',
-            width: 220, height: 220, borderRadius: '50%',
-            background: 'rgba(18,153,155,.14)', border: '2px dashed #12999B',
-          }}
-        />
-        {cluster.map((p) => {
-          const pos = CLUSTER_POSITIONS[p.project_id] || { x: 50, y: 50 };
-          return (
-            <button
-              key={p.project_id}
-              title={`${p.project_id} · ${p.ecosystem} · ${p.stage} — click to open`}
-              onClick={() => navigate(`/projects/${p.project_id}`)}
-              style={{
-                position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`, transform: 'translate(-50%, -50%)',
-                width: 16, height: 16, borderRadius: '50%', background: '#12999B',
-                border: '2px solid white', boxShadow: '0 1px 4px rgba(0,0,0,.25)', cursor: 'pointer', padding: 0,
-              }}
-            />
-          );
-        })}
-        <div style={{ position: 'absolute', bottom: 10, left: 12, fontSize: '.55rem', color: 'var(--muted)', background: 'rgba(255,255,255,.85)', padding: '4px 8px', borderRadius: 6 }}>
-          🌊 Assessment area &nbsp;&nbsp; ● Verified project (click to open)
-        </div>
-      </div>
+      <AcehMap
+        markers={cluster.map((p) => ({ id: p.project_id, ...CLUSTER_LOCATIONS[p.project_id] }))}
+        onSelect={(m) => navigate(`/projects/${m.id}`)}
+      />
       <div className="sub" style={{ marginTop: 6 }}>
-        Pin placement is illustrative — these projects don't have publicly mapped boundaries. Project identities, area and status are real
-        (see <a href="#/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects Explorer</a> for sources).
-        Interactive polygon drawing over real satellite/GIS layers would be a further build, not simulated here.
+        Real coastline (Indonesia, MIT-licensed <a href="https://github.com/simonepri/geo-maps" target="_blank" rel="noreferrer">@geo-maps/countries-land-10km</a>, OSM/Natural Earth-derived).
+        Markers are placed at regency (district)-level centroids — {cluster.map((p) => `${p.project_id} in ${CLUSTER_LOCATIONS[p.project_id].regency}`).join(', ')} —
+        not exact project site coordinates, which aren't publicly available. Click a marker to open that project's record.
+        Marine protected area boundaries are not yet overlaid — the authoritative WDPA source is currently unreachable from this environment's
+        network policy; see <a href="#/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects Explorer</a> for full source citations.
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 14 }}>
