@@ -55,11 +55,16 @@ export default function MarineSpatialPlanning() {
         onSelect={(m) => navigate(`/projects/${m.id}`)}
       />
       <div className="sub" style={{ marginTop: 6 }}>
-        Real coastline (Indonesia, MIT-licensed <a href="https://github.com/simonepri/geo-maps" target="_blank" rel="noreferrer">@geo-maps/countries-land-10km</a>, OSM/Natural Earth-derived).
+        Real coastline (Indonesia, MIT-licensed <a href="https://github.com/simonepri/geo-maps" target="_blank" rel="noreferrer">@geo-maps/countries-land-10km</a>, OSM/Natural Earth-derived)
+        and 59 real protected areas for Aceh &amp; North Sumatra from the <a href="https://www.protectedplanet.net/country/IDN" target="_blank" rel="noreferrer">World Database on Protected Areas</a> (teal = marine, green = terrestrial/mixed — hover a shape for details).
         Markers are placed at regency (district)-level centroids — {cluster.map((p) => `${p.project_id} in ${CLUSTER_LOCATIONS[p.project_id].regency}`).join(', ')} —
-        not exact project site coordinates, which aren't publicly available. Click a marker to open that project's record.
-        Marine protected area boundaries are not yet overlaid — the authoritative WDPA source is currently unreachable from this environment's
-        network policy; see <a href="#/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects Explorer</a> for full source citations.
+        not exact project site coordinates, which aren't publicly available; treat apparent proximity to a protected area as a screening cue to verify
+        in the field, not a confirmed overlap. Click a marker to open that project's record.
+      </div>
+      <div className="sub" style={{ marginTop: 2, fontSize: '.52rem' }}>
+        Citation: UNEP-WCMC and IUCN (2026), Protected Planet: The World Database on Protected Areas (WDPA) [On-line], August 2026, Cambridge, UK.
+        Available at: <a href="https://www.protectedplanet.net" target="_blank" rel="noreferrer">www.protectedplanet.net</a>.
+        Geometry simplified for web display (~200m tolerance); full source citations for the project cluster are on <a href="#/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects Explorer</a>.
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 14 }}>
