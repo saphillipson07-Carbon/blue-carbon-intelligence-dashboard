@@ -21,7 +21,25 @@
       { "label": "Fastmarkets — Indonesia clears forestry projects to issue carbon credits after three-year freeze", "url": "https://www.fastmarkets.com/insights/indonesia-clears-forestry-projects-to-issue-carbon-credits-after-three-year-freeze/" },
       { "label": "IDNFinancials — Indonesia's carbon market targeted to be operational in June 2026", "url": "https://www.idnfinancials.com/news/61026/indonesias-carbon-market-targeted-to-be-operational-in-june-2026" },
       { "label": "ANTARA News — Indonesia strengthens national carbon trading ecosystem", "url": "https://en.antaranews.com/amp/news/425589/indonesia-strengthens-national-carbon-trading-ecosystem" }
-    ]
+    ],
+    "blue_carbon": {
+      "mangrove_area_ha": 3364080,
+      "mangrove_area_note": "2021 National Mangrove Map — Indonesia holds roughly a fifth of the world's mangroves. ~3.1M ha in dense condition (>70% canopy cover), ~242,000 ha less dense.",
+      "mangrove_area_source": "https://ppid.menlhk.go.id/berita/siaran-pers/6225/peta-mangrove-nasional-tahun-2021-baseline-pengelolaan-rehabilitasi-mangrove-nasional",
+      "mangrove_area_source_label": "KLHK — Peta Mangrove Nasional 2021 (with BRGM, KKP, BIG, BRIN)",
+      "mangrove_dense_ha": 3100000,
+      "mangrove_less_dense_ha": 242000,
+      "seagrass_area_note": "No single authoritative national figure: a validated 2018 assessment measured ~293,000 ha, while historical/potential-extent estimates range up to ~3 million ha depending on mapping method.",
+      "seagrass_area_source": "https://www.researchgate.net/publication/312975256_The_Seagrasses_of_Indonesia",
+      "seagrass_area_source_label": "Research on Indonesia's seagrass extent (estimates vary by methodology)",
+      "salt_marsh_note": "Not a significant ecosystem type in Indonesia's tropical climate.",
+      "ndc_mangrove_target_note": "Second NDC targets an additional 600,000 ha of mangrove cover by 2030, alongside marine protected area expansion to 32.5M ha (at least 20M ha \"well managed\") so mangrove and seagrass ecosystems can function optimally.",
+      "ndc_target_source": "https://gggi.org/joint-press-release-indonesia-launches-blue-carbon-ecosystems-roadmap-and-action-guide-at-cop30-to-advance-ocean-climate-action/",
+      "ndc_target_source_label": "GGGI — Indonesia Launches Blue Carbon Ecosystems Roadmap and Action Guide at COP30",
+      "mitigation_potential_note": "Mangroves: avoided deforestation/degradation plus restoration estimated at 32–41 MtCO2e/year mitigation potential by 2030 (cumulative ~256 MtCO2e to 2030). Seagrass: reduced degradation estimated at 17–60 MtCO2e/year by 2030 — a wide range reflecting scientific uncertainty in seagrass mapping and emission factors.",
+      "mitigation_potential_source": "https://www.wri.org/insights/indonesia-ocean-climate-potential",
+      "mitigation_potential_source_label": "World Resources Institute — Indonesia Poised to Harness Ocean's Climate Potential"
+    }
   },
   {
     "iso": "VNM",

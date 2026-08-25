@@ -195,7 +195,7 @@ button { font-family: inherit; cursor: pointer; }
 .mini-row-main { flex: 1; min-width: 0; }
 .mini-row-title { color: var(--ink); font-weight: 600; }
 .mini-row-sub { color: var(--muted); font-size: .55rem; margin-top: 1px; }
-.card-link { font-size: .58rem; color: var(--blue); font-weight: 700; float: right; background: none; border: none; }
+.card-link { font-size: .58rem; color: var(--blue); font-weight: 700; float: right; background: none; border: none; cursor: pointer; }
 
 .progress-track { background: #EEF2F4; border-radius: 5px; height: 6px; overflow: hidden; margin-top: 5px; }
 .progress-fill { background: var(--green); height: 100%; border-radius: 5px; }
@@ -270,6 +270,20 @@ button { font-family: inherit; cursor: pointer; }
 .list-row.muted { opacity: .45; }
 .gm-multi-badge { display: inline-flex; align-items: center; gap: 3px; }
 .gm-multi-badge-icon { font-size: .58rem; }
+
+/* ---------------- Country Intelligence ---------------- */
+.ci-head .flag { font-size: .68rem; margin-right: 8px; }
+.ci-timeline { margin-top: 12px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.ci-timeline-item { display: flex; gap: 10px; padding-bottom: 14px; position: relative; }
+.ci-timeline-item::before {
+  content: ''; position: absolute; left: 3px; top: 14px; bottom: -2px; width: 1px; background: var(--line);
+}
+.ci-timeline-item:last-child::before { display: none; }
+.ci-timeline-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); margin-top: 4px; flex-shrink: 0; z-index: 1; }
+.ci-timeline-body { flex: 1; }
+.ci-timeline-date { font-size: .55rem; color: var(--muted); font-weight: 700; display: flex; align-items: center; }
+.ci-timeline-label { font-size: .65rem; color: var(--ink); font-weight: 600; margin-top: 3px; line-height: 1.4; }
+.ci-timeline-source { font-size: .55rem; color: var(--blue); display: inline-block; margin-top: 4px; }
 
 @media (max-width: 900px) {
   .app-shell { flex-direction: column; }
