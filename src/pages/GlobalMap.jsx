@@ -31,13 +31,19 @@ const MARKET_ROLE_COLOR = {
 export default function GlobalMap() {
   const navigate = useNavigate();
   const { setSelectedCountry } = useApp();
-  const [activeField, setActiveField] = useState('dna_appointed');
+  // Order = toggle order, so the last entry is the layer currently coloring
+  // the map. Any other toggled-on layers act as an "also Implemented" filter
+  // (dimming, not hiding, countries that don't meet them) rather than being
+  // blended into a single score.
+  const [layersOn, setLayersOn] = useState(['dna_appointed']);
   const [regionFilter, setRegionFilter] = useState('All');
   const [incomeFilter, setIncomeFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [previewIso, setPreviewIso] = useState(null);
 
-  const activeLayer = LAYERS.find((l) => l.field === activeField);
+  const colorField = layersOn[layersOn.length - 1] || null;
+  const colorLayer = LAYERS.find((l) => l.field === colorField) || null;
+  const filterOnlyFields = layersOn.filter((f) => f !== colorField && f !== 'market_role');
 
   const regions = useMemo(() => [...new Set(countries.map((c) => c.region))].filter(Boolean).sort(), []);
   const incomeGroups = useMemo(
@@ -45,10 +51,11 @@ export default function GlobalMap() {
     []
   );
   const statusOptions = useMemo(() => {
-    const order = activeLayer.isRole ? ROLE_ORDER : STATUS_ORDER;
-    const present = new Set(countries.map((c) => c[activeField]).filter(Boolean));
+    if (!colorLayer) return [];
+    const order = colorLayer.isRole ? ROLE_ORDER : STATUS_ORDER;
+    const present = new Set(countries.map((c) => c[colorField]).filter(Boolean));
     return order.filter((v) => present.has(v));
-  }, [activeField, activeLayer.isRole]);
+  }, [colorField, colorLayer]);
 
   const view = useMemo(
     () =>
@@ -56,10 +63,20 @@ export default function GlobalMap() {
         (c) =>
           (regionFilter === 'All' || c.region === regionFilter) &&
           (incomeFilter === 'All' || c.income_group === incomeFilter) &&
-          (statusFilter === 'All' || c[activeField] === statusFilter)
+          (statusFilter === 'All' || !colorField || c[colorField] === statusFilter)
       ),
-    [regionFilter, incomeFilter, statusFilter, activeField]
+    [regionFilter, incomeFilter, statusFilter, colorField]
   );
+
+  // Countries that fail one of the OTHER toggled-on layers (not the one
+  // coloring the map). Shown dimmed rather than removed, on both the map
+  // and the list — a visible AND-filter across facts, never a blended score.
+  const mutedIsos = useMemo(() => {
+    if (filterOnlyFields.length === 0) return new Set();
+    return new Set(
+      countries.filter((c) => filterOnlyFields.some((f) => c[f] !== 'Implemented')).map((c) => c.iso)
+    );
+  }, [filterOnlyFields]);
 
   const previewRow = countries.find((c) => c.iso === previewIso) || null;
 
@@ -69,8 +86,8 @@ export default function GlobalMap() {
     setStatusFilter('All');
   };
 
-  const selectLayer = (field) => {
-    setActiveField(field);
+  const toggleLayer = (field) => {
+    setLayersOn((prev) => (prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]));
     setStatusFilter('All');
   };
 
@@ -84,8 +101,8 @@ export default function GlobalMap() {
     navigate('/country');
   };
 
-  const legendPalette = activeLayer.isRole ? MARKET_ROLE_COLOR : STATUS_COLOR;
-  const legendValues = activeLayer.isRole ? ROLE_ORDER : STATUS_ORDER;
+  const legendPalette = colorLayer?.isRole ? MARKET_ROLE_COLOR : STATUS_COLOR;
+  const legendValues = colorLayer ? (colorLayer.isRole ? ROLE_ORDER : STATUS_ORDER) : [];
 
   return (
     <>
@@ -113,8 +130,14 @@ export default function GlobalMap() {
           </select>
         </div>
         <div>
-          <div className="gm-filter-label">Filter by status — {activeLayer.label}</div>
-          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <div className="gm-filter-label">{colorLayer ? `Filter by status — ${colorLayer.label}` : 'Filter by status'}</div>
+          <select
+            className="select-input"
+            style={{ width: '100%', marginBottom: 0 }}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            disabled={!colorLayer}
+          >
             <option value="All">All statuses</option>
             {statusOptions.map((s) => <option key={s}>{s}</option>)}
           </select>
@@ -125,33 +148,49 @@ export default function GlobalMap() {
       <div className="gm-layout">
         <div className="gm-layers">
           <div className="gm-layers-title">Map layers</div>
-          <div className="sub" style={{ marginBottom: 6 }}>Select one indicator to color the map</div>
-          {LAYERS.map((l) => (
-            <button
-              key={l.field}
-              className={`gm-layer-btn${l.field === activeField ? ' active' : ''}`}
-              onClick={() => selectLayer(l.field)}
-            >
-              <span>{l.icon} {l.label}</span>
-              <span className={`gm-switch${l.field === activeField ? ' on' : ''}`}><span className="gm-switch-knob" /></span>
-            </button>
-          ))}
+          <div className="sub" style={{ marginBottom: 6 }}>
+            Toggle any number on. The most recently toggled layer colors the map; other active layers dim countries that aren't Implemented for them.
+          </div>
+          {LAYERS.map((l) => {
+            const isOn = layersOn.includes(l.field);
+            const isColor = l.field === colorField;
+            return (
+              <button
+                key={l.field}
+                className={`gm-layer-btn${isOn ? ' on' : ''}${isColor ? ' active' : ''}`}
+                onClick={() => toggleLayer(l.field)}
+              >
+                <span>{l.icon} {l.label}{isOn && !isColor && <span className="gm-layer-note"> · filter</span>}</span>
+                <span className={`gm-switch${isOn ? ' on' : ''}`}><span className="gm-switch-knob" /></span>
+              </button>
+            );
+          })}
         </div>
 
         <div>
           <WorldMap
             countries={view}
-            statusField={activeField}
-            colorMap={activeLayer.isRole ? MARKET_ROLE_COLOR : undefined}
+            statusField={colorField}
+            colorMap={colorLayer?.isRole ? MARKET_ROLE_COLOR : undefined}
+            mutedIsos={mutedIsos}
             onSelect={openPreview}
             selectedIso={previewIso}
           />
           <div className="gm-legend">
-            {legendValues.map((v) => (
-              <span key={v}><span className="gm-legend-dot" style={{ background: legendPalette[v] }} />{v}</span>
-            ))}
-            {!legendValues.includes('No Data') && (
-              <span><span className="gm-legend-dot" style={{ background: '#F5F8F9', border: '1px solid var(--line)' }} />Not in this sample</span>
+            {colorLayer ? (
+              <>
+                {legendValues.map((v) => (
+                  <span key={v}><span className="gm-legend-dot" style={{ background: legendPalette[v] }} />{v}</span>
+                ))}
+                {!legendValues.includes('No Data') && (
+                  <span><span className="gm-legend-dot" style={{ background: '#F5F8F9', border: '1px solid var(--line)' }} />Not in this sample</span>
+                )}
+                {filterOnlyFields.length > 0 && (
+                  <span><span className="gm-legend-dot" style={{ background: '#B9C4CB', opacity: .5 }} />Dimmed = doesn't meet {filterOnlyFields.length > 1 ? 'other active filters' : LAYERS.find((l) => l.field === filterOnlyFields[0])?.label}</span>
+                )}
+              </>
+            ) : (
+              <span>Toggle a layer on the left to color the map.</span>
             )}
           </div>
           <div className="sub" style={{ marginTop: 6 }}>
@@ -176,7 +215,7 @@ export default function GlobalMap() {
               <div className="gm-panel-subtitle">Enabling conditions</div>
               <div className="gm-indicator-grid">
                 {Object.entries(STATUS_COLS).map(([label, field]) => (
-                  <div className="gm-indicator-cell" key={field}>
+                  <div className={`gm-indicator-cell${layersOn.includes(field) ? ' on-layer' : ''}`} key={field}>
                     <div className="gm-indicator-label">{label}</div>
                     <div style={{ marginTop: 4 }}><Badge value={previewRow[field]} /></div>
                   </div>
@@ -191,14 +230,14 @@ export default function GlobalMap() {
         </div>
       </div>
 
-      <div className="section">{view.length} of {countries.length} countries — {activeLayer.label}</div>
+      <div className="section">{view.length} of {countries.length} countries{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
       {view
         .slice()
         .sort((a, b) => a.country.localeCompare(b.country))
         .map((r) => (
           <button
             key={r.iso}
-            className="list-row"
+            className={`list-row${mutedIsos.has(r.iso) ? ' muted' : ''}`}
             style={{ width: '100%', textAlign: 'left', cursor: 'pointer' }}
             onClick={() => setPreviewIso(r.iso)}
           >
@@ -206,7 +245,21 @@ export default function GlobalMap() {
               <div className="list-row-title">{r.country}</div>
               <div className="list-row-sub">{r.region} · {r.income_group}</div>
             </div>
-            <div><Badge value={r[activeField]} /></div>
+            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: 260 }}>
+              {layersOn.length > 1 ? (
+                layersOn.map((f) => {
+                  const l = LAYERS.find((x) => x.field === f);
+                  return (
+                    <span key={f} className="gm-multi-badge" title={l.label}>
+                      <span className="gm-multi-badge-icon">{l.icon}</span>
+                      <Badge value={r[f]} />
+                    </span>
+                  );
+                })
+              ) : (
+                colorField && <Badge value={r[colorField]} />
+              )}
+            </div>
           </button>
         ))}
     </>

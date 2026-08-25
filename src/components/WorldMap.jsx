@@ -25,7 +25,7 @@ export const STATUS_COLOR = {
 
 const geoUrl = '/geo/countries-110m.json';
 
-export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap }) {
+export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos }) {
   const palette = colorMap || STATUS_COLOR;
   const numericToRow = {};
   countries.forEach((c) => {
@@ -46,6 +46,8 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
               const value = row ? row[statusField] : null;
               const fill = value ? palette[value] || '#E5EAED' : '#F5F8F9';
               const isSelected = row && row.iso === selectedIso;
+              const isMuted = row && mutedIsos && mutedIsos.has(row.iso);
+              const opacity = isMuted ? 0.35 : 1;
               return (
                 <Geography
                   key={geo.rsmKey}
@@ -54,6 +56,7 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
                   style={{
                     default: {
                       fill,
+                      opacity,
                       stroke: '#D6E1E5',
                       strokeWidth: isSelected ? 1.5 : 0.5,
                       outline: 'none',
@@ -61,12 +64,13 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
                     },
                     hover: {
                       fill: row ? '#12999B' : fill,
+                      opacity: 1,
                       stroke: '#D6E1E5',
                       strokeWidth: 0.5,
                       outline: 'none',
                       cursor: row ? 'pointer' : 'default',
                     },
-                    pressed: { fill: '#0B3150', outline: 'none' },
+                    pressed: { fill: '#0B3150', opacity: 1, outline: 'none' },
                   }}
                 />
               );

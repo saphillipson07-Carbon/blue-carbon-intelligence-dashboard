@@ -247,7 +247,9 @@ button { font-family: inherit; cursor: pointer; }
   font-size: .6rem; color: var(--ink); margin-bottom: 1px;
 }
 .gm-layer-btn:hover { background: #F3F7F8; }
-.gm-layer-btn.active { background: #EAF4F8; color: var(--navy); font-weight: 700; }
+.gm-layer-btn.on { color: var(--navy); font-weight: 700; }
+.gm-layer-btn.active { background: #EAF4F8; }
+.gm-layer-note { font-weight: 400; color: var(--muted); }
 .gm-switch { width: 26px; height: 15px; border-radius: 9px; background: #DCE5E9; position: relative; flex-shrink: 0; }
 .gm-switch.on { background: var(--green); }
 .gm-switch-knob { position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: white; }
@@ -262,7 +264,12 @@ button { font-family: inherit; cursor: pointer; }
 .gm-panel-subtitle { font-size: .58rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; margin-top: 14px; }
 .gm-indicator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 .gm-indicator-cell { background: #F7FAFB; border: 1px solid #E7EEF1; border-radius: 7px; padding: 7px 8px; }
+.gm-indicator-cell.on-layer { background: #EAF4F8; border-color: #C9E1E8; }
 .gm-indicator-label { font-size: .47rem; text-transform: uppercase; letter-spacing: .04em; color: #7A8992; line-height: 1.3; min-height: 18px; }
+
+.list-row.muted { opacity: .45; }
+.gm-multi-badge { display: inline-flex; align-items: center; gap: 3px; }
+.gm-multi-badge-icon { font-size: .58rem; }
 
 @media (max-width: 900px) {
   .app-shell { flex-direction: column; }
