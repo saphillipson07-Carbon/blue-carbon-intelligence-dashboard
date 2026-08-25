@@ -5,16 +5,16 @@ import WorldMap, { STATUS_COLOR } from '../components/WorldMap';
 import { useApp } from '../AppContext';
 import { countries, STATUS_COLS } from '../data';
 
-const LAYERS = [
-  { icon: '👤', label: 'DNA Appointed', field: 'dna_appointed' },
-  { icon: '📜', label: 'Article 6 Framework', field: 'article6_framework' },
-  { icon: '🏛', label: 'Domestic Carbon Market', field: 'domestic_carbon_market' },
-  { icon: '🤝', label: 'Bilateral Agreements', field: 'bilateral_agreements' },
-  { icon: '🌿', label: 'Blue Carbon in NDCs', field: 'blue_carbon_ndc' },
-  { icon: '✅', label: 'Article 6 Authorizations', field: 'article6_authorization' },
-  { icon: '🧾', label: 'ITMOs Issued', field: 'itmos_issued' },
-  { icon: '🌊', label: 'Active Blue Carbon Projects', field: 'active_blue_carbon_projects' },
-  { icon: '🔁', label: 'Market Role', field: 'market_role', isRole: true },
+const LAYER_FIELDS = [
+  { icon: '👤', key: 'layerDna', field: 'dna_appointed' },
+  { icon: '📜', key: 'layerA6', field: 'article6_framework' },
+  { icon: '🏛', key: 'layerMarket', field: 'domestic_carbon_market' },
+  { icon: '🤝', key: 'layerBilateral', field: 'bilateral_agreements' },
+  { icon: '🌿', key: 'layerNdc', field: 'blue_carbon_ndc' },
+  { icon: '✅', key: 'layerAuth', field: 'article6_authorization' },
+  { icon: '🧾', key: 'layerItmo', field: 'itmos_issued' },
+  { icon: '🌊', key: 'layerProjects', field: 'active_blue_carbon_projects' },
+  { icon: '🔁', key: 'layerRole', field: 'market_role', isRole: true },
 ];
 
 const STATUS_ORDER = ['Implemented', 'In Development', 'Planned', 'Not Available', 'No Data'];
@@ -30,7 +30,8 @@ const MARKET_ROLE_COLOR = {
 
 export default function GlobalMap() {
   const navigate = useNavigate();
-  const { setSelectedCountry } = useApp();
+  const { t, setSelectedCountry } = useApp();
+  const LAYERS = LAYER_FIELDS.map((l) => ({ ...l, label: t(`globalMap.${l.key}`) }));
   // Order = toggle order, so the last entry is the layer currently coloring
   // the map. Any other toggled-on layers act as an "also Implemented" filter
   // (dimming, not hiding, countries that don't meet them) rather than being
@@ -106,31 +107,31 @@ export default function GlobalMap() {
 
   return (
     <>
-      <button className="btn" onClick={() => navigate('/')}>← Back to Global Overview</button>
+      <button className="btn" onClick={() => navigate('/')}>{t('common.back')}</button>
 
-      <div className="section">Global enabling conditions</div>
+      <div className="section">{t('globalMap.section')}</div>
       <div className="card pad">
-        <div className="title">Global Enabling Conditions Map</div>
-        <div className="sub">Where the factual foundations for Article 6 and blue carbon transactions exist. Status only — not a readiness score or country ranking.</div>
+        <div className="title">{t('globalMap.title')}</div>
+        <div className="sub">{t('globalMap.sub')}</div>
       </div>
 
       <div className="gm-filters">
         <div>
-          <div className="gm-filter-label">Filter by region</div>
+          <div className="gm-filter-label">{t('globalMap.filterByRegion')}</div>
           <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={regionFilter} onChange={(e) => setRegionFilter(e.target.value)}>
-            <option value="All">All regions</option>
+            <option value="All">{t('common.allRegions')}</option>
             {regions.map((r) => <option key={r}>{r}</option>)}
           </select>
         </div>
         <div>
-          <div className="gm-filter-label">Filter by income group</div>
+          <div className="gm-filter-label">{t('globalMap.filterByIncome')}</div>
           <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={incomeFilter} onChange={(e) => setIncomeFilter(e.target.value)}>
-            <option value="All">All income groups</option>
+            <option value="All">{t('common.allIncomeGroups')}</option>
             {incomeGroups.map((g) => <option key={g}>{g}</option>)}
           </select>
         </div>
         <div>
-          <div className="gm-filter-label">{colorLayer ? `Filter by status — ${colorLayer.label}` : 'Filter by status'}</div>
+          <div className="gm-filter-label">{colorLayer ? t('globalMap.filterByStatusFor', { layer: colorLayer.label }) : t('globalMap.filterByStatus')}</div>
           <select
             className="select-input"
             style={{ width: '100%', marginBottom: 0 }}
@@ -138,18 +139,18 @@ export default function GlobalMap() {
             onChange={(e) => setStatusFilter(e.target.value)}
             disabled={!colorLayer}
           >
-            <option value="All">All statuses</option>
-            {statusOptions.map((s) => <option key={s}>{s}</option>)}
+            <option value="All">{t('common.allStatuses')}</option>
+            {statusOptions.map((s) => <option key={s} value={s}>{colorLayer?.isRole ? t(`status.${s}`) : t(`status.${s}`)}</option>)}
           </select>
         </div>
-        <button className="gm-reset" onClick={resetFilters}>↻ Reset filters</button>
+        <button className="gm-reset" onClick={resetFilters}>{t('globalMap.resetFilters')}</button>
       </div>
 
       <div className="gm-layout">
         <div className="gm-layers">
-          <div className="gm-layers-title">Map layers</div>
+          <div className="gm-layers-title">{t('globalMap.layersTitle')}</div>
           <div className="sub" style={{ marginBottom: 6 }}>
-            Toggle any number on. The most recently toggled layer colors the map; other active layers dim countries that aren't Implemented for them.
+            {t('globalMap.layersSub')}
           </div>
           {LAYERS.map((l) => {
             const isOn = layersOn.includes(l.field);
@@ -160,7 +161,7 @@ export default function GlobalMap() {
                 className={`gm-layer-btn${isOn ? ' on' : ''}${isColor ? ' active' : ''}`}
                 onClick={() => toggleLayer(l.field)}
               >
-                <span>{l.icon} {l.label}{isOn && !isColor && <span className="gm-layer-note"> · filter</span>}</span>
+                <span>{l.icon} {l.label}{isOn && !isColor && <span className="gm-layer-note">{t('globalMap.filterTag')}</span>}</span>
                 <span className={`gm-switch${isOn ? ' on' : ''}`}><span className="gm-switch-knob" /></span>
               </button>
             );
@@ -180,27 +181,27 @@ export default function GlobalMap() {
             {colorLayer ? (
               <>
                 {legendValues.map((v) => (
-                  <span key={v}><span className="gm-legend-dot" style={{ background: legendPalette[v] }} />{v}</span>
+                  <span key={v}><span className="gm-legend-dot" style={{ background: legendPalette[v] }} />{t(`status.${v}`)}</span>
                 ))}
                 {!legendValues.includes('No Data') && (
-                  <span><span className="gm-legend-dot" style={{ background: '#F5F8F9', border: '1px solid var(--line)' }} />Not in this sample</span>
+                  <span><span className="gm-legend-dot" style={{ background: '#F5F8F9', border: '1px solid var(--line)' }} />{t('globalMap.notInSample')}</span>
                 )}
                 {filterOnlyFields.length > 0 && (
-                  <span><span className="gm-legend-dot" style={{ background: '#B9C4CB', opacity: .5 }} />Dimmed = doesn't meet {filterOnlyFields.length > 1 ? 'other active filters' : LAYERS.find((l) => l.field === filterOnlyFields[0])?.label}</span>
+                  <span><span className="gm-legend-dot" style={{ background: '#B9C4CB', opacity: .5 }} />{t('globalMap.dimmedNote', { layers: filterOnlyFields.length > 1 ? t('globalMap.otherActiveFilters') : LAYERS.find((l) => l.field === filterOnlyFields[0])?.label })}</span>
                 )}
               </>
             ) : (
-              <span>Toggle a layer on the left to color the map.</span>
+              <span>{t('globalMap.toggleToColor')}</span>
             )}
           </div>
           <div className="sub" style={{ marginTop: 6 }}>
-            Geography: real country boundaries. Click a country for a status preview. Status records for Indonesia and Viet Nam are verified and sourced; other countries in this sample are illustrative pending verified source integration.
+            {t('globalMap.mapCaption')}
           </div>
         </div>
 
         <div className="gm-panel">
           {!previewRow ? (
-            <div className="gm-panel-empty">Click a country on the map to preview its enabling-conditions status here.</div>
+            <div className="gm-panel-empty">{t('globalMap.panelEmpty')}</div>
           ) : (
             <>
               <button className="gm-panel-close" onClick={() => setPreviewIso(null)}>×</button>
@@ -209,28 +210,28 @@ export default function GlobalMap() {
               <div className="sub" style={{ marginTop: 2 }}>{previewRow.region} · {previewRow.income_group}</div>
               <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 <Badge value={previewRow.market_role} />
-                {previewRow.verified && <span className="badge good">Verified · {previewRow.last_verified}</span>}
+                {previewRow.verified && <span className="badge good">{t('common.verified')} · {previewRow.last_verified}</span>}
               </div>
 
-              <div className="gm-panel-subtitle">Enabling conditions</div>
+              <div className="gm-panel-subtitle">{t('globalMap.panelIndicators')}</div>
               <div className="gm-indicator-grid">
                 {Object.entries(STATUS_COLS).map(([label, field]) => (
                   <div className={`gm-indicator-cell${layersOn.includes(field) ? ' on-layer' : ''}`} key={field}>
-                    <div className="gm-indicator-label">{label}</div>
+                    <div className="gm-indicator-label">{t(`statusCols.${label}`)}</div>
                     <div style={{ marginTop: 4 }}><Badge value={previewRow[field]} /></div>
                   </div>
                 ))}
               </div>
 
               <button className="btn" style={{ width: '100%', textAlign: 'center', marginTop: 12 }} onClick={() => goCountryIntelligence(previewRow)}>
-                View Country Intelligence →
+                {t('globalMap.viewCountryIntelligence')}
               </button>
             </>
           )}
         </div>
       </div>
 
-      <div className="section">{view.length} of {countries.length} countries{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
+      <div className="section">{t('globalMap.countriesSection', { shown: view.length, total: countries.length })}{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
       {view
         .slice()
         .sort((a, b) => a.country.localeCompare(b.country))

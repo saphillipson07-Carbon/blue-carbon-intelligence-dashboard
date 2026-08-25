@@ -7,7 +7,7 @@ const ALL = 'All';
 
 export default function NewsIntelligence() {
   const navigate = useNavigate();
-  const { selectedCountry, setSelectedCountry } = useApp();
+  const { t, selectedCountry, setSelectedCountry } = useApp();
   const [typeFilter, setTypeFilter] = useState(ALL);
   const [countryFilter, setCountryFilter] = useState(ALL);
 
@@ -23,39 +23,39 @@ export default function NewsIntelligence() {
 
   return (
     <>
-      <button className="btn" onClick={() => navigate('/')}>← Back to Global Overview</button>
+      <button className="btn" onClick={() => navigate('/')}>{t('common.back')}</button>
 
-      <div className="section">News & Intelligence Explorer</div>
+      <div className="section">{t('news.section')}</div>
       <div className="card pad">
-        <div className="title">News & Intelligence Explorer</div>
-        <div className="sub">Timely developments in policy, markets, projects, methodologies and financing that could affect a decision.</div>
+        <div className="title">{t('news.title')}</div>
+        <div className="sub">{t('news.sub')}</div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.7fr 1fr', gap: 16, marginTop: 10 }}>
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 8 }}>
             <select className="select-input" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-              <option value={ALL}>All categories</option>
-              {types.map((t) => <option key={t}>{t}</option>)}
+              <option value={ALL}>{t('news.allCategories')}</option>
+              {types.map((tp) => <option key={tp}>{tp}</option>)}
             </select>
             <select className="select-input" value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)}>
-              <option value={ALL}>All countries</option>
+              <option value={ALL}>{t('news.allCountries')}</option>
               {countryOptions.map((c) => <option key={c}>{c}</option>)}
             </select>
           </div>
-          <div className="section">{view.length} updates matching current filters</div>
+          <div className="section">{t('news.matchingSection', { n: view.length })}</div>
           <div className="card" style={{ overflow: 'hidden' }}>
-            {view.length === 0 && <div className="pad sub">No intelligence items match these filters.</div>}
+            {view.length === 0 && <div className="pad sub">{t('news.noneMatch')}</div>}
             {view.map((r, i) => (
               <div className="news-item" key={i}>
                 <span className="tag">{r.type}</span>
                 <span className="date">{r.date}</span>
                 <span className="date">· {r.country}</span>
-                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
+                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>{t('common.verified')}</span>}
                 <div className="headline">{r.headline}</div>
                 {r.source && (
                   <div className="sub" style={{ marginTop: 3 }}>
-                    <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || 'Source'} →</a>
+                    <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || t('common.source')} →</a>
                   </div>
                 )}
               </div>
@@ -65,8 +65,8 @@ export default function NewsIntelligence() {
 
         <div>
           <div className="card pad">
-            <div className="title">Country spotlight</div>
-            <div className="sub">{selectedCountry} · {spotlight.length} tagged updates</div>
+            <div className="title">{t('news.spotlightTitle')}</div>
+            <div className="sub">{t('news.spotlightSub', { country: selectedCountry, n: spotlight.length })}</div>
           </div>
           <select
             className="select-input"
@@ -77,9 +77,9 @@ export default function NewsIntelligence() {
             {countryOptions.map((c) => <option key={c}>{c}</option>)}
           </select>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/country')}>
-            View Country Intelligence → {selectedCountry}
+            {t('news.viewCountryIntelligence', { country: selectedCountry })}
           </button>
-          <div className="sub" style={{ marginTop: 8 }}>Every intelligence item should ultimately link to its underlying source record.</div>
+          <div className="sub" style={{ marginTop: 8 }}>{t('news.everyItemNote')}</div>
         </div>
       </div>
     </>

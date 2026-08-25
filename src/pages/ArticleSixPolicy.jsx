@@ -8,7 +8,7 @@ const ALL = 'All';
 
 export default function ArticleSixPolicy() {
   const navigate = useNavigate();
-  const { setSelectedCountry } = useApp();
+  const { t, setSelectedCountry } = useApp();
   const [statusFilter, setStatusFilter] = useState(ALL);
   const [ndcFilter, setNdcFilter] = useState(ALL);
 
@@ -37,49 +37,49 @@ export default function ArticleSixPolicy() {
 
   return (
     <>
-      <button className="btn" onClick={() => navigate('/')}>← Back to Global Overview</button>
+      <button className="btn" onClick={() => navigate('/')}>{t('common.back')}</button>
 
-      <div className="section">Article 6 & Policy Explorer</div>
+      <div className="section">{t('policy.section')}</div>
       <div className="card pad">
-        <div className="title">Article 6 & Policy Explorer</div>
-        <div className="sub">National frameworks, NDC commitments, bilateral agreements and authorization status. Status vocabulary only — no composite scores.</div>
+        <div className="title">{t('policy.title')}</div>
+        <div className="sub">{t('policy.sub')}</div>
       </div>
 
       <div className="project-snapshot">
         <div className="snapshot-card">
           <div className="snapshot-number">{opCount}</div>
-          <div className="snapshot-label">Article 6 frameworks implemented</div>
-          <div className="snapshot-note">of {countries.length} countries tracked</div>
+          <div className="snapshot-label">{t('policy.statFrameworks')}</div>
+          <div className="snapshot-note">{t('policy.statFrameworksNote', { n: countries.length })}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{ndcCount}</div>
-          <div className="snapshot-label">Blue carbon in NDCs</div>
-          <div className="snapshot-note">Implemented submissions</div>
+          <div className="snapshot-label">{t('policy.statNdc')}</div>
+          <div className="snapshot-note">{t('policy.statNdcNote')}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{agreeCount}</div>
-          <div className="snapshot-label">Bilateral agreements</div>
-          <div className="snapshot-note">Operational cooperation</div>
+          <div className="snapshot-label">{t('policy.statBilateral')}</div>
+          <div className="snapshot-note">{t('policy.statBilateralNote')}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{authCount}</div>
-          <div className="snapshot-label">Authorizations issued</div>
-          <div className="snapshot-note">Article 6 LoA activity</div>
+          <div className="snapshot-label">{t('policy.statAuth')}</div>
+          <div className="snapshot-note">{t('policy.statAuthNote')}</div>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         <select className="select-input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-          <option value={ALL}>All framework statuses</option>
-          {statusOptions.map((v) => <option key={v}>{v}</option>)}
+          <option value={ALL}>{t('policy.allFrameworkStatuses')}</option>
+          {statusOptions.map((v) => <option key={v} value={v}>{t(`status.${v}`)}</option>)}
         </select>
         <select className="select-input" value={ndcFilter} onChange={(e) => setNdcFilter(e.target.value)}>
-          <option value={ALL}>All NDC statuses</option>
-          {ndcOptions.map((v) => <option key={v}>{v}</option>)}
+          <option value={ALL}>{t('policy.allNdcStatuses')}</option>
+          {ndcOptions.map((v) => <option key={v} value={v}>{t(`status.${v}`)}</option>)}
         </select>
       </div>
 
-      <div className="section">National frameworks & NDC commitments</div>
+      <div className="section">{t('policy.frameworksSection')}</div>
       {view.map((r) => (
         <button
           key={r.iso}
@@ -90,35 +90,35 @@ export default function ArticleSixPolicy() {
           <div className="list-row-main">
             <div className="list-row-title">{r.country}</div>
             <div className="list-row-sub">
-              DNA: <Badge value={r.dna_appointed} /> &nbsp; NDC blue carbon: <Badge value={r.blue_carbon_ndc} /> &nbsp; Authorization: <Badge value={r.article6_authorization} />
+              {t('policy.labelDna')} <Badge value={r.dna_appointed} /> &nbsp; {t('policy.labelNdc')} <Badge value={r.blue_carbon_ndc} /> &nbsp; {t('policy.labelAuth')} <Badge value={r.article6_authorization} />
             </div>
           </div>
           <div><Badge value={r.article6_framework} /></div>
         </button>
       ))}
 
-      <div className="section">Bilateral agreements</div>
+      <div className="section">{t('policy.bilateralSection')}</div>
       {bilateral.map((r, i) => (
         <div className="list-row" key={i} style={{ flexDirection: 'column', alignItems: 'stretch' }}>
           <div style={{ display: 'flex', width: '100%' }}>
             <div className="list-row-main">
               <div className="list-row-title">
                 {r.country_a} · {r.country_b}
-                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
+                {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>{t('common.verified')}</span>}
               </div>
-              <div className="list-row-sub">Signed {r.signed}</div>
+              <div className="list-row-sub">{t('policy.signed')} {r.signed}</div>
             </div>
             <div><Badge value={r.status} /></div>
           </div>
           {r.note && <div className="sub" style={{ marginTop: 6 }}>{r.note}</div>}
           {r.source && (
             <div className="sub" style={{ marginTop: 4 }}>
-              <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || 'Source'}</a>
+              <a href={r.source} target="_blank" rel="noreferrer">{r.source_label || t('common.source')}</a>
             </div>
           )}
         </div>
       ))}
-      <div className="sub">Entries marked "Verified" are sourced and dated as of this update; other records are illustrative pending integration with verified UNFCCC and national sources.</div>
+      <div className="sub">{t('policy.footnote')}</div>
     </>
   );
 }

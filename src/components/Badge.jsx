@@ -1,3 +1,5 @@
+import { useApp } from '../AppContext';
+
 const BADGE_CLASS = {
   Implemented: 'good',
   'In Development': 'dev',
@@ -12,9 +14,15 @@ const BADGE_CLASS = {
   'Potential ITMO Supplier': 'good',
   'Potential Buyer': 'plan',
   Both: 'role',
+  'In Progress': 'dev',
+  Approved: 'good',
+  'In Review': 'dev',
+  Emerging: 'plan',
 };
 
 export default function Badge({ value }) {
+  const { t } = useApp();
   const cls = BADGE_CLASS[value] || 'na';
-  return <span className={`badge ${cls}`}>{value}</span>;
+  const label = BADGE_CLASS[value] ? t(`status.${value}`) : value;
+  return <span className={`badge ${cls}`}>{label}</span>;
 }

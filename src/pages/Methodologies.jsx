@@ -1,17 +1,25 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '../components/Badge';
+import { useApp } from '../AppContext';
 import { methodologies, projects } from '../data';
 
 const ALL = 'All';
-const ECOSYSTEMS = ['All', 'Mangrove', 'Seagrass', 'Salt Marsh'];
 
 export default function Methodologies() {
   const navigate = useNavigate();
+  const { t } = useApp();
   const [search, setSearch] = useState('');
   const [ecoFilter, setEcoFilter] = useState(ALL);
   const [a6Filter, setA6Filter] = useState(ALL);
   const [expanded, setExpanded] = useState(null);
+
+  const ECOSYSTEMS = [
+    { value: 'All', label: t('methodologies.ecoAll') },
+    { value: 'Mangrove', label: t('methodologies.ecoMangrove') },
+    { value: 'Seagrass', label: t('methodologies.ecoSeagrass') },
+    { value: 'Salt Marsh', label: t('methodologies.ecoSaltMarsh') },
+  ];
 
   const view = useMemo(() => {
     return methodologies.filter((m) => {
@@ -36,33 +44,33 @@ export default function Methodologies() {
 
   return (
     <>
-      <button className="btn" onClick={() => navigate('/')}>← Back to Global Overview</button>
+      <button className="btn" onClick={() => navigate('/')}>{t('common.back')}</button>
 
-      <div className="section">Blue Carbon Methodologies Explorer</div>
+      <div className="section">{t('methodologies.section')}</div>
       <div className="card pad">
-        <div className="title">Blue Carbon Methodologies Explorer</div>
-        <div className="sub">Search and filter standards and methodologies applicable to blue carbon projects. Applicability is evidence-based, never a score.</div>
+        <div className="title">{t('methodologies.title')}</div>
+        <div className="sub">{t('methodologies.sub')}</div>
       </div>
 
       <input
         className="search-input"
         style={{ width: '100%', marginTop: 10, marginBottom: 8 }}
-        placeholder="Search methodologies — e.g. mangroves, VM0033, Gold Standard"
+        placeholder={t('methodologies.searchPlaceholder')}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         <select className="select-input" value={ecoFilter} onChange={(e) => setEcoFilter(e.target.value)}>
-          {ECOSYSTEMS.map((e) => <option key={e}>{e}</option>)}
+          {ECOSYSTEMS.map((e) => <option key={e.value} value={e.value}>{e.label}</option>)}
         </select>
         <select className="select-input" value={a6Filter} onChange={(e) => setA6Filter(e.target.value)}>
-          <option value={ALL}>Article 6 eligible: All</option>
-          <option value="Yes">Article 6 eligible: Yes</option>
-          <option value="No">Article 6 eligible: No</option>
+          <option value={ALL}>{t('methodologies.a6All')}</option>
+          <option value="Yes">{t('methodologies.a6Yes')}</option>
+          <option value="No">{t('methodologies.a6No')}</option>
         </select>
       </div>
 
-      <div className="section">{view.length} methodologies matching current filters</div>
+      <div className="section">{t('methodologies.matchingSection', { n: view.length })}</div>
       {view.map((r) => {
         const related = relatedFor(r);
         const isOpen = expanded === r.name;
@@ -73,15 +81,15 @@ export default function Methodologies() {
                 <div className="list-row-main">
                   <div className="list-row-title">
                     {r.name} · {r.standard}
-                    {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>Verified</span>}
+                    {r.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>{t('common.verified')}</span>}
                   </div>
-                  <div className="list-row-sub">{r.ecosystem} · {r.activity} · Article 6: {r.article6_eligible} · CORSIA: {r.corsia_eligible}</div>
+                  <div className="list-row-sub">{r.ecosystem} · {r.activity} · {t('methodologies.article6Label')}: {r.article6_eligible} · CORSIA: {r.corsia_eligible}</div>
                 </div>
                 <div><Badge value={r.status} /></div>
               </div>
               {r.note && (
                 <div className="sub" style={{ marginTop: 6 }}>
-                  {r.note} {r.source && <a href={r.source} target="_blank" rel="noreferrer">({r.source_label || 'source'})</a>}
+                  {r.note} {r.source && <a href={r.source} target="_blank" rel="noreferrer">({r.source_label || t('common.source')})</a>}
                 </div>
               )}
             </div>
@@ -92,7 +100,7 @@ export default function Methodologies() {
                   style={{ background: 'none', border: 'none', cursor: 'pointer', float: 'none' }}
                   onClick={() => setExpanded(isOpen ? null : r.name)}
                 >
-                  {isOpen ? '▾' : '▸'} Related projects ({related.length})
+                  {isOpen ? '▾' : '▸'} {t('methodologies.relatedProjects', { n: related.length })}
                 </button>
                 {isOpen && related.map((p) => (
                   <button

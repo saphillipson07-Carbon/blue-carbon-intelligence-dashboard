@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AcehMap from '../components/AcehMap';
+import { useApp } from '../AppContext';
 import { projects } from '../data';
 
 // Real, verified project cluster (see Projects Explorer for full source
@@ -23,6 +24,7 @@ function parseHa(v) {
 
 export default function MarineSpatialPlanning() {
   const navigate = useNavigate();
+  const { t } = useApp();
   const [reportMsg, setReportMsg] = useState(null);
 
   const cluster = CLUSTER_IDS.map((id) => projects.find((p) => p.project_id === id)).filter(Boolean);
@@ -34,22 +36,22 @@ export default function MarineSpatialPlanning() {
 
   return (
     <>
-      <button className="btn" onClick={() => navigate('/')}>← Back to Global Overview</button>
+      <button className="btn" onClick={() => navigate('/')}>{t('common.back')}</button>
 
-      <div className="section">Marine Spatial Planning & Opportunity Assessment</div>
+      <div className="section">{t('msp.section')}</div>
       <div className="detail-head">
-        <div className="kicker">SPATIAL DECISION SUPPORT</div>
-        <div className="detail-title">Where could a blue carbon project be developed?</div>
-        <div className="detail-sub">A guided, four-step area assessment — not a suitability score.</div>
+        <div className="kicker">{t('msp.kicker')}</div>
+        <div className="detail-title">{t('msp.title')}</div>
+        <div className="detail-sub">{t('msp.sub')}</div>
         <div className="path">
-          <div className="step done">1 · Select Area</div>
-          <div className="step current">2 · Assess Area</div>
-          <div className="step">3 · Review Results</div>
-          <div className="step">4 · Generate Report</div>
+          <div className="step done">{t('msp.step1')}</div>
+          <div className="step current">{t('msp.step2')}</div>
+          <div className="step">{t('msp.step3')}</div>
+          <div className="step">{t('msp.step4')}</div>
         </div>
       </div>
 
-      <div className="section">Selected area — Aceh & North Sumatra, Indonesia (verified project cluster)</div>
+      <div className="section">{t('msp.selectedAreaSection')}</div>
       <AcehMap
         markers={cluster.map((p) => ({ id: p.project_id, ...CLUSTER_LOCATIONS[p.project_id] }))}
         onSelect={(m) => navigate(`/projects/${m.id}`)}
@@ -69,50 +71,49 @@ export default function MarineSpatialPlanning() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 14 }}>
         <div className="card pad">
-          <div className="title">Opportunities</div>
-          <div className="sub">Suitable mangrove ecosystem present, with an established developer track record (Yagasu, active since 2015)</div>
-          <div className="sub">Methodologies available: {standards.join(', ') || 'Not publicly available'}</div>
-          <div className="sub">Indonesia's Article 6 framework is Operational, with LoAs issued in 2025</div>
-          <div className="sub">{hardBlockers.length === 0 ? 'No hard blockers identified across the 3 verified projects in this cluster' : `${hardBlockers.length} hard blocker(s) identified — see below`}</div>
+          <div className="title">{t('msp.opportunitiesTitle')}</div>
+          <div className="sub">{t('msp.opportunitiesEco')}</div>
+          <div className="sub">{t('msp.methodologiesAvailable', { list: standards.join(', ') || t('countryIntelligence.mangroveAreaSrcFallback') })}</div>
+          <div className="sub">{t('msp.a6Operational')}</div>
+          <div className="sub">{hardBlockers.length === 0 ? t('msp.noHardBlockers', { n: cluster.length }) : t('msp.hardBlockersFound', { n: hardBlockers.length })}</div>
         </div>
         <div className="blocker" style={{ marginTop: 0, borderLeftColor: '#D28A2E', background: '#FFF8EE' }}>
-          <b style={{ fontSize: '.65rem', color: '#D28A2E' }}>Considerations (from verified project records)</b>
+          <b style={{ fontSize: '.65rem', color: '#D28A2E' }}>{t('msp.considerationsTitle')}</b>
           <div style={{ fontSize: '.62rem', marginTop: 5 }}>
             {cluster.map((p) => `${p.project_id}: ${p.primary_blocker}`).join(' · ')}
           </div>
         </div>
       </div>
 
-      <div className="section">Area assessment summary</div>
+      <div className="section">{t('msp.summarySection')}</div>
       <div className="project-snapshot">
         <div className="snapshot-card">
           <div className="snapshot-number">{totalHa.toLocaleString()}</div>
-          <div className="snapshot-label">Area (ha)</div>
-          <div className="snapshot-note">Combined across {cluster.length} verified projects</div>
+          <div className="snapshot-label">{t('msp.snapshotArea')}</div>
+          <div className="snapshot-note">{t('msp.snapshotAreaNote', { n: cluster.length })}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{cluster.length}</div>
-          <div className="snapshot-label">Existing projects nearby</div>
+          <div className="snapshot-label">{t('msp.snapshotProjects')}</div>
           <div className="snapshot-note">{cluster.map((p) => p.project_id).join(', ')}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{hardBlockers.length}</div>
-          <div className="snapshot-label">Hard constraints</div>
-          <div className="snapshot-note">{hardBlockers.length === 0 ? 'None identified' : hardBlockers.map((p) => p.project_id).join(', ')}</div>
+          <div className="snapshot-label">{t('msp.snapshotHard')}</div>
+          <div className="snapshot-note">{hardBlockers.length === 0 ? t('msp.snapshotHardNone') : hardBlockers.map((p) => p.project_id).join(', ')}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{softBlockers.length}</div>
-          <div className="snapshot-label">Soft constraints</div>
-          <div className="snapshot-note">Require further investigation</div>
+          <div className="snapshot-label">{t('msp.snapshotSoft')}</div>
+          <div className="snapshot-note">{t('msp.snapshotSoftNote')}</div>
         </div>
       </div>
       <div className="sub">
-        Screening-level finding only — not confirmed feasibility. Area and blocker figures are aggregated from the 3 verified project records
-        above; broader spatial data (MSP zones, protected areas, tenure) are not yet integrated and would need real GIS layers.
+        {t('msp.footerNote', { n: cluster.length })}
       </div>
 
-      <button className="btn" style={{ marginTop: 10 }} onClick={() => setReportMsg('Illustrative only — report generation is not wired up in this prototype.')}>
-        Generate Area Assessment Report →
+      <button className="btn" style={{ marginTop: 10 }} onClick={() => setReportMsg(t('msp.reportMsg'))}>
+        {t('msp.generateReport')}
       </button>
       {reportMsg && (
         <div className="card pad" style={{ marginTop: 8, borderLeft: '4px solid #3F9162' }}>

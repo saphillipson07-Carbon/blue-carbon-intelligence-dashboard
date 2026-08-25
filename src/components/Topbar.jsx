@@ -1,16 +1,19 @@
-export default function Topbar({ subtitle = 'Real-time intelligence for Article 6 and blue carbon markets' }) {
+import { useApp } from '../AppContext';
+
+export default function Topbar({ subtitle }) {
+  const { t } = useApp();
   return (
     <div className="topbar">
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div className="brand-icon">🌊</div>
         <div>
-          <div className="brand">BLUE CARBON</div>
-          <div className="brand-sub">INTELLIGENCE</div>
+          <div className="brand">{t('topbar.brand')}</div>
+          <div className="brand-sub">{t('topbar.brandSub')}</div>
         </div>
       </div>
       <div className="product">
-        Global Market Intelligence
-        <small>{subtitle}</small>
+        {t('topbar.productTitle')}
+        <small>{subtitle || t('topbar.defaultSubtitle')}</small>
       </div>
     </div>
   );

@@ -45,6 +45,9 @@ button { font-family: inherit; cursor: pointer; }
 }
 .sidebar-brand { font-size: 16px; font-weight: 700; }
 .sidebar-brand-sub { font-size: 8px; letter-spacing: .16em; color: #A9C5D5; margin-top: 2px; }
+.sidebar-lang { display: flex; gap: 4px; margin-top: 12px; background: rgba(255,255,255,.06); border-radius: 7px; padding: 3px; }
+.sidebar-lang-btn { flex: 1; background: none; border: none; color: #A9C5D5; font-size: .62rem; font-weight: 700; padding: 5px 0; border-radius: 5px; }
+.sidebar-lang-btn.active { background: rgba(255,255,255,.16); color: white; }
 .sidebar-divider { border: none; border-top: 1px solid rgba(255,255,255,.14); margin: 14px 0; }
 .sidebar-section-label { font-size: .60rem; letter-spacing: .11em; color: #9EB8C8; margin-bottom: 6px; }
 .sidebar-nav-item {

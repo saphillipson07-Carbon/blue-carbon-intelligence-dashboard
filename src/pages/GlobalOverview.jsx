@@ -8,16 +8,7 @@ import WorldMap from '../components/WorldMap';
 import { useApp } from '../AppContext';
 import { countries, bilateral, projects, news, markets, methodologies, STATUS_COLS } from '../data';
 
-const STAT_CELLS = [
-  ['👤', 'Countries with DNA appointed', '127', 'of 193 UNFCCC Parties'],
-  ['📜', 'Article 6 Framework', '53', 'Operational / adopted'],
-  ['🤝', 'Bilateral Agreements Signed', '28', 'with 17 countries'],
-  ['🏛', 'Domestic Carbon Market', '41', 'Operational or in development'],
-  ['🌿', 'Blue Carbon in NDCs', '36', 'Countries included'],
-  ['🧾', 'ITMOs Issued (Article 6)', '3', 'Countries to date'],
-  ['🌊', 'Active Blue Carbon Projects', '19', `Across ${countries.length} countries`],
-];
-
+const NEWS_TABS = ['Latest News', 'Regulatory Updates', 'New Projects', 'Agreements'];
 const NEWS_TAB_GROUPS = {
   'Latest News': null,
   'Regulatory Updates': ['POLICY', 'REGULATION'],
@@ -25,20 +16,37 @@ const NEWS_TAB_GROUPS = {
   Agreements: ['AGREEMENT'],
 };
 
-const QUICK_ACCESS = [
-  ['🌍', 'Country Profiles', 'Explore country context', '/country'],
-  ['📂', 'Project Pipeline', 'Find blue carbon projects', '/projects'],
-  ['📜', 'Policy & Frameworks', 'Laws, policies & regulations', '/policy'],
-  ['🌊', 'Marine Spatial Planning', 'Maps & ecosystem data', '/msp'],
-  ['📄', 'Documents Library', 'Guides, reports & data', null],
-  ['↓', 'Data Download', 'Access datasets', null],
-];
-
 export default function GlobalOverview() {
   const navigate = useNavigate();
-  const { selectedCountry, setSelectedCountry, newsTab, setNewsTab } = useApp();
+  const { t, selectedCountry, setSelectedCountry, newsTab, setNewsTab } = useApp();
   const [mapLayer, setMapLayer] = useState('DNA appointed');
   const layerField = STATUS_COLS[mapLayer];
+
+  const STAT_CELLS = [
+    ['👤', t('globalOverview.statDna'), '127', t('globalOverview.statDnaNote')],
+    ['📜', t('globalOverview.statA6'), '53', t('globalOverview.statA6Note')],
+    ['🤝', t('globalOverview.statBilateral'), '28', t('globalOverview.statBilateralNote')],
+    ['🏛', t('globalOverview.statMarket'), '41', t('globalOverview.statMarketNote')],
+    ['🌿', t('globalOverview.statNdc'), '36', t('globalOverview.statNdcNote')],
+    ['🧾', t('globalOverview.statItmo'), '3', t('globalOverview.statItmoNote')],
+    ['🌊', t('globalOverview.statProjects'), '19', t('globalOverview.statProjectsNote', { n: countries.length })],
+  ];
+
+  const NEWS_TAB_LABELS = {
+    'Latest News': t('globalOverview.newsTabLatest'),
+    'Regulatory Updates': t('globalOverview.newsTabRegulatory'),
+    'New Projects': t('globalOverview.newsTabProjects'),
+    Agreements: t('globalOverview.newsTabAgreements'),
+  };
+
+  const QUICK_ACCESS = [
+    ['🌍', t('globalOverview.qaCountryTitle'), t('globalOverview.qaCountrySub'), '/country'],
+    ['📂', t('globalOverview.qaProjectTitle'), t('globalOverview.qaProjectSub'), '/projects'],
+    ['📜', t('globalOverview.qaPolicyTitle'), t('globalOverview.qaPolicySub'), '/policy'],
+    ['🌊', t('globalOverview.qaMspTitle'), t('globalOverview.qaMspSub'), '/msp'],
+    ['📄', t('globalOverview.qaDocsTitle'), t('globalOverview.qaDocsSub'), null],
+    ['↓', t('globalOverview.qaDownloadTitle'), t('globalOverview.qaDownloadSub'), null],
+  ];
 
   const goCountry = (name) => {
     setSelectedCountry(name);
@@ -68,13 +76,13 @@ export default function GlobalOverview() {
           value=""
           onChange={(e) => e.target.value && goCountry(e.target.value)}
         >
-          <option value="">🔍  Search a country...</option>
+          <option value="">{t('globalOverview.searchPlaceholder')}</option>
           {countries.map((c) => (
             <option key={c.iso} value={c.country}>{c.country}</option>
           ))}
         </select>
         <button className="search-btn" onClick={() => goCountry(selectedCountry)}>
-          Country View →
+          {t('globalOverview.countryView')}
         </button>
       </div>
 
@@ -89,19 +97,19 @@ export default function GlobalOverview() {
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <button className="btn" onClick={() => navigate('/map')}>View all countries →</button>
+        <button className="btn" onClick={() => navigate('/map')}>{t('globalOverview.viewAllCountries')}</button>
       </div>
 
       <div className="live">
-        <b>● LIVE INTELLIGENCE</b> &nbsp;&nbsp; Latest policy · market · project · regulatory · agreement updates
+        <b>{t('globalOverview.liveIntelligence')}</b> &nbsp;&nbsp; {t('globalOverview.liveIntelligenceSub')}
       </div>
 
-      <div className="section">Global enabling conditions</div>
+      <div className="section">{t('globalOverview.sectionMap')}</div>
       <div style={{ display: 'grid', gridTemplateColumns: '1.72fr .82fr', gap: 16 }}>
         <div>
           <div className="card pad">
-            <div className="title">Global Enabling Conditions Map</div>
-            <div className="sub">Choose an indicator and use the country selector to open Country Intelligence.</div>
+            <div className="title">{t('globalOverview.mapCardTitle')}</div>
+            <div className="sub">{t('globalOverview.mapCardSub')}</div>
           </div>
           <select
             className="select-input"
@@ -109,7 +117,7 @@ export default function GlobalOverview() {
             value={mapLayer}
             onChange={(e) => setMapLayer(e.target.value)}
           >
-            {Object.keys(STATUS_COLS).map((k) => <option key={k}>{k}</option>)}
+            {Object.keys(STATUS_COLS).map((k) => <option key={k} value={k}>{t(`statusCols.${k}`)}</option>)}
           </select>
           <WorldMap
             countries={countries}
@@ -127,24 +135,24 @@ export default function GlobalOverview() {
               {countries.map((c) => <option key={c.iso}>{c.country}</option>)}
             </select>
             <button className="btn" style={{ marginTop: 0 }} onClick={() => goCountry(selectedCountry)}>
-              Open Country Profile →
+              {t('globalOverview.openCountryProfile')}
             </button>
           </div>
           <div className="sub" style={{ marginTop: 6 }}>
-            Geography: real country boundaries. Status records: illustrative until verified data integration.
+            {t('globalOverview.geographyNote')}
           </div>
         </div>
 
         <div className="card" style={{ overflow: 'hidden' }}>
           <div className="pad" style={{ paddingBottom: 0 }}>
-            <div className="title">Latest Intelligence</div>
-            <div className="sub">Policy, regulation, projects, markets and agreements.</div>
+            <div className="title">{t('globalOverview.latestIntelligence')}</div>
+            <div className="sub">{t('globalOverview.latestIntelligenceSub')}</div>
           </div>
           <div style={{ display: 'flex', gap: 4, padding: '10px 14px 0' }}>
-            {Object.keys(NEWS_TAB_GROUPS).map((t) => (
+            {NEWS_TABS.map((tab) => (
               <button
-                key={t}
-                onClick={() => setNewsTab(t)}
+                key={tab}
+                onClick={() => setNewsTab(tab)}
                 style={{
                   flex: 1,
                   fontSize: '.55rem',
@@ -152,11 +160,11 @@ export default function GlobalOverview() {
                   borderRadius: 6,
                   border: 'none',
                   fontWeight: 700,
-                  background: newsTab === t ? '#0B3150' : '#EEF2F4',
-                  color: newsTab === t ? 'white' : '#6E7F8A',
+                  background: newsTab === tab ? '#0B3150' : '#EEF2F4',
+                  color: newsTab === tab ? 'white' : '#6E7F8A',
                 }}
               >
-                {t}
+                {NEWS_TAB_LABELS[tab]}
               </button>
             ))}
           </div>
@@ -172,12 +180,12 @@ export default function GlobalOverview() {
         </div>
       </div>
 
-      <div className="section">Blue carbon intelligence at a glance</div>
+      <div className="section">{t('globalOverview.sectionGlance')}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
         <div>
           <div className="card pad">
-            <div className="title">Blue Carbon Methodologies<span className="card-link">View all →</span></div>
-            <div className="sub">Aligned with Article 6</div>
+            <div className="title">{t('globalOverview.methodologiesTitle')}<span className="card-link" onClick={() => navigate('/methodologies')}>{t('globalOverview.viewAll')}</span></div>
+            <div className="sub">{t('globalOverview.methodologiesSub')}</div>
             {methodologies.slice(0, 5).map((m) => (
               <div className="mini-row" key={m.name}>
                 <div className="mini-row-main">
@@ -190,41 +198,41 @@ export default function GlobalOverview() {
             ))}
           </div>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/methodologies')}>
-            See all methodologies →
+            {t('globalOverview.seeAllMethodologies')}
           </button>
         </div>
 
         <div>
           <div className="card pad">
-            <div className="title">NDC Targets – Blue Carbon<span className="card-link">View all →</span></div>
-            <div className="sub">Coastal &amp; marine ecosystems</div>
+            <div className="title">{t('globalOverview.ndcTitle')}<span className="card-link" onClick={() => navigate('/policy')}>{t('globalOverview.viewAll')}</span></div>
+            <div className="sub">{t('globalOverview.ndcSub')}</div>
             <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
               <div>
-                <div className="donut-label">Conditional targets</div>
+                <div className="donut-label">{t('globalOverview.conditionalTargets')}</div>
                 <div className="donut-value">42.1 <small>MtCO2e</small></div>
-                <Donut pct={65} centerNum="36" centerLabel="Countries" color="#2478A6" />
-                <div className="donut-note">From blue carbon ecosystems across 36 countries</div>
+                <Donut pct={65} centerNum="36" centerLabel={t('globalOverview.countriesLabel')} color="#2478A6" />
+                <div className="donut-note">{t('globalOverview.conditionalNote')}</div>
               </div>
               <div>
-                <div className="donut-label">Unconditional targets</div>
+                <div className="donut-label">{t('globalOverview.unconditionalTargets')}</div>
                 <div className="donut-value">19.3 <small>MtCO2e</small></div>
-                <Donut pct={43} centerNum="24" centerLabel="Countries" color="#12999B" />
-                <div className="donut-note">From blue carbon ecosystems across 24 countries</div>
+                <Donut pct={43} centerNum="24" centerLabel={t('globalOverview.countriesLabel')} color="#12999B" />
+                <div className="donut-note">{t('globalOverview.unconditionalNote')}</div>
               </div>
             </div>
           </div>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/policy')}>
-            Explore Article 6 & Policy →
+            {t('globalOverview.exploreArticle6')}
           </button>
         </div>
 
         <div>
           <div className="card pad">
-            <div className="title">Article 6 Bilateral Agreements<span className="card-link">View all →</span></div>
-            <div className="sub">Status of cooperation</div>
+            <div className="title">{t('globalOverview.bilateralTitle')}<span className="card-link" onClick={() => navigate('/policy')}>{t('globalOverview.viewAll')}</span></div>
+            <div className="sub">{t('globalOverview.bilateralSub')}</div>
             <table className="mini-table">
               <thead>
-                <tr><th>Country A</th><th>Country B</th><th>Signed</th><th>Status</th></tr>
+                <tr><th>{t('globalOverview.colCountryA')}</th><th>{t('globalOverview.colCountryB')}</th><th>{t('globalOverview.colSigned')}</th><th>{t('globalOverview.colStatus')}</th></tr>
               </thead>
               <tbody>
                 {bilateral.map((r, i) => (
@@ -239,14 +247,14 @@ export default function GlobalOverview() {
             </table>
           </div>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/policy')}>
-            See all agreements →
+            {t('globalOverview.seeAllAgreements')}
           </button>
         </div>
 
         <div>
           <div className="card pad">
-            <div className="title">Carbon Market Landscape<span className="card-link">View all →</span></div>
-            <div className="sub">Operational status</div>
+            <div className="title">{t('globalOverview.marketTitle')}<span className="card-link" onClick={() => navigate('/markets')}>{t('globalOverview.viewAll')}</span></div>
+            <div className="sub">{t('globalOverview.marketSub')}</div>
             {Object.entries(marketGroups).map(([mtype, grp]) => {
               const op = grp.filter((g) => g.status === 'Operational').length;
               const countriesN = new Set(grp.map((g) => g.country)).size;
@@ -255,7 +263,7 @@ export default function GlobalOverview() {
                   <div className="mini-row-main">
                     <MktIcon marketType={mtype} />
                     <span className="mini-row-title">{mtype}</span>
-                    <div className="mini-row-sub" style={{ marginLeft: 30 }}>{countriesN} countries</div>
+                    <div className="mini-row-sub" style={{ marginLeft: 30 }}>{countriesN} {t('globalOverview.countriesLabel')}</div>
                   </div>
                   <Badge value={op === grp.length ? 'Implemented' : 'In Development'} />
                 </div>
@@ -263,12 +271,12 @@ export default function GlobalOverview() {
             })}
           </div>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/markets')}>
-            Go to Market Dashboard →
+            {t('globalOverview.goToMarketDashboard')}
           </button>
         </div>
       </div>
 
-      <div className="section">Quick access</div>
+      <div className="section">{t('globalOverview.sectionQuickAccess')}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
         {QUICK_ACCESS.map(([icon, title, sub, target]) => (
           <div key={title}>
@@ -283,7 +291,7 @@ export default function GlobalOverview() {
                 style={{ width: '100%', textAlign: 'center', marginTop: 6 }}
                 onClick={() => (target === '/country' ? goCountry(selectedCountry) : navigate(target))}
               >
-                Open
+                {t('globalOverview.open')}
               </button>
             )}
           </div>

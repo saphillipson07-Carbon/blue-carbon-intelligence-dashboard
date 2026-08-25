@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
+import { useApp } from '../AppContext';
 
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 600;
@@ -44,6 +45,7 @@ const geoUrl = '/geo/indonesia-10km.json';
 const mpaPixelUrl = '/geo/aceh-mpas-pixels.json';
 
 export default function AcehMap({ markers = [], onSelect }) {
+  const { t } = useApp();
   const [hovered, setHovered] = useState(null);
   const [mpas, setMpas] = useState([]);
 
@@ -120,13 +122,13 @@ export default function AcehMap({ markers = [], onSelect }) {
         }}>
           <div style={{ fontWeight: 700, color: 'var(--navy)' }}>{hovered.name}</div>
           <div style={{ color: 'var(--muted)', marginTop: 2 }}>
-            {hovered.designation} · {hovered.marine ? 'Marine' : 'Terrestrial/mixed'} · {hovered.area_km2.toLocaleString()} km²
+            {hovered.designation} · {hovered.marine ? t('msp.marine') : t('msp.terrestrial')} · {hovered.area_km2.toLocaleString()} km²
           </div>
         </div>
       )}
 
       <div style={{ position: 'absolute', bottom: 10, left: 12, fontSize: '.55rem', color: 'var(--muted)', background: 'rgba(255,255,255,.85)', padding: '4px 8px', borderRadius: 6 }}>
-        🌊 Verified project (click to open) &nbsp;&nbsp; ▨ Marine protected area &nbsp;&nbsp; ▨ Other protected area
+        {t('msp.legend')}
       </div>
     </div>
   );
