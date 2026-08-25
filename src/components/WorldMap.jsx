@@ -15,7 +15,7 @@ const ALPHA3_TO_NUMERIC = {
   CHL: '152',
 };
 
-const STATUS_COLOR = {
+export const STATUS_COLOR = {
   Implemented: '#2E8B62',
   'In Development': '#159A9C',
   Planned: '#D28A2E',
@@ -25,7 +25,8 @@ const STATUS_COLOR = {
 
 const geoUrl = '/geo/countries-110m.json';
 
-export default function WorldMap({ countries, statusField, onSelect, selectedIso }) {
+export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap }) {
+  const palette = colorMap || STATUS_COLOR;
   const numericToRow = {};
   countries.forEach((c) => {
     const num = ALPHA3_TO_NUMERIC[c.iso];
@@ -43,7 +44,7 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
             geographies.map((geo) => {
               const row = numericToRow[geo.id];
               const value = row ? row[statusField] : null;
-              const fill = value ? STATUS_COLOR[value] || '#E5EAED' : '#F5F8F9';
+              const fill = value ? palette[value] || '#E5EAED' : '#F5F8F9';
               const isSelected = row && row.iso === selectedIso;
               return (
                 <Geography

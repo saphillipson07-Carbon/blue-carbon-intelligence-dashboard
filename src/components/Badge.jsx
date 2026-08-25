@@ -8,6 +8,10 @@ const BADGE_CLASS = {
   Operational: 'good',
   'Hard blocker': 'bad',
   'Soft blocker': 'plan',
+  Host: 'dev',
+  'Potential ITMO Supplier': 'good',
+  'Potential Buyer': 'plan',
+  Both: 'role',
 };
 
 export default function Badge({ value }) {
