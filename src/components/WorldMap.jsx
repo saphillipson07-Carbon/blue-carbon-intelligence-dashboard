@@ -2,7 +2,7 @@ import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps
 
 // ISO alpha-3 -> ISO numeric-3 (only need the countries present in our dataset;
 // unmatched geographies render in the neutral "no data" color)
-const ALPHA3_TO_NUMERIC = {
+export const ALPHA3_TO_NUMERIC = {
   IDN: '360',
   VNM: '704',
   PHL: '608',

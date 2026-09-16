@@ -2,8 +2,14 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '../components/Badge';
 import Donut from '../components/Donut';
+import AcehMap from '../components/AcehMap';
+import CountryZoomMap from '../components/CountryZoomMap';
 import { useApp } from '../AppContext';
 import { countries, bilateral, markets, methodologies, news, projectsForCountry, STATUS_COLS } from '../data';
+import { PROJECT_COORDS } from '../data/projectCoords';
+import { STANDARD_KEYWORDS, standardBucket } from '../data/standards';
+
+const ALL = 'All';
 
 function fmtHa(n) {
   if (n >= 1000000) return `${(n / 1000000).toFixed(2)}M ha`;
@@ -37,6 +43,60 @@ export default function CountryIntelligence() {
   );
 
   const indicators = Object.entries(STATUS_COLS);
+
+  const [statusFilter, setStatusFilter] = useState(ALL);
+  const [mapEcosystemFilter, setMapEcosystemFilter] = useState(ALL);
+  const [mapStandardFilter, setMapStandardFilter] = useState(ALL);
+  const [mapBlockerFilter, setMapBlockerFilter] = useState(ALL);
+  const [creditsOnly, setCreditsOnly] = useState(false);
+  const [mpaOn, setMpaOn] = useState(true);
+  const [previewId, setPreviewId] = useState(null);
+
+  const mapEcosystemOptions = useMemo(
+    () => [...new Set(countryProjects.map((p) => p.ecosystem))].filter(Boolean).sort(),
+    [countryProjects]
+  );
+  const mapStandardOptions = useMemo(
+    () => STANDARD_KEYWORDS.filter((k) => countryProjects.some((p) => standardBucket(p.standard) === k)),
+    [countryProjects]
+  );
+  const mapBlockerOptions = useMemo(
+    () => [...new Set(countryProjects.map((p) => p.blocker_type))].filter(Boolean).sort(),
+    [countryProjects]
+  );
+
+  const mapView = useMemo(
+    () =>
+      countryProjects.filter((p) => {
+        if (statusFilter === 'Active' && p.stage !== 'Operational') return false;
+        if (statusFilter === 'Development' && p.stage === 'Operational') return false;
+        if (mapEcosystemFilter !== ALL && p.ecosystem !== mapEcosystemFilter) return false;
+        if (mapStandardFilter !== ALL && standardBucket(p.standard) !== mapStandardFilter) return false;
+        if (mapBlockerFilter !== ALL && p.blocker_type !== mapBlockerFilter) return false;
+        if (creditsOnly && !(p.assessment_stage || '').toLowerCase().includes('issu')) return false;
+        return true;
+      }),
+    [countryProjects, statusFilter, mapEcosystemFilter, mapStandardFilter, mapBlockerFilter, creditsOnly]
+  );
+
+  const mapMarkers = useMemo(
+    () =>
+      mapView
+        .filter((p) => PROJECT_COORDS[p.project_id])
+        .map((p) => ({ id: p.project_id, ...PROJECT_COORDS[p.project_id] })),
+    [mapView]
+  );
+
+  const previewProject = countryProjects.find((p) => p.project_id === previewId) || null;
+  const isIndonesia = row.iso === 'IDN';
+
+  const resetMapFilters = () => {
+    setStatusFilter(ALL);
+    setMapEcosystemFilter(ALL);
+    setMapStandardFilter(ALL);
+    setMapBlockerFilter(ALL);
+    setCreditsOnly(false);
+  };
 
   const goExplorer = (path) => navigate(path);
   const goProject = (id) => navigate(`/projects/${id}`);
@@ -222,6 +282,112 @@ export default function CountryIntelligence() {
                 </div>
               </div>
             </div>
+          )}
+        </div>
+      </div>
+
+      <div className="section">{t('countryIntelligence.mapSection')}</div>
+      <div className="card pad" style={{ marginBottom: 10 }}>
+        <div className="sub">{t('countryIntelligence.mapSub', { country: row.country })}</div>
+      </div>
+
+      <div className="gm-filters gm-filters-4">
+        <div>
+          <div className="gm-filter-label">{t('countryIntelligence.mapFilterStatus')}</div>
+          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+            <option value={ALL}>{t('countryIntelligence.mapStatusAll')}</option>
+            <option value="Active">{t('countryIntelligence.mapStatusActive')}</option>
+            <option value="Development">{t('countryIntelligence.mapStatusDevelopment')}</option>
+          </select>
+        </div>
+        <div>
+          <div className="gm-filter-label">{t('countryIntelligence.mapFilterEcosystem')}</div>
+          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={mapEcosystemFilter} onChange={(e) => setMapEcosystemFilter(e.target.value)}>
+            <option value={ALL}>{t('projects.allEcosystems')}</option>
+            {mapEcosystemOptions.map((v) => <option key={v}>{v}</option>)}
+          </select>
+        </div>
+        <div>
+          <div className="gm-filter-label">{t('countryIntelligence.mapFilterStandard')}</div>
+          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={mapStandardFilter} onChange={(e) => setMapStandardFilter(e.target.value)}>
+            <option value={ALL}>{t('common.allStatuses')}</option>
+            {mapStandardOptions.map((v) => <option key={v}>{v}</option>)}
+          </select>
+        </div>
+        <div>
+          <div className="gm-filter-label">{t('countryIntelligence.mapFilterBlocker')}</div>
+          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={mapBlockerFilter} onChange={(e) => setMapBlockerFilter(e.target.value)}>
+            <option value={ALL}>{t('common.allStatuses')}</option>
+            {mapBlockerOptions.map((v) => <option key={v} value={v}>{t(`status.${v}`)}</option>)}
+          </select>
+        </div>
+        <button className="gm-reset" onClick={resetMapFilters}>{t('globalMap.resetFilters')}</button>
+      </div>
+
+      <div className="gm-toggle-row">
+        <button className="gm-toggle-chip" onClick={() => setCreditsOnly((v) => !v)}>
+          {t('countryIntelligence.mapToggleCredits')}
+          <span className={`gm-switch${creditsOnly ? ' on' : ''}`}><span className="gm-switch-knob" /></span>
+        </button>
+        <button
+          className="gm-toggle-chip"
+          onClick={() => setMpaOn((v) => !v)}
+          disabled={!isIndonesia}
+          title={!isIndonesia ? t('countryIntelligence.mapMpaNote') : undefined}
+        >
+          {t('countryIntelligence.mapToggleMpa')}
+          <span className={`gm-switch${mpaOn && isIndonesia ? ' on' : ''}`}><span className="gm-switch-knob" /></span>
+        </button>
+      </div>
+
+      <div className="gm-layout gm-layout-2col">
+        <div>
+          {isIndonesia ? (
+            <AcehMap markers={mapMarkers} onSelect={(m) => setPreviewId(m.id)} showMpa={mpaOn} />
+          ) : (
+            <CountryZoomMap iso={row.iso} markers={mapMarkers} onMarkerSelect={(m) => setPreviewId(m.id)} selectedMarkerId={previewId} />
+          )}
+          {mapMarkers.length === 0 && (
+            <div className="sub" style={{ marginTop: 6 }}>{t('countryIntelligence.mapNoMarkers', { country: row.country })}</div>
+          )}
+          {!isIndonesia && (
+            <div className="sub" style={{ marginTop: 6 }}>{t('countryIntelligence.mapMpaNote')}</div>
+          )}
+          <div className="gm-legend">
+            <span><span className="gm-legend-dot" style={{ background: '#12999B', borderRadius: '50%' }} />{t('countryIntelligence.mapLegendMarker')}</span>
+          </div>
+          <div className="sub" style={{ marginTop: 6 }}>{t('countryIntelligence.mapCaption')}</div>
+        </div>
+
+        <div className="gm-panel">
+          {!previewProject ? (
+            <div className="gm-panel-empty">{t('countryIntelligence.mapPanelEmpty')}</div>
+          ) : (
+            <>
+              <button className="gm-panel-close" onClick={() => setPreviewId(null)}>×</button>
+              <div style={{ fontSize: '.95rem', fontWeight: 700, color: 'var(--navy)' }}>{previewProject.project_id}</div>
+              <div className="sub" style={{ marginTop: 2 }}>{previewProject.ecosystem}</div>
+              <div style={{ marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                <Badge value={previewProject.stage} />
+                {previewProject.verified && <span className="badge good">{t('common.verified')} · {previewProject.last_verified}</span>}
+              </div>
+              <div className="gm-indicator-grid" style={{ marginTop: 10 }}>
+                <div className="gm-indicator-cell">
+                  <div className="gm-indicator-label">{t('projects.cellCaas')}</div>
+                  <div style={{ marginTop: 4 }}><Badge value={previewProject.assessment_stage} /></div>
+                </div>
+                <div className="gm-indicator-cell">
+                  <div className="gm-indicator-label">{t('projects.cellBlocker')}</div>
+                  <div style={{ marginTop: 4 }}><Badge value={previewProject.blocker_type} /></div>
+                </div>
+              </div>
+              {previewProject.standard && (
+                <div className="sub" style={{ marginTop: 8 }}><b>{t('projectDetail.labelStandard')}:</b> {previewProject.standard}</div>
+              )}
+              <button className="btn" style={{ width: '100%', textAlign: 'center', marginTop: 12 }} onClick={() => goProject(previewProject.project_id)}>
+                {t('countryIntelligence.mapViewFullRecord')}
+              </button>
+            </>
           )}
         </div>
       </div>

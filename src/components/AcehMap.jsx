@@ -44,7 +44,7 @@ const geoUrl = '/geo/indonesia-10km.json';
 // (verified reliable throughout debugging) doesn't hit that code path.
 const mpaPixelUrl = '/geo/aceh-mpas-pixels.json';
 
-export default function AcehMap({ markers = [], onSelect }) {
+export default function AcehMap({ markers = [], onSelect, showMpa = true }) {
   const { t } = useApp();
   const [hovered, setHovered] = useState(null);
   const [mpas, setMpas] = useState([]);
@@ -84,7 +84,7 @@ export default function AcehMap({ markers = [], onSelect }) {
         </Geographies>
 
         <g>
-          {mpas.map((f, i) => {
+          {showMpa && mpas.map((f, i) => {
             if (!f.d) return null;
             const marine = f.properties.marine;
             const isHovered = hovered === f.properties;
@@ -128,7 +128,7 @@ export default function AcehMap({ markers = [], onSelect }) {
       )}
 
       <div style={{ position: 'absolute', bottom: 10, left: 12, fontSize: '.55rem', color: 'var(--muted)', background: 'rgba(255,255,255,.85)', padding: '4px 8px', borderRadius: 6 }}>
-        {t('msp.legend')}
+        {showMpa ? t('msp.legend') : t('msp.legendNoMpa')}
       </div>
     </div>
   );
