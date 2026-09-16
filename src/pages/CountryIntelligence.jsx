@@ -101,7 +101,7 @@ export default function CountryIntelligence() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 12, marginTop: 4 }}>
         <div className="card pad">
-          <div className="title">{t('countryIntelligence.timelineTitle')}<span className="card-link" onClick={() => goExplorer('/policy')}>{t('countryIntelligence.viewPolicyLink')}</span></div>
+          <div className="title">{t('countryIntelligence.timelineTitle')}<span className="card-link" onClick={() => goExplorer('/markets')}>{t('countryIntelligence.viewPolicyLink')}</span></div>
           <div className="sub">{t('countryIntelligence.timelineSub', { country: row.country })}</div>
           {timeline.length === 0 ? (
             <div className="sub" style={{ marginTop: 10 }}>{t('countryIntelligence.timelineEmpty')}</div>
@@ -156,7 +156,7 @@ export default function CountryIntelligence() {
               );
             })
           )}
-          <button className="btn" style={{ width: '100%', textAlign: 'center', marginTop: 10 }} onClick={() => goExplorer('/policy')}>
+          <button className="btn" style={{ width: '100%', textAlign: 'center', marginTop: 10 }} onClick={() => goExplorer('/markets')}>
             {t('countryIntelligence.seeAllAgreements')}
           </button>
         </div>
@@ -280,7 +280,7 @@ export default function CountryIntelligence() {
 
       <div className="section">{t('countryIntelligence.exploreSection')}</div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button className="btn" onClick={() => goExplorer('/policy')}>{t('countryIntelligence.explorePolicy')}</button>
+        <button className="btn" onClick={() => goExplorer('/markets')}>{t('countryIntelligence.explorePolicy')}</button>
         <button className="btn" onClick={() => goExplorer('/markets')}>{t('countryIntelligence.exploreMarkets')}</button>
         <button className="btn" onClick={() => goExplorer('/methodologies')}>{t('countryIntelligence.exploreMethodologies')}</button>
         <button className="btn" onClick={() => goExplorer('/projects')}>{t('countryIntelligence.exploreProjects')}</button>

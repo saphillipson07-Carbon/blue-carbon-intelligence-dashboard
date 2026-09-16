@@ -8,7 +8,6 @@ export default function Sidebar() {
   const PERMANENT_PAGES = [
     { label: t('sidebar.navGlobalOverview'), path: '/' },
     { label: t('sidebar.navGlobalMap'), path: '/map' },
-    { label: t('sidebar.navPolicy'), path: '/policy' },
     { label: t('sidebar.navMarkets'), path: '/markets' },
     { label: t('sidebar.navMethodologies'), path: '/methodologies' },
     { label: t('sidebar.navProjects'), path: '/projects' },

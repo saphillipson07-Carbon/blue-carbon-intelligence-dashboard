@@ -4,7 +4,6 @@ import { AppProvider } from './AppContext';
 import GlobalOverview from './pages/GlobalOverview';
 import GlobalMap from './pages/GlobalMap';
 import CountryIntelligence from './pages/CountryIntelligence';
-import ArticleSixPolicy from './pages/ArticleSixPolicy';
 import CarbonMarkets from './pages/CarbonMarkets';
 import Methodologies from './pages/Methodologies';
 import Projects from './pages/Projects';
@@ -21,7 +20,6 @@ export default function App() {
             <Route path="/" element={<GlobalOverview />} />
             <Route path="/map" element={<GlobalMap />} />
             <Route path="/country" element={<CountryIntelligence />} />
-            <Route path="/policy" element={<ArticleSixPolicy />} />
             <Route path="/markets" element={<CarbonMarkets />} />
             <Route path="/methodologies" element={<Methodologies />} />
             <Route path="/projects" element={<Projects />} />

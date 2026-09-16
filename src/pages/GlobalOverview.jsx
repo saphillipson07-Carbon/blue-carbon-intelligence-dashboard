@@ -42,7 +42,7 @@ export default function GlobalOverview() {
   const QUICK_ACCESS = [
     ['🌍', t('globalOverview.qaCountryTitle'), t('globalOverview.qaCountrySub'), '/country'],
     ['📂', t('globalOverview.qaProjectTitle'), t('globalOverview.qaProjectSub'), '/projects'],
-    ['📜', t('globalOverview.qaPolicyTitle'), t('globalOverview.qaPolicySub'), '/policy'],
+    ['📜', t('globalOverview.qaPolicyTitle'), t('globalOverview.qaPolicySub'), '/markets'],
     ['🌊', t('globalOverview.qaMspTitle'), t('globalOverview.qaMspSub'), '/msp'],
     ['📄', t('globalOverview.qaDocsTitle'), t('globalOverview.qaDocsSub'), null],
     ['↓', t('globalOverview.qaDownloadTitle'), t('globalOverview.qaDownloadSub'), null],
@@ -204,7 +204,7 @@ export default function GlobalOverview() {
 
         <div>
           <div className="card pad">
-            <div className="title">{t('globalOverview.ndcTitle')}<span className="card-link" onClick={() => navigate('/policy')}>{t('globalOverview.viewAll')}</span></div>
+            <div className="title">{t('globalOverview.ndcTitle')}<span className="card-link" onClick={() => navigate('/markets')}>{t('globalOverview.viewAll')}</span></div>
             <div className="sub">{t('globalOverview.ndcSub')}</div>
             <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
               <div>
@@ -221,7 +221,7 @@ export default function GlobalOverview() {
               </div>
             </div>
           </div>
-          <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/policy')}>
+          <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/markets')}>
             {t('globalOverview.exploreArticle6')}
           </button>
         </div>
