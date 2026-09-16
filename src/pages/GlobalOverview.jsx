@@ -6,7 +6,7 @@ import { StdIcon, MktIcon } from '../components/Icons';
 import Donut from '../components/Donut';
 import WorldMap from '../components/WorldMap';
 import { useApp } from '../AppContext';
-import { countries, bilateral, projects, news, markets, methodologies, STATUS_COLS } from '../data';
+import { countries, projects, news, markets, methodologies, STATUS_COLS } from '../data';
 
 const NEWS_TABS = ['Latest News', 'Regulatory Updates', 'New Projects', 'Agreements'];
 const NEWS_TAB_GROUPS = {
@@ -181,7 +181,7 @@ export default function GlobalOverview() {
       </div>
 
       <div className="section">{t('globalOverview.sectionGlance')}</div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
         <div>
           <div className="card pad">
             <div className="title">{t('globalOverview.methodologiesTitle')}<span className="card-link" onClick={() => navigate('/methodologies')}>{t('globalOverview.viewAll')}</span></div>
@@ -223,31 +223,6 @@ export default function GlobalOverview() {
           </div>
           <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/policy')}>
             {t('globalOverview.exploreArticle6')}
-          </button>
-        </div>
-
-        <div>
-          <div className="card pad">
-            <div className="title">{t('globalOverview.bilateralTitle')}<span className="card-link" onClick={() => navigate('/policy')}>{t('globalOverview.viewAll')}</span></div>
-            <div className="sub">{t('globalOverview.bilateralSub')}</div>
-            <table className="mini-table">
-              <thead>
-                <tr><th>{t('globalOverview.colCountryA')}</th><th>{t('globalOverview.colCountryB')}</th><th>{t('globalOverview.colSigned')}</th><th>{t('globalOverview.colStatus')}</th></tr>
-              </thead>
-              <tbody>
-                {bilateral.map((r, i) => (
-                  <tr key={i}>
-                    <td>{r.country_a}</td>
-                    <td>{r.country_b}</td>
-                    <td>{r.signed}</td>
-                    <td><Badge value={r.status} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <button className="btn" style={{ width: '100%', textAlign: 'center' }} onClick={() => navigate('/policy')}>
-            {t('globalOverview.seeAllAgreements')}
           </button>
         </div>
 
