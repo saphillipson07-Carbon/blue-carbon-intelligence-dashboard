@@ -65,6 +65,9 @@ button { font-family: inherit; cursor: pointer; }
 .sidebar-nav-item:hover { background: rgba(255,255,255,.06); }
 .sidebar-nav-item.active { background: rgba(255,255,255,.12); font-weight: 600; }
 .sidebar-resource-item { font-size: .72rem; color: #A9C5D5; padding: 6px 10px; }
+.sidebar-resource-link { display: block; font-size: .72rem; color: #A9C5D5; padding: 6px 10px; border-radius: 6px; }
+.sidebar-resource-link:hover { background: rgba(255,255,255,.06); color: #F2F7FA; }
+.sidebar-resource-link.active { background: rgba(255,255,255,.12); color: #F2F7FA; font-weight: 600; }
 .main-content { flex: 1; min-width: 0; padding: 0 1.15rem 2rem; max-width: 1540px; margin: 0 auto; }
 
 /* ---------------- Topbar ---------------- */

@@ -11,6 +11,7 @@ import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import NewsIntelligence from './pages/NewsIntelligence';
 import MarineSpatialPlanning from './pages/MarineSpatialPlanning';
+import DocumentLibrary from './pages/DocumentLibrary';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/projects/:projectId" element={<ProjectDetail />} />
             <Route path="/news" element={<NewsIntelligence />} />
             <Route path="/msp" element={<MarineSpatialPlanning />} />
+            <Route path="/documents" element={<DocumentLibrary />} />
           </Routes>
         </Layout>
       </HashRouter>

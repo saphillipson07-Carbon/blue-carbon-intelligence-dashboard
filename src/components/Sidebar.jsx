@@ -15,7 +15,7 @@ export default function Sidebar() {
     { label: t('sidebar.navMsp'), path: '/msp' },
   ];
 
-  const RESOURCES = [t('sidebar.resDocuments'), t('sidebar.resData'), t('sidebar.resGlossary')];
+  const RESOURCES = [t('sidebar.resData'), t('sidebar.resGlossary')];
 
   return (
     <div className="sidebar">
@@ -50,6 +50,12 @@ export default function Sidebar() {
       ))}
       <hr className="sidebar-divider" />
       <div className="sidebar-section-label">{t('sidebar.sectionResources')}</div>
+      <NavLink
+        to="/documents"
+        className={({ isActive }) => 'sidebar-resource-link' + (isActive ? ' active' : '')}
+      >
+        {t('sidebar.resDocuments')}
+      </NavLink>
       {RESOURCES.map((item) => (
         <div className="sidebar-resource-item" key={item}>
           {item}
