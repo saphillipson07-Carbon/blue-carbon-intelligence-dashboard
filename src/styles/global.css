@@ -237,10 +237,12 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---------------- Global Enabling Conditions Map ---------------- */
 .gm-filters { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px; align-items: end; margin: 10px 0 14px; }
+.gm-filters-5 { grid-template-columns: repeat(5, 1fr) auto; }
 .gm-filter-label { font-size: .53rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 4px; }
 .gm-reset { font-size: .62rem; color: var(--blue); background: none; border: none; font-weight: 700; white-space: nowrap; padding: 8px 4px; }
 
 .gm-layout { display: grid; grid-template-columns: 200px 1fr 300px; gap: 14px; align-items: start; }
+.gm-layout-2col { grid-template-columns: 1fr 300px; }
 
 .gm-layers { background: white; border: 1px solid var(--line); border-radius: 11px; padding: 14px; }
 .gm-layers-title { font-size: .58rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }

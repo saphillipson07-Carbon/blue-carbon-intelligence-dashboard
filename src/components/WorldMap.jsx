@@ -1,4 +1,4 @@
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 
 // ISO alpha-3 -> ISO numeric-3 (only need the countries present in our dataset;
 // unmatched geographies render in the neutral "no data" color)
@@ -25,7 +25,7 @@ export const STATUS_COLOR = {
 
 const geoUrl = '/geo/countries-110m.json';
 
-export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos }) {
+export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos, markers, onMarkerSelect, selectedMarkerId }) {
   const palette = colorMap || STATUS_COLOR;
   const numericToRow = {};
   countries.forEach((c) => {
@@ -77,6 +77,18 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
             })
           }
         </Geographies>
+
+        {markers && markers.map((m) => (
+          <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onMarkerSelect && onMarkerSelect(m)}>
+            <circle
+              r={selectedMarkerId === m.id ? 7 : 5.5}
+              fill="#12999B"
+              stroke="white"
+              strokeWidth={1.5}
+              style={{ cursor: onMarkerSelect ? 'pointer' : 'default' }}
+            />
+          </Marker>
+        ))}
       </ComposableMap>
     </div>
   );

@@ -41,6 +41,9 @@ export default function Projects() {
       <div className="card pad">
         <div className="title">{t('projects.title')}</div>
         <div className="sub">{t('projects.sub')}</div>
+        <div className="sub" style={{ marginTop: 4 }}>
+          <a href="#/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>← {t('projectExplorer.title')}</a>
+        </div>
       </div>
 
       <div className="project-snapshot">
