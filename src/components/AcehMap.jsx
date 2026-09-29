@@ -44,7 +44,7 @@ const geoUrl = '/geo/indonesia-10km.json';
 // (verified reliable throughout debugging) doesn't hit that code path.
 const mpaPixelUrl = '/geo/aceh-mpas-pixels.json';
 
-export default function AcehMap({ markers = [], onSelect, showMpa = true }) {
+export default function AcehMap({ markers = [], onSelect, showMpa = true, highlightId, onAreaSelect }) {
   const { t } = useApp();
   const [hovered, setHovered] = useState(null);
   const [mpas, setMpas] = useState([]);
@@ -88,20 +88,23 @@ export default function AcehMap({ markers = [], onSelect, showMpa = true }) {
             if (!f.d) return null;
             const marine = f.properties.marine;
             const isHovered = hovered === f.properties;
+            const isSelected = highlightId != null && f.properties.wdpa_site_id === highlightId;
+            const emphasize = isHovered || isSelected;
             const fill = marine
-              ? (isHovered ? 'rgba(18,153,155,.55)' : 'rgba(18,153,155,.32)')
-              : (isHovered ? 'rgba(63,145,98,.5)' : 'rgba(63,145,98,.28)');
+              ? (emphasize ? 'rgba(18,153,155,.55)' : 'rgba(18,153,155,.32)')
+              : (emphasize ? 'rgba(63,145,98,.5)' : 'rgba(63,145,98,.28)');
             const stroke = marine ? '#12999B' : '#3F9162';
             return (
               <path
                 key={i}
                 d={f.d}
                 fill={fill}
-                stroke={stroke}
-                strokeWidth={isHovered ? 1.2 : 0.8}
-                style={{ outline: 'none', cursor: 'default' }}
+                stroke={isSelected ? '#0B3150' : stroke}
+                strokeWidth={isSelected ? 1.8 : emphasize ? 1.2 : 0.8}
+                style={{ outline: 'none', cursor: onAreaSelect ? 'pointer' : 'default' }}
                 onMouseEnter={() => setHovered(f.properties)}
                 onMouseLeave={() => setHovered(null)}
+                onClick={() => onAreaSelect && onAreaSelect(f.properties)}
               />
             );
           })}
