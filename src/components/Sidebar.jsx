@@ -13,7 +13,6 @@ export default function Sidebar() {
     { label: t('sidebar.navProjects'), path: '/projects' },
     { label: t('sidebar.navNews'), path: '/news' },
     { label: t('sidebar.navMsp'), path: '/msp' },
-    { label: t('sidebar.navProtectedAreas'), path: '/protected-areas' },
   ];
 
   const RESOURCES = [t('sidebar.resData'), t('sidebar.resGlossary')];

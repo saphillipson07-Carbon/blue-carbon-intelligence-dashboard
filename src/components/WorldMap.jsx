@@ -1,4 +1,5 @@
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
+import { CAPITALS } from '../data/capitals';
 
 // ISO alpha-3 -> ISO numeric-3 (only need the countries present in our dataset;
 // unmatched geographies render in the neutral "no data" color)
@@ -25,13 +26,15 @@ export const STATUS_COLOR = {
 
 const geoUrl = '/geo/countries-110m.json';
 
-export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos, markers, onMarkerSelect, selectedMarkerId }) {
+export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos, markers, onMarkerSelect, selectedMarkerId, showCapitals = true }) {
   const palette = colorMap || STATUS_COLOR;
   const numericToRow = {};
   countries.forEach((c) => {
     const num = ALPHA3_TO_NUMERIC[c.iso];
     if (num) numericToRow[num] = c;
   });
+  const trackedIsos = new Set(countries.map((c) => c.iso));
+  const capitals = showCapitals ? CAPITALS.filter((c) => trackedIsos.has(c.iso)) : [];
 
   return (
     <div style={{ background: '#EAF4F8', borderRadius: 8, overflow: 'hidden' }}>
@@ -77,6 +80,19 @@ export default function WorldMap({ countries, statusField, onSelect, selectedIso
             })
           }
         </Geographies>
+
+        {capitals.map((c) => (
+          <Marker key={c.iso} coordinates={[c.lon, c.lat]}>
+            <circle r={2} fill="#5B6B73" stroke="white" strokeWidth={0.6} style={{ pointerEvents: 'none' }} />
+            <text
+              y={-5}
+              textAnchor="middle"
+              style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 7, fontWeight: 600, fill: '#4A5A63', pointerEvents: 'none' }}
+            >
+              {c.name}
+            </text>
+          </Marker>
+        ))}
 
         {markers && markers.map((m) => (
           <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onMarkerSelect && onMarkerSelect(m)}>

@@ -1,5 +1,6 @@
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { ALPHA3_TO_NUMERIC } from './WorldMap';
+import { CAPITALS } from '../data/capitals';
 
 const geoUrl = '/geo/countries-110m.json';
 
@@ -28,6 +29,7 @@ const PROJECTIONS = {
 export default function CountryZoomMap({ iso, markers = [], onMarkerSelect, selectedMarkerId }) {
   const config = PROJECTIONS[iso];
   const numId = ALPHA3_TO_NUMERIC[iso];
+  const capital = CAPITALS.find((c) => c.iso === iso);
   if (!config) return null;
 
   return (
@@ -67,6 +69,19 @@ export default function CountryZoomMap({ iso, markers = [], onMarkerSelect, sele
             })
           }
         </Geographies>
+
+        {capital && (
+          <Marker coordinates={[capital.lon, capital.lat]}>
+            <circle r={3} fill="#5B6B73" stroke="white" strokeWidth={0.8} style={{ pointerEvents: 'none' }} />
+            <text
+              y={-7}
+              textAnchor="middle"
+              style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 9, fontWeight: 600, fill: '#4A5A63', pointerEvents: 'none' }}
+            >
+              {capital.name}
+            </text>
+          </Marker>
+        )}
 
         {markers.map((m) => (
           <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onMarkerSelect && onMarkerSelect(m)}>

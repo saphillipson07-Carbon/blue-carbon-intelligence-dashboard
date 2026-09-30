@@ -12,7 +12,6 @@ import ProjectDetail from './pages/ProjectDetail';
 import NewsIntelligence from './pages/NewsIntelligence';
 import MarineSpatialPlanning from './pages/MarineSpatialPlanning';
 import DocumentLibrary from './pages/DocumentLibrary';
-import ProtectedAreas from './pages/ProtectedAreas';
 
 export default function App() {
   return (
@@ -31,7 +30,6 @@ export default function App() {
             <Route path="/news" element={<NewsIntelligence />} />
             <Route path="/msp" element={<MarineSpatialPlanning />} />
             <Route path="/documents" element={<DocumentLibrary />} />
-            <Route path="/protected-areas" element={<ProtectedAreas />} />
           </Routes>
         </Layout>
       </HashRouter>

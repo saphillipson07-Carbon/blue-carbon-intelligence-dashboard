@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { useApp } from '../AppContext';
+import { PROJECT_COORDS } from '../data/projectCoords';
 
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 600;
@@ -43,6 +44,19 @@ const geoUrl = '/geo/indonesia-10km.json';
 // after the scale/center bug above was fixed. Direct point projection
 // (verified reliable throughout debugging) doesn't hit that code path.
 const mpaPixelUrl = '/geo/aceh-mpas-pixels.json';
+
+// Reference place labels: the two provincial capitals (real, well-known
+// coordinates) plus the three regencies where our tracked project markers
+// already sit (same real coordinates as PROJECT_COORDS — these are the
+// regency-level centroids disclosed in each project's own record, reused
+// here as the label position rather than duplicated).
+const PLACE_LABELS = [
+  { name: 'Banda Aceh', lat: 5.5483, lon: 95.3238, kind: 'capital' },
+  { name: 'Medan', lat: 3.5952, lon: 98.6722, kind: 'capital' },
+  { name: 'Aceh Besar', ...PROJECT_COORDS['BC-101'], kind: 'district' },
+  { name: 'Aceh Utara', ...PROJECT_COORDS['BC-102'], kind: 'district' },
+  { name: 'Aceh Timur', ...PROJECT_COORDS['BC-103'], kind: 'district' },
+];
 
 export default function AcehMap({ markers = [], onSelect, showMpa = true, highlightId, onAreaSelect }) {
   const { t } = useApp();
@@ -109,6 +123,28 @@ export default function AcehMap({ markers = [], onSelect, showMpa = true, highli
             );
           })}
         </g>
+
+        {PLACE_LABELS.map((p) => (
+          <Marker key={p.name} coordinates={[p.lon, p.lat]}>
+            {p.kind === 'capital' && (
+              <circle r={2.5} fill="#5B6B73" stroke="white" strokeWidth={0.7} style={{ pointerEvents: 'none' }} />
+            )}
+            <text
+              y={p.kind === 'capital' ? -6 : -10}
+              textAnchor="middle"
+              style={{
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: p.kind === 'capital' ? 8 : 7,
+                fontWeight: p.kind === 'capital' ? 700 : 500,
+                fontStyle: p.kind === 'district' ? 'italic' : 'normal',
+                fill: '#4A5A63',
+                pointerEvents: 'none',
+              }}
+            >
+              {p.name}
+            </text>
+          </Marker>
+        ))}
 
         {markers.map((m) => (
           <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onSelect && onSelect(m)}>

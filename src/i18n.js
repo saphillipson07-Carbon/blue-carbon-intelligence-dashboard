@@ -21,7 +21,6 @@ const en = {
     navProjects: 'Project Explorer',
     navNews: 'News & Intelligence',
     navMsp: 'Marine Spatial Planning',
-    navProtectedAreas: 'Protected Areas',
     sectionResources: 'RESOURCES',
     resDocuments: 'Documents Library',
     resData: 'Data & Reports',
@@ -422,6 +421,8 @@ const en = {
     everyItemNote: 'Every intelligence item should ultimately link to its underlying source record.',
   },
   msp: {
+    modeMsp: 'MSP — Siting workflow',
+    modeMpa: 'MPA — Protected areas',
     section: 'Marine Spatial Planning & Opportunity Assessment',
     kicker: 'SPATIAL DECISION SUPPORT',
     title: 'Where could a blue carbon project be developed?',
@@ -502,7 +503,6 @@ const ko = {
     navProjects: '프로젝트 탐색기',
     navNews: '뉴스 및 인텔리전스',
     navMsp: '해양공간계획',
-    navProtectedAreas: '보호구역',
     sectionResources: '자료',
     resDocuments: '문서 라이브러리',
     resData: '데이터 및 보고서',
@@ -903,6 +903,8 @@ const ko = {
     everyItemNote: '모든 인텔리전스 항목은 궁극적으로 원본 출처 기록과 연결되어야 합니다.',
   },
   msp: {
+    modeMsp: 'MSP — 입지 선정 워크플로우',
+    modeMpa: 'MPA — 보호구역',
     section: '해양공간계획 및 기회 평가',
     kicker: '공간 의사결정 지원',
     title: '블루카본 프로젝트를 어디에 개발할 수 있을까요?',
