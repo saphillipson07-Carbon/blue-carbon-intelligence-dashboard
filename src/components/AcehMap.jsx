@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 'react-simple-maps';
 import { useApp } from '../AppContext';
 import { PROJECT_COORDS } from '../data/projectCoords';
+import { useMapZoom } from './useMapZoom';
+import MapZoomControls from './MapZoomControls';
+
+const noWheelZoom = (evt) => evt.type !== 'wheel';
 
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 600;
@@ -62,6 +66,7 @@ export default function AcehMap({ markers = [], onSelect, showMpa = true, highli
   const { t } = useApp();
   const [hovered, setHovered] = useState(null);
   const [mpas, setMpas] = useState([]);
+  const { zoom, zoomIn, zoomOut, reset, minZoom, maxZoom } = useMapZoom();
 
   useEffect(() => {
     let cancelled = false;
@@ -81,77 +86,81 @@ export default function AcehMap({ markers = [], onSelect, showMpa = true, highli
         height={MAP_HEIGHT}
         style={{ width: '100%', height: '320px' }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
+        <ZoomableGroup center={PROJECTION_CONFIG.center} zoom={zoom} minZoom={minZoom} maxZoom={maxZoom} filterZoomEvent={noWheelZoom}>
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  style={{
+                    default: { fill: '#DCEEF2', stroke: '#B9D6DC', strokeWidth: 0.6, outline: 'none' },
+                    hover: { fill: '#DCEEF2', stroke: '#B9D6DC', strokeWidth: 0.6, outline: 'none' },
+                    pressed: { fill: '#DCEEF2', outline: 'none' },
+                  }}
+                />
+              ))
+            }
+          </Geographies>
+
+          <g>
+            {showMpa && mpas.map((f, i) => {
+              if (!f.d) return null;
+              const marine = f.properties.marine;
+              const isHovered = hovered === f.properties;
+              const isSelected = highlightId != null && f.properties.wdpa_site_id === highlightId;
+              const emphasize = isHovered || isSelected;
+              const fill = marine
+                ? (emphasize ? 'rgba(18,153,155,.55)' : 'rgba(18,153,155,.32)')
+                : (emphasize ? 'rgba(63,145,98,.5)' : 'rgba(63,145,98,.28)');
+              const stroke = marine ? '#12999B' : '#3F9162';
+              return (
+                <path
+                  key={i}
+                  d={f.d}
+                  fill={fill}
+                  stroke={isSelected ? '#0B3150' : stroke}
+                  strokeWidth={isSelected ? 1.8 : emphasize ? 1.2 : 0.8}
+                  style={{ outline: 'none', cursor: onAreaSelect ? 'pointer' : 'default' }}
+                  onMouseEnter={() => setHovered(f.properties)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={() => onAreaSelect && onAreaSelect(f.properties)}
+                />
+              );
+            })}
+          </g>
+
+          {PLACE_LABELS.map((p) => (
+            <Marker key={p.name} coordinates={[p.lon, p.lat]}>
+              {p.kind === 'capital' && (
+                <circle r={2.5} fill="#5B6B73" stroke="white" strokeWidth={0.7} style={{ pointerEvents: 'none' }} />
+              )}
+              <text
+                y={p.kind === 'capital' ? -6 : -10}
+                textAnchor="middle"
                 style={{
-                  default: { fill: '#DCEEF2', stroke: '#B9D6DC', strokeWidth: 0.6, outline: 'none' },
-                  hover: { fill: '#DCEEF2', stroke: '#B9D6DC', strokeWidth: 0.6, outline: 'none' },
-                  pressed: { fill: '#DCEEF2', outline: 'none' },
+                  fontFamily: 'DM Sans, sans-serif',
+                  fontSize: p.kind === 'capital' ? 8 : 7,
+                  fontWeight: p.kind === 'capital' ? 700 : 500,
+                  fontStyle: p.kind === 'district' ? 'italic' : 'normal',
+                  fill: '#4A5A63',
+                  pointerEvents: 'none',
                 }}
-              />
-            ))
-          }
-        </Geographies>
+              >
+                {p.name}
+              </text>
+            </Marker>
+          ))}
 
-        <g>
-          {showMpa && mpas.map((f, i) => {
-            if (!f.d) return null;
-            const marine = f.properties.marine;
-            const isHovered = hovered === f.properties;
-            const isSelected = highlightId != null && f.properties.wdpa_site_id === highlightId;
-            const emphasize = isHovered || isSelected;
-            const fill = marine
-              ? (emphasize ? 'rgba(18,153,155,.55)' : 'rgba(18,153,155,.32)')
-              : (emphasize ? 'rgba(63,145,98,.5)' : 'rgba(63,145,98,.28)');
-            const stroke = marine ? '#12999B' : '#3F9162';
-            return (
-              <path
-                key={i}
-                d={f.d}
-                fill={fill}
-                stroke={isSelected ? '#0B3150' : stroke}
-                strokeWidth={isSelected ? 1.8 : emphasize ? 1.2 : 0.8}
-                style={{ outline: 'none', cursor: onAreaSelect ? 'pointer' : 'default' }}
-                onMouseEnter={() => setHovered(f.properties)}
-                onMouseLeave={() => setHovered(null)}
-                onClick={() => onAreaSelect && onAreaSelect(f.properties)}
-              />
-            );
-          })}
-        </g>
-
-        {PLACE_LABELS.map((p) => (
-          <Marker key={p.name} coordinates={[p.lon, p.lat]}>
-            {p.kind === 'capital' && (
-              <circle r={2.5} fill="#5B6B73" stroke="white" strokeWidth={0.7} style={{ pointerEvents: 'none' }} />
-            )}
-            <text
-              y={p.kind === 'capital' ? -6 : -10}
-              textAnchor="middle"
-              style={{
-                fontFamily: 'DM Sans, sans-serif',
-                fontSize: p.kind === 'capital' ? 8 : 7,
-                fontWeight: p.kind === 'capital' ? 700 : 500,
-                fontStyle: p.kind === 'district' ? 'italic' : 'normal',
-                fill: '#4A5A63',
-                pointerEvents: 'none',
-              }}
-            >
-              {p.name}
-            </text>
-          </Marker>
-        ))}
-
-        {markers.map((m) => (
-          <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onSelect && onSelect(m)}>
-            <circle r={6} fill="#12999B" stroke="white" strokeWidth={2} style={{ cursor: onSelect ? 'pointer' : 'default' }} />
-          </Marker>
-        ))}
+          {markers.map((m) => (
+            <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onSelect && onSelect(m)}>
+              <circle r={6} fill="#12999B" stroke="white" strokeWidth={2} style={{ cursor: onSelect ? 'pointer' : 'default' }} />
+            </Marker>
+          ))}
+        </ZoomableGroup>
       </ComposableMap>
+
+      <MapZoomControls zoom={zoom} minZoom={minZoom} maxZoom={maxZoom} onZoomIn={zoomIn} onZoomOut={zoomOut} onReset={reset} />
 
       {hovered && (
         <div style={{

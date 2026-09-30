@@ -1,6 +1,10 @@
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 'react-simple-maps';
 import { ALPHA3_TO_NUMERIC } from './WorldMap';
 import { CAPITALS } from '../data/capitals';
+import { useMapZoom } from './useMapZoom';
+import MapZoomControls from './MapZoomControls';
+
+const noWheelZoom = (evt) => evt.type !== 'wheel';
 
 const geoUrl = '/geo/countries-110m.json';
 
@@ -30,10 +34,11 @@ export default function CountryZoomMap({ iso, markers = [], onMarkerSelect, sele
   const config = PROJECTIONS[iso];
   const numId = ALPHA3_TO_NUMERIC[iso];
   const capital = CAPITALS.find((c) => c.iso === iso);
+  const { zoom, zoomIn, zoomOut, reset, minZoom, maxZoom } = useMapZoom();
   if (!config) return null;
 
   return (
-    <div style={{ background: '#EAF4F8', borderRadius: 8, overflow: 'hidden' }}>
+    <div style={{ background: '#EAF4F8', borderRadius: 8, overflow: 'hidden', position: 'relative' }}>
       <ComposableMap
         projection="geoMercator"
         projectionConfig={config}
@@ -41,60 +46,63 @@ export default function CountryZoomMap({ iso, markers = [], onMarkerSelect, sele
         height={420}
         style={{ width: '100%', height: '340px' }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const isSelected = geo.id === numId;
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  style={{
-                    default: {
-                      fill: isSelected ? '#DCEEF2' : '#EFF4F6',
-                      stroke: isSelected ? '#8FB9C4' : '#D6E1E5',
-                      strokeWidth: isSelected ? 0.9 : 0.5,
-                      outline: 'none',
-                    },
-                    hover: {
-                      fill: isSelected ? '#DCEEF2' : '#EFF4F6',
-                      stroke: isSelected ? '#8FB9C4' : '#D6E1E5',
-                      strokeWidth: isSelected ? 0.9 : 0.5,
-                      outline: 'none',
-                    },
-                    pressed: { outline: 'none' },
-                  }}
-                />
-              );
-            })
-          }
-        </Geographies>
+        <ZoomableGroup center={config.center} zoom={zoom} minZoom={minZoom} maxZoom={maxZoom} filterZoomEvent={noWheelZoom}>
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const isSelected = geo.id === numId;
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    style={{
+                      default: {
+                        fill: isSelected ? '#DCEEF2' : '#EFF4F6',
+                        stroke: isSelected ? '#8FB9C4' : '#D6E1E5',
+                        strokeWidth: isSelected ? 0.9 : 0.5,
+                        outline: 'none',
+                      },
+                      hover: {
+                        fill: isSelected ? '#DCEEF2' : '#EFF4F6',
+                        stroke: isSelected ? '#8FB9C4' : '#D6E1E5',
+                        strokeWidth: isSelected ? 0.9 : 0.5,
+                        outline: 'none',
+                      },
+                      pressed: { outline: 'none' },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
 
-        {capital && (
-          <Marker coordinates={[capital.lon, capital.lat]}>
-            <circle r={3} fill="#5B6B73" stroke="white" strokeWidth={0.8} style={{ pointerEvents: 'none' }} />
-            <text
-              y={-7}
-              textAnchor="middle"
-              style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 9, fontWeight: 600, fill: '#4A5A63', pointerEvents: 'none' }}
-            >
-              {capital.name}
-            </text>
-          </Marker>
-        )}
+          {capital && (
+            <Marker coordinates={[capital.lon, capital.lat]}>
+              <circle r={3} fill="#5B6B73" stroke="white" strokeWidth={0.8} style={{ pointerEvents: 'none' }} />
+              <text
+                y={-7}
+                textAnchor="middle"
+                style={{ fontFamily: 'DM Sans, sans-serif', fontSize: 9, fontWeight: 600, fill: '#4A5A63', pointerEvents: 'none' }}
+              >
+                {capital.name}
+              </text>
+            </Marker>
+          )}
 
-        {markers.map((m) => (
-          <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onMarkerSelect && onMarkerSelect(m)}>
-            <circle
-              r={selectedMarkerId === m.id ? 7 : 5.5}
-              fill="#12999B"
-              stroke="white"
-              strokeWidth={1.5}
-              style={{ cursor: onMarkerSelect ? 'pointer' : 'default' }}
-            />
-          </Marker>
-        ))}
+          {markers.map((m) => (
+            <Marker key={m.id} coordinates={[m.lon, m.lat]} onClick={() => onMarkerSelect && onMarkerSelect(m)}>
+              <circle
+                r={selectedMarkerId === m.id ? 7 : 5.5}
+                fill="#12999B"
+                stroke="white"
+                strokeWidth={1.5}
+                style={{ cursor: onMarkerSelect ? 'pointer' : 'default' }}
+              />
+            </Marker>
+          ))}
+        </ZoomableGroup>
       </ComposableMap>
+      <MapZoomControls zoom={zoom} minZoom={minZoom} maxZoom={maxZoom} onZoomIn={zoomIn} onZoomOut={zoomOut} onReset={reset} />
     </div>
   );
 }
