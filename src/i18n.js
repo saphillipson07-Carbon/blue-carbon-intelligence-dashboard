@@ -61,6 +61,7 @@ const en = {
     Approved: 'Approved',
     'In Review': 'In Review',
     Emerging: 'Emerging',
+    Withdrawn: 'Withdrawn',
   },
   statusCols: {
     'DNA appointed': 'DNA appointed',
@@ -225,6 +226,7 @@ const en = {
     mapStatusAll: 'All statuses',
     mapStatusActive: 'Active / operational',
     mapStatusDevelopment: 'In development',
+    mapStatusWithdrawn: 'Withdrawn',
     mapFilterEcosystem: 'Ecosystem',
     mapFilterStandard: 'Standard',
     mapFilterBlocker: 'Blocker type',
@@ -551,6 +553,7 @@ const ko = {
     Approved: '승인됨',
     'In Review': '검토 중',
     Emerging: '초기 단계',
+    Withdrawn: '철회됨',
   },
   statusCols: {
     'DNA appointed': 'DNA 지정',
@@ -715,6 +718,7 @@ const ko = {
     mapStatusAll: '모든 현황',
     mapStatusActive: '진행 중 / 운영 중',
     mapStatusDevelopment: '개발 중',
+    mapStatusWithdrawn: '철회됨',
     mapFilterEcosystem: '생태계',
     mapFilterStandard: '표준',
     mapFilterBlocker: '장애 요인 유형',

@@ -18,6 +18,7 @@ const BADGE_CLASS = {
   Approved: 'good',
   'In Review': 'dev',
   Emerging: 'plan',
+  Withdrawn: 'bad',
 };
 
 export default function Badge({ value }) {

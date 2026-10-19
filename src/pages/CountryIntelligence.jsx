@@ -70,7 +70,8 @@ export default function CountryIntelligence() {
     () =>
       countryProjects.filter((p) => {
         if (statusFilter === 'Active' && p.stage !== 'Operational') return false;
-        if (statusFilter === 'Development' && p.stage === 'Operational') return false;
+        if (statusFilter === 'Development' && (p.stage === 'Operational' || p.stage === 'Withdrawn')) return false;
+        if (statusFilter === 'Withdrawn' && p.stage !== 'Withdrawn') return false;
         if (mapEcosystemFilter !== ALL && p.ecosystem !== mapEcosystemFilter) return false;
         if (mapStandardFilter !== ALL && standardBucket(p.standard) !== mapStandardFilter) return false;
         if (mapBlockerFilter !== ALL && p.blocker_type !== mapBlockerFilter) return false;
@@ -300,6 +301,7 @@ export default function CountryIntelligence() {
             <option value={ALL}>{t('countryIntelligence.mapStatusAll')}</option>
             <option value="Active">{t('countryIntelligence.mapStatusActive')}</option>
             <option value="Development">{t('countryIntelligence.mapStatusDevelopment')}</option>
+            <option value="Withdrawn">{t('countryIntelligence.mapStatusWithdrawn')}</option>
           </select>
         </div>
         <div>
