@@ -13,6 +13,20 @@ function uniqueSorted(arr) {
   return [...new Set(arr)].filter(Boolean).sort();
 }
 
+function parseHa(v) {
+  const n = parseFloat(String(v || '').replace(/,/g, ''));
+  return Number.isFinite(n) ? n : null;
+}
+
+const SCALE_BUCKETS = ['Under 1,000 ha', '1,000–5,000 ha', 'Over 5,000 ha'];
+function scaleBucket(areaHa) {
+  const n = parseHa(areaHa);
+  if (n == null) return null;
+  if (n < 1000) return SCALE_BUCKETS[0];
+  if (n <= 5000) return SCALE_BUCKETS[1];
+  return SCALE_BUCKETS[2];
+}
+
 export default function ProjectExplorer() {
   const navigate = useNavigate();
   const { t } = useApp();
@@ -21,6 +35,7 @@ export default function ProjectExplorer() {
   const [standardFilter, setStandardFilter] = useState(ALL);
   const [stageFilter, setStageFilter] = useState(ALL);
   const [a6Filter, setA6Filter] = useState(ALL);
+  const [scaleFilter, setScaleFilter] = useState(ALL);
   const [previewId, setPreviewId] = useState(null);
 
   const countryOptions = useMemo(() => uniqueSorted(projects.map((p) => p.country)), []);
@@ -29,6 +44,10 @@ export default function ProjectExplorer() {
   const stageOptions = useMemo(() => uniqueSorted(projects.map((p) => p.stage)), []);
   const a6Options = useMemo(
     () => uniqueSorted(projects.map((p) => findCountry(p.country)?.article6_framework)),
+    []
+  );
+  const scaleOptions = useMemo(
+    () => SCALE_BUCKETS.filter((b) => projects.some((p) => scaleBucket(p.area_ha) === b)),
     []
   );
 
@@ -40,9 +59,10 @@ export default function ProjectExplorer() {
         if (standardFilter !== ALL && standardBucket(p.standard) !== standardFilter) return false;
         if (stageFilter !== ALL && p.stage !== stageFilter) return false;
         if (a6Filter !== ALL && findCountry(p.country)?.article6_framework !== a6Filter) return false;
+        if (scaleFilter !== ALL && scaleBucket(p.area_ha) !== scaleFilter) return false;
         return true;
       }),
-    [countryFilter, ecosystemFilter, standardFilter, stageFilter, a6Filter]
+    [countryFilter, ecosystemFilter, standardFilter, stageFilter, a6Filter, scaleFilter]
   );
 
   const markers = useMemo(
@@ -76,7 +96,7 @@ export default function ProjectExplorer() {
         <div className="sub">{t('projectExplorer.sub')}</div>
       </div>
 
-      <div className="gm-filters gm-filters-5">
+      <div className="gm-filters gm-filters-6">
         <div>
           <div className="gm-filter-label">{t('projectExplorer.filterCountry')}</div>
           <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)}>
@@ -112,9 +132,16 @@ export default function ProjectExplorer() {
             {a6Options.map((v) => <option key={v} value={v}>{t(`status.${v}`)}</option>)}
           </select>
         </div>
+        <div>
+          <div className="gm-filter-label">{t('projectExplorer.filterScale')}</div>
+          <select className="select-input" style={{ width: '100%', marginBottom: 0 }} value={scaleFilter} onChange={(e) => setScaleFilter(e.target.value)}>
+            <option value={ALL}>{t('projectExplorer.scaleAll')}</option>
+            {scaleOptions.map((v) => <option key={v}>{v}</option>)}
+          </select>
+        </div>
         <button
           className="gm-reset"
-          onClick={() => { setCountryFilter(ALL); setEcosystemFilter(ALL); setStandardFilter(ALL); setStageFilter(ALL); setA6Filter(ALL); }}
+          onClick={() => { setCountryFilter(ALL); setEcosystemFilter(ALL); setStandardFilter(ALL); setStageFilter(ALL); setA6Filter(ALL); setScaleFilter(ALL); }}
         >
           {t('globalMap.resetFilters')}
         </button>
@@ -186,7 +213,7 @@ export default function ProjectExplorer() {
               {p.project_id} · {p.country}
               {p.verified && <span className="badge good" style={{ marginLeft: 6, fontSize: '.5rem' }}>{t('common.verified')}</span>}
             </div>
-            <div className="list-row-sub">{p.ecosystem}{p.standard ? ` · ${p.standard}` : ''}</div>
+            <div className="list-row-sub">{p.ecosystem}{p.standard ? ` · ${p.standard}` : ''}{p.area_ha ? ` · ${p.area_ha} ha` : ''}</div>
           </div>
           <div><Badge value={p.stage} /></div>
         </button>

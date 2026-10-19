@@ -8,6 +8,7 @@ import { useApp } from '../AppContext';
 import { countries, bilateral, markets, methodologies, news, projectsForCountry, STATUS_COLS } from '../data';
 import { PROJECT_COORDS } from '../data/projectCoords';
 import { STANDARD_KEYWORDS, standardBucket } from '../data/standards';
+import { ROADMAPS } from '../data/roadmaps';
 
 const ALL = 'All';
 
@@ -89,6 +90,7 @@ export default function CountryIntelligence() {
 
   const previewProject = countryProjects.find((p) => p.project_id === previewId) || null;
   const isIndonesia = row.iso === 'IDN';
+  const countryRoadmaps = ROADMAPS.filter((r) => r.country === row.country);
 
   const resetMapFilters = () => {
     setStatusFilter(ALL);
@@ -430,6 +432,34 @@ export default function CountryIntelligence() {
           )}
         </div>
       </div>
+
+      {countryRoadmaps.length > 0 && (
+        <>
+          <div className="section">{t('countryIntelligence.roadmapSection')}</div>
+          {countryRoadmaps.map((r) => (
+            <a
+              key={r.url}
+              className="list-row"
+              href={r.url}
+              target="_blank"
+              rel="noreferrer"
+              style={{ textDecoration: 'none', alignItems: 'flex-start' }}
+            >
+              <div className="list-row-main">
+                <div className="list-row-title">{r.title}</div>
+                <div className="list-row-sub">{r.publisher} · {r.year}</div>
+                <div className="sub" style={{ marginTop: 4 }}>{r.description}</div>
+              </div>
+              <div style={{ fontSize: '.62rem', color: 'var(--blue)', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                {t('countryIntelligence.roadmapViewDoc')}
+              </div>
+            </a>
+          ))}
+          <div className="sub" style={{ marginTop: 4 }}>
+            <a href="#/documents" onClick={(e) => { e.preventDefault(); navigate('/documents'); }}>{t('countryIntelligence.roadmapViewAll')}</a>
+          </div>
+        </>
+      )}
 
       {row.sources && row.sources.length > 0 && (
         <>

@@ -69,6 +69,27 @@ export default function GlobalOverview() {
     <>
       <Topbar />
 
+      <div className="section">{t('globalOverview.backgroundSection')}</div>
+      <div className="card pad">
+        <div className="title">{t('globalOverview.backgroundTitle')}</div>
+        <div className="sub" style={{ marginTop: 6, lineHeight: 1.6 }}>
+          Blue carbon markets have developed over roughly the past 15 years, as coastal carbon science matured
+          and climate finance mechanisms expanded to recognize mangroves, seagrasses and tidal marshes alongside
+          more established forest-carbon approaches. Early blue carbon methodologies — Verra's VM0033, approved
+          in 2015, chief among them — opened the door to verified mangrove restoration and conservation projects,
+          and momentum built further after the Paris Agreement's Article 6 (2015) created a framework for
+          countries to cooperate internationally on emission reductions, including blue carbon, across borders.
+        </div>
+        <div className="sub" style={{ marginTop: 10, lineHeight: 1.6 }}>
+          This platform tracks how that landscape is developing, country by country and project by project —
+          domestic carbon markets and Article 6 authorization status, individual mangrove and seagrass projects,
+          and the methodologies that underpin them.
+        </div>
+        <button className="btn" style={{ marginTop: 10 }} onClick={() => navigate('/documents')}>
+          {t('globalOverview.backgroundLink')}
+        </button>
+      </div>
+
       <div className="search-row">
         <select
           className="select-input"
@@ -145,7 +166,7 @@ export default function GlobalOverview() {
 
         <div className="card" style={{ overflow: 'hidden' }}>
           <div className="pad" style={{ paddingBottom: 0 }}>
-            <div className="title">{t('globalOverview.latestIntelligence')}</div>
+            <div className="title">{t('globalOverview.latestIntelligence')}<span className="card-link" onClick={() => navigate('/news')}>{t('globalOverview.viewAll')}</span></div>
             <div className="sub">{t('globalOverview.latestIntelligenceSub')}</div>
           </div>
           <div style={{ display: 'flex', gap: 4, padding: '10px 14px 0' }}>

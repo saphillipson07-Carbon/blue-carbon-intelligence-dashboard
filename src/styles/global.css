@@ -242,6 +242,7 @@ button { font-family: inherit; cursor: pointer; }
 .gm-filters { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px; align-items: end; margin: 10px 0 14px; }
 .gm-filters-5 { grid-template-columns: repeat(5, 1fr) auto; }
 .gm-filters-4 { grid-template-columns: repeat(4, 1fr) auto; }
+.gm-filters-6 { grid-template-columns: repeat(6, 1fr) auto; }
 
 .gm-toggle-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
 .gm-toggle-chip {
