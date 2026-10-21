@@ -64,7 +64,13 @@
       { "label": "The Investor — Vietnam officially launches first carbon trading exchange", "url": "https://theinvestor.vn/vietnam-officially-launches-first-carbon-trading-exchange-d19425.html" },
       { "label": "The Investor — Vietnam's carbon market sees no new trades after launch as participants test waters", "url": "https://theinvestor.vn/vietnams-carbon-market-sees-no-new-trades-after-launch-as-participants-test-waters-d19788.html" },
       { "label": "ForestsNews (CIFOR-ICRAF) — Viet Nam turning blue carbon pilot projects into national climate action", "url": "https://www.forestsnews.org/161583/blue-carbon-viet-nam-national-climate-action" }
-    ]
+    ],
+    "blue_carbon": {
+      "mangrove_area_ha": 345078,
+      "mangrove_area_note": "2020 estimate from an independent satellite-based Lower Mekong Region study; no single official national total was found — a separate 2019 academic estimate put the figure closer to ~235,600 ha, reflecting differing survey methods.",
+      "mangrove_area_source": "https://www.sciencedirect.com/science/article/pii/S2949753124000171",
+      "mangrove_area_source_label": "ScienceDirect — Assessing changes in mangrove forest cover and carbon stocks in the Lower Mekong Region"
+    }
   },
   {
     "iso": "PHL",
@@ -80,7 +86,13 @@
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Implemented",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 311216,
+      "mangrove_area_note": "2020 national total, Philippine Statistics Authority Mangrove Extent Accounts (preliminary) — up from 302,811 ha in 2015.",
+      "mangrove_area_source": "https://psa.gov.ph/content/philippines-mangrove-extent-reaches-311216-hectares-2020",
+      "mangrove_area_source_label": "Philippine Statistics Authority — Philippines' Mangrove Extent Reaches 311,216 Hectares in 2020"
+    }
   },
   {
     "iso": "KOR",
@@ -96,7 +108,13 @@
     "article6_authorization": "Implemented",
     "itmos_issued": "Implemented",
     "active_blue_carbon_projects": "In Development",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 0,
+      "mangrove_area_note": "Outside the global range of tropical/subtropical mangrove distribution (FAO: mangroves occur in roughly 120 tropical/subtropical countries and territories). No established mangrove population is reported in the literature for the Korean Peninsula's temperate climate.",
+      "mangrove_area_source": "https://www.fao.org/forestry/mangrove/distribution/",
+      "mangrove_area_source_label": "FAO — Mangrove distribution"
+    }
   },
   {
     "iso": "JPN",
@@ -112,7 +130,13 @@
     "article6_authorization": "Implemented",
     "itmos_issued": "Implemented",
     "active_blue_carbon_projects": "In Development",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 800,
+      "mangrove_area_note": "Small, Okinawa-concentrated extent (academic estimate; a separate estimate puts the national total closer to ~600 ha, with discrepancies reflecting survey year/method). The Nakama River basin on Iriomote Island holds Japan's largest single stand (~158 ha, roughly a quarter of the national total) and is a designated Natural Monument.",
+      "mangrove_area_source": "https://link.springer.com/article/10.1007/s44274-024-00145-y",
+      "mangrove_area_source_label": "Springer — Anthropogenic nitrogen accumulation potential of Okinawa mangroves in Japan"
+    }
   },
   {
     "iso": "KEN",
@@ -128,7 +152,13 @@
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Not Available",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 61271,
+      "mangrove_area_note": "Official figure from the National Mangrove Ecosystems Management Plan (2017–2027); about 61% (37,350 ha) occurs in Lamu County. A 2020 Global Mangrove Watch remote-sensing estimate puts current extent somewhat lower, at ~54,430 ha.",
+      "mangrove_area_source": "https://www.kenyaforestservice.org/wp-content/uploads/2025/07/national-mangrove-ecosystem-restoration-guidelines.pdf",
+      "mangrove_area_source_label": "Kenya Forest Service — National Mangrove Ecosystem Restoration Guidelines"
+    }
   },
   {
     "iso": "AUS",
@@ -144,7 +174,13 @@
     "article6_authorization": "Implemented",
     "itmos_issued": "Implemented",
     "active_blue_carbon_projects": "Implemented",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 854000,
+      "mangrove_area_note": "2018 ABARES (Australian Bureau of Agricultural and Resource Economics and Sciences) State of the Forests figure — about 1% of Australia's total forest area, concentrated in Queensland (45%) and the Northern Territory (39%).",
+      "mangrove_area_source": "https://www.agriculture.gov.au/abares/forestsaustralia/australias-forests/profiles/mangrove-2019",
+      "mangrove_area_source_label": "ABARES — Australia's Forests: Mangrove profile"
+    }
   },
   {
     "iso": "BRA",
@@ -160,7 +196,13 @@
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Not Available",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 1071084,
+      "mangrove_area_note": "Compiled from ICMBio (Instituto Chico Mendes) and federal environmental data; about 86% sits on Brazil's macrotidal coast. Other recent estimates range up to ~1.4M ha depending on methodology; roughly 90% of Brazil's mangrove extent falls within a conservation unit (ICMBio, 2018).",
+      "mangrove_area_source": "https://www.researchgate.net/publication/395716033_Potential_of_Mangrove_Forests_to_Climate_Change_Mitigation_and_Adaptation_in_Brazil",
+      "mangrove_area_source_label": "Potential of Mangrove Forests to Climate Change Mitigation and Adaptation in Brazil"
+    }
   },
   {
     "iso": "MEX",
@@ -176,7 +218,13 @@
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Not Available",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 905086,
+      "mangrove_area_note": "2020 official figure, CONABIO's Mexican Mangrove Monitoring System — 4th-largest mangrove extent in the world (~6.7% of the global total). A 2025 CONABIO update reports a decline to ~877,464 ha, partly reflecting reclassification of disturbed mangrove rather than pure loss.",
+      "mangrove_area_source": "https://www.gob.mx/conabio/prensa/conabio-presenta-el-libro-manglares-de-mexico-actualizacion-y-analisis-de-los-datos-2020?idiom=es",
+      "mangrove_area_source_label": "CONABIO — Manglares de México: Actualización y análisis de los datos 2020"
+    }
   },
   {
     "iso": "CHL",
@@ -192,6 +240,12 @@
     "article6_authorization": "In Development",
     "itmos_issued": "No Data",
     "active_blue_carbon_projects": "Not Available",
-    "project_activity": "Active"
+    "project_activity": "Active",
+    "blue_carbon": {
+      "mangrove_area_ha": 0,
+      "mangrove_area_note": "Outside the global range of tropical/subtropical mangrove distribution (FAO: mangroves occur in roughly 120 tropical/subtropical countries and territories). Chile's cold Humboldt current and arid northern coast fall outside that range, and no established mangrove population is confirmed in the literature.",
+      "mangrove_area_source": "https://www.fao.org/forestry/mangrove/distribution/",
+      "mangrove_area_source_label": "FAO — Mangrove distribution"
+    }
   }
 ]

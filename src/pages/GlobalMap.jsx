@@ -4,6 +4,7 @@ import Badge from '../components/Badge';
 import WorldMap, { STATUS_COLOR } from '../components/WorldMap';
 import { useApp } from '../AppContext';
 import { countries, STATUS_COLS } from '../data';
+import { fmtHa } from '../utils';
 
 const LAYER_FIELDS = [
   { icon: '👤', key: 'layerDna', field: 'dna_appointed' },
@@ -20,7 +21,7 @@ const LAYER_FIELDS = [
 
 const STATUS_ORDER = ['Implemented', 'In Development', 'Planned', 'Not Available', 'No Data'];
 const ROLE_ORDER = ['Host', 'Potential ITMO Supplier', 'Potential Buyer', 'Both'];
-const ECO_ORDER = ['Extensive', 'Moderate', 'Limited', 'No Data'];
+const ECO_ORDER = ['Extensive', 'Moderate', 'Limited', 'Not Available', 'No Data'];
 const INCOME_ORDER = ['Low income', 'Lower-middle income', 'Upper-middle income', 'High income'];
 
 const MARKET_ROLE_COLOR = {
@@ -33,17 +34,22 @@ const MARKET_ROLE_COLOR = {
 // Mangrove area tiers, bucketed from the real mangrove_area_ha figure in
 // each country's blue_carbon record. A distinct green-shade palette (not
 // the policy-status traffic-light colors) since this is a physical/
-// ecological fact, not an institutional-readiness one. Most countries
-// don't have a verified figure yet, hence "No Data" dominating today.
+// ecological fact, not an institutional-readiness one. "Not Available"
+// (reusing the same color/label the policy layers already use for a
+// confirmed non-fact) marks countries outside the global mangrove climate
+// range, as distinct from "No Data" countries that do have mangroves but
+// lack a verified area figure here yet.
 const ECO_COLOR = {
   Extensive: '#1F6B46',
   Moderate: '#3F9162',
   Limited: '#8FC7A4',
+  'Not Available': '#AEB9BE',
   'No Data': '#E5EAED',
 };
 
 function ecologicalTier(mangroveAreaHa) {
   if (mangroveAreaHa == null) return 'No Data';
+  if (mangroveAreaHa === 0) return 'Not Available';
   if (mangroveAreaHa > 1000000) return 'Extensive';
   if (mangroveAreaHa >= 100000) return 'Moderate';
   return 'Limited';
@@ -258,9 +264,9 @@ export default function GlobalMap() {
                 <div className={`gm-indicator-cell${layersOn.includes('ecological_potential') ? ' on-layer' : ''}`}>
                   <div className="gm-indicator-label">{t('globalMap.layerEcological')}</div>
                   <div style={{ marginTop: 4 }}><Badge value={previewRow.ecological_potential} /></div>
-                  {previewRow.blue_carbon?.mangrove_area_ha != null && (
+                  {previewRow.blue_carbon?.mangrove_area_ha > 0 && (
                     <div className="sub" style={{ marginTop: 3, fontSize: '.52rem' }}>
-                      {(previewRow.blue_carbon.mangrove_area_ha / 1000000).toFixed(2)}M ha mangrove
+                      {fmtHa(previewRow.blue_carbon.mangrove_area_ha)} mangrove
                     </div>
                   )}
                 </div>

@@ -9,14 +9,9 @@ import { countries, bilateral, markets, methodologies, news, projectsForCountry,
 import { PROJECT_COORDS } from '../data/projectCoords';
 import { STANDARD_KEYWORDS, standardBucket } from '../data/standards';
 import { ROADMAPS } from '../data/roadmaps';
+import { fmtHa } from '../utils';
 
 const ALL = 'All';
-
-function fmtHa(n) {
-  if (n >= 1000000) return `${(n / 1000000).toFixed(2)}M ha`;
-  if (n >= 1000) return `${(n / 1000).toFixed(0)}k ha`;
-  return `${n} ha`;
-}
 
 export default function CountryIntelligence() {
   const navigate = useNavigate();
@@ -143,7 +138,7 @@ export default function CountryIntelligence() {
         <div className="snapshot-card">
           <div className="snapshot-number">{bc ? fmtHa(bc.mangrove_area_ha) : '—'}</div>
           <div className="snapshot-label">{t('countryIntelligence.mangroveArea')}</div>
-          <div className="snapshot-note">{bc ? '2021 National Mangrove Map' : t('countryIntelligence.mangroveAreaSrcFallback')}</div>
+          <div className="snapshot-note">{bc?.mangrove_area_source_label || t('countryIntelligence.mangroveAreaSrcFallback')}</div>
         </div>
         <div className="snapshot-card">
           <div className="snapshot-number">{countryProjects.length}</div>
@@ -264,24 +259,36 @@ export default function CountryIntelligence() {
 
         <div className="card pad">
           <div className="title">{t('countryIntelligence.ecosystemsTitle')}<span className="card-link" onClick={() => goExplorer('/methodologies')}>{t('countryIntelligence.viewMethodologiesLink')}</span></div>
-          {!bc ? (
+          {!bc?.mangrove_area_note ? (
             <div className="sub" style={{ marginTop: 10 }}>{t('countryIntelligence.ecosystemsEmpty')}</div>
           ) : (
             <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginTop: 4 }}>
-              <Donut
-                pct={Math.round((bc.mangrove_dense_ha / bc.mangrove_area_ha) * 100)}
-                centerNum={`${Math.round((bc.mangrove_dense_ha / bc.mangrove_area_ha) * 100)}%`}
-                centerLabel={t('countryIntelligence.denseCanopy')}
-                color="#3F9162"
-              />
+              {bc.mangrove_dense_ha != null && (
+                <Donut
+                  pct={Math.round((bc.mangrove_dense_ha / bc.mangrove_area_ha) * 100)}
+                  centerNum={`${Math.round((bc.mangrove_dense_ha / bc.mangrove_area_ha) * 100)}%`}
+                  centerLabel={t('countryIntelligence.denseCanopy')}
+                  color="#3F9162"
+                />
+              )}
               <div style={{ flex: 1 }}>
                 <div className="sub"><b>{t('countryIntelligence.mangroveLabel')}</b> {bc.mangrove_area_note}</div>
-                <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.seagrassLabel')}</b> {bc.seagrass_area_note}</div>
-                <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.saltMarshLabel')}</b> {bc.salt_marsh_note}</div>
-                <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.mitigationLabel')}</b> {bc.mitigation_potential_note}</div>
+                {bc.seagrass_area_note && (
+                  <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.seagrassLabel')}</b> {bc.seagrass_area_note}</div>
+                )}
+                {bc.salt_marsh_note && (
+                  <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.saltMarshLabel')}</b> {bc.salt_marsh_note}</div>
+                )}
+                {bc.mitigation_potential_note && (
+                  <div className="sub" style={{ marginTop: 6 }}><b>{t('countryIntelligence.mitigationLabel')}</b> {bc.mitigation_potential_note}</div>
+                )}
                 <div style={{ marginTop: 6, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                  <a className="ci-timeline-source" href={bc.mangrove_area_source} target="_blank" rel="noreferrer">{bc.mangrove_area_source_label} →</a>
-                  <a className="ci-timeline-source" href={bc.mitigation_potential_source} target="_blank" rel="noreferrer">{bc.mitigation_potential_source_label} →</a>
+                  {bc.mangrove_area_source && (
+                    <a className="ci-timeline-source" href={bc.mangrove_area_source} target="_blank" rel="noreferrer">{bc.mangrove_area_source_label} →</a>
+                  )}
+                  {bc.mitigation_potential_source && (
+                    <a className="ci-timeline-source" href={bc.mitigation_potential_source} target="_blank" rel="noreferrer">{bc.mitigation_potential_source_label} →</a>
+                  )}
                 </div>
               </div>
             </div>
