@@ -16,6 +16,24 @@
 
 * { box-sizing: border-box; }
 
+/* The whole type scale below runs sub-1rem (many labels around
+   .55-.68rem, ~9-11px), tuned for a mockup viewed zoomed in. Bumping
+   the root font-size scales every rem-based measurement up through
+   normal layout. Chose this over a page-level `zoom`/`transform:
+   scale` hack on principle — those apply a visual transform after
+   layout, which is a less direct path to "make it bigger" than
+   adjusting the actual type scale, even though testing didn't turn up
+   an actual click-accuracy problem with them on this app (an early
+   scare during testing turned out to be an unrelated artifact: the
+   test was clicking countries' geometric bounding-box centers, which
+   land in open water for archipelago/thin shapes regardless of any
+   scaling). A plain font-size bump needed no such investigation to
+   trust, since it's ordinary layout, not a transform applied after
+   the fact. */
+html {
+  font-size: 150%;
+}
+
 html, body, #root {
   margin: 0;
   font-family: 'DM Sans', Arial, sans-serif;
