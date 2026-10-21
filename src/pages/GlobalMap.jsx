@@ -240,6 +240,11 @@ export default function GlobalMap() {
               {t('globalMap.ecoCaption')}
             </div>
           )}
+          {colorLayer?.field === 'itmos_issued' && (
+            <div className="sub" style={{ marginTop: 4 }}>
+              {t('globalMap.itmoCaption')}
+            </div>
+          )}
         </div>
 
         <div className="gm-panel">
