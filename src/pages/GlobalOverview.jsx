@@ -23,13 +23,13 @@ export default function GlobalOverview() {
   const layerField = STATUS_COLS[mapLayer];
 
   const STAT_CELLS = [
-    ['👤', t('globalOverview.statDna'), '127', t('globalOverview.statDnaNote')],
-    ['📜', t('globalOverview.statA6'), '53', t('globalOverview.statA6Note')],
-    ['🤝', t('globalOverview.statBilateral'), '28', t('globalOverview.statBilateralNote')],
-    ['🏛', t('globalOverview.statMarket'), '41', t('globalOverview.statMarketNote')],
-    ['🌿', t('globalOverview.statNdc'), '36', t('globalOverview.statNdcNote')],
-    ['🧾', t('globalOverview.statItmo'), '3', t('globalOverview.statItmoNote')],
-    ['🌊', t('globalOverview.statProjects'), '19', t('globalOverview.statProjectsNote', { n: countries.length })],
+    ['👤', t('globalOverview.statDna'), '127', t('globalOverview.statDnaNote'), '/map'],
+    ['📜', t('globalOverview.statA6'), '53', t('globalOverview.statA6Note'), '/markets'],
+    ['🤝', t('globalOverview.statBilateral'), '28', t('globalOverview.statBilateralNote'), '/markets'],
+    ['🏛', t('globalOverview.statMarket'), '41', t('globalOverview.statMarketNote'), '/markets'],
+    ['🌿', t('globalOverview.statNdc'), '36', t('globalOverview.statNdcNote'), '/markets'],
+    ['🧾', t('globalOverview.statItmo'), '3', t('globalOverview.statItmoNote'), '/map?layer=itmos_issued'],
+    ['🌊', t('globalOverview.statProjects'), '19', t('globalOverview.statProjectsNote', { n: countries.length }), '/projects'],
   ];
 
   const NEWS_TAB_LABELS = {
@@ -108,13 +108,13 @@ export default function GlobalOverview() {
       </div>
 
       <div className="ov-stats">
-        {STAT_CELLS.map(([icon, label, num, noteText]) => (
-          <div className="ov-stat" key={label}>
+        {STAT_CELLS.map(([icon, label, num, noteText, target]) => (
+          <button className="ov-stat" key={label} onClick={() => navigate(target)}>
             <div className="ov-stat-icon">{icon}</div>
             <div className="ov-stat-label">{label}</div>
             <div className="ov-stat-num">{num}</div>
             <div className="ov-stat-note">{noteText}</div>
-          </div>
+          </button>
         ))}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>

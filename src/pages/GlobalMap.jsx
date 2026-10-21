@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Badge from '../components/Badge';
 import WorldMap, { STATUS_COLOR } from '../components/WorldMap';
 import { useApp } from '../AppContext';
@@ -63,7 +63,10 @@ export default function GlobalMap() {
   // the map. Any other toggled-on layers act as an "also Implemented" filter
   // (dimming, not hiding, countries that don't meet them) rather than being
   // blended into a single score.
-  const [layersOn, setLayersOn] = useState(['dna_appointed']);
+  const [searchParams] = useSearchParams();
+  const requestedLayer = searchParams.get('layer');
+  const initialLayer = LAYER_FIELDS.some((l) => l.field === requestedLayer) ? requestedLayer : 'dna_appointed';
+  const [layersOn, setLayersOn] = useState([initialLayer]);
   const [regionFilter, setRegionFilter] = useState('All');
   const [incomeFilter, setIncomeFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
