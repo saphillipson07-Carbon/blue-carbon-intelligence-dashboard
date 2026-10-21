@@ -62,6 +62,9 @@ const en = {
     'In Review': 'In Review',
     Emerging: 'Emerging',
     Withdrawn: 'Withdrawn',
+    Extensive: 'Extensive',
+    Moderate: 'Moderate',
+    Limited: 'Limited',
   },
   statusCols: {
     'DNA appointed': 'DNA appointed',
@@ -162,6 +165,7 @@ const en = {
     dimmedNote: "Dimmed = doesn't meet {layers}",
     otherActiveFilters: 'other active filters',
     mapCaption: 'Geography: real country boundaries. Click a country for a status preview. Status records for Indonesia and Viet Nam are verified and sourced; other countries in this sample are illustrative pending verified source integration.',
+    ecoCaption: 'Ecological Potential is bucketed from each country’s own verified mangrove area (Extensive >1M ha, Moderate 100k–1M ha, Limited <100k ha) — not an estimate on our part. Only Indonesia has a verified figure today; every other country shows "No Data" until one is sourced and added.',
     panelEmpty: 'Click a country on the map to preview its enabling-conditions status here.',
     panelIndicators: 'Enabling conditions',
     viewCountryIntelligence: 'View Country Intelligence →',
@@ -175,6 +179,7 @@ const en = {
     layerItmo: 'ITMOs Issued',
     layerProjects: 'Active Blue Carbon Projects',
     layerRole: 'Market Role',
+    layerEcological: 'Ecological Potential',
   },
   countryIntelligence: {
     viewInMap: 'View in Map →',
@@ -554,6 +559,9 @@ const ko = {
     'In Review': '검토 중',
     Emerging: '초기 단계',
     Withdrawn: '철회됨',
+    Extensive: '광범위',
+    Moderate: '보통',
+    Limited: '제한적',
   },
   statusCols: {
     'DNA appointed': 'DNA 지정',
@@ -654,6 +662,7 @@ const ko = {
     dimmedNote: '흐림 표시 = {layers} 조건 미충족',
     otherActiveFilters: '다른 활성 필터',
     mapCaption: '지리 정보: 실제 국경 데이터. 국가를 클릭하면 상태 미리보기를 볼 수 있습니다. 인도네시아와 베트남의 상태 기록은 검증 및 출처가 확인되었으며, 그 외 국가는 검증 데이터 통합 전까지 예시 자료입니다.',
+    ecoCaption: '생태적 잠재력은 각 국가의 검증된 맹그로브 면적을 기준으로 구간화한 것입니다(광범위 100만 ha 이상, 보통 10만~100만 ha, 제한적 10만 ha 미만) — 저희의 추정치가 아닙니다. 현재 검증된 수치가 있는 국가는 인도네시아뿐이며, 다른 국가는 수치가 확보되어 추가되기 전까지 "데이터 없음"으로 표시됩니다.',
     panelEmpty: '지도에서 국가를 클릭하면 여건 상태 미리보기가 여기에 표시됩니다.',
     panelIndicators: '여건 지표',
     viewCountryIntelligence: '국가 인텔리전스 보기 →',
@@ -667,6 +676,7 @@ const ko = {
     layerItmo: 'ITMO 발행',
     layerProjects: '진행 중인 블루카본 프로젝트',
     layerRole: '시장 역할',
+    layerEcological: '생태적 잠재력',
   },
   countryIntelligence: {
     viewInMap: '지도에서 보기 →',

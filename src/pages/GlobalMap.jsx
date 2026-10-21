@@ -15,10 +15,12 @@ const LAYER_FIELDS = [
   { icon: '🧾', key: 'layerItmo', field: 'itmos_issued' },
   { icon: '🌊', key: 'layerProjects', field: 'active_blue_carbon_projects' },
   { icon: '🔁', key: 'layerRole', field: 'market_role', isRole: true },
+  { icon: '🌱', key: 'layerEcological', field: 'ecological_potential', isEco: true },
 ];
 
 const STATUS_ORDER = ['Implemented', 'In Development', 'Planned', 'Not Available', 'No Data'];
 const ROLE_ORDER = ['Host', 'Potential ITMO Supplier', 'Potential Buyer', 'Both'];
+const ECO_ORDER = ['Extensive', 'Moderate', 'Limited', 'No Data'];
 const INCOME_ORDER = ['Low income', 'Lower-middle income', 'Upper-middle income', 'High income'];
 
 const MARKET_ROLE_COLOR = {
@@ -27,6 +29,25 @@ const MARKET_ROLE_COLOR = {
   'Potential Buyer': '#D28A2E',
   Both: '#7C6FAE',
 };
+
+// Mangrove area tiers, bucketed from the real mangrove_area_ha figure in
+// each country's blue_carbon record. A distinct green-shade palette (not
+// the policy-status traffic-light colors) since this is a physical/
+// ecological fact, not an institutional-readiness one. Most countries
+// don't have a verified figure yet, hence "No Data" dominating today.
+const ECO_COLOR = {
+  Extensive: '#1F6B46',
+  Moderate: '#3F9162',
+  Limited: '#8FC7A4',
+  'No Data': '#E5EAED',
+};
+
+function ecologicalTier(mangroveAreaHa) {
+  if (mangroveAreaHa == null) return 'No Data';
+  if (mangroveAreaHa > 1000000) return 'Extensive';
+  if (mangroveAreaHa >= 100000) return 'Moderate';
+  return 'Limited';
+}
 
 export default function GlobalMap() {
   const navigate = useNavigate();
@@ -44,29 +65,37 @@ export default function GlobalMap() {
 
   const colorField = layersOn[layersOn.length - 1] || null;
   const colorLayer = LAYERS.find((l) => l.field === colorField) || null;
-  const filterOnlyFields = layersOn.filter((f) => f !== colorField && f !== 'market_role');
+  const filterOnlyFields = layersOn.filter((f) => f !== colorField && f !== 'market_role' && f !== 'ecological_potential');
 
-  const regions = useMemo(() => [...new Set(countries.map((c) => c.region))].filter(Boolean).sort(), []);
-  const incomeGroups = useMemo(
-    () => INCOME_ORDER.filter((g) => countries.some((c) => c.income_group === g)),
+  // Ecological potential is derived live from the real mangrove_area_ha
+  // figure, not stored as a separate categorical fact like the policy
+  // layers — this keeps the one real number as the single source of truth.
+  const countriesWithEco = useMemo(
+    () => countries.map((c) => ({ ...c, ecological_potential: ecologicalTier(c.blue_carbon?.mangrove_area_ha) })),
     []
+  );
+
+  const regions = useMemo(() => [...new Set(countriesWithEco.map((c) => c.region))].filter(Boolean).sort(), [countriesWithEco]);
+  const incomeGroups = useMemo(
+    () => INCOME_ORDER.filter((g) => countriesWithEco.some((c) => c.income_group === g)),
+    [countriesWithEco]
   );
   const statusOptions = useMemo(() => {
     if (!colorLayer) return [];
-    const order = colorLayer.isRole ? ROLE_ORDER : STATUS_ORDER;
-    const present = new Set(countries.map((c) => c[colorField]).filter(Boolean));
+    const order = colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : STATUS_ORDER;
+    const present = new Set(countriesWithEco.map((c) => c[colorField]).filter(Boolean));
     return order.filter((v) => present.has(v));
-  }, [colorField, colorLayer]);
+  }, [colorField, colorLayer, countriesWithEco]);
 
   const view = useMemo(
     () =>
-      countries.filter(
+      countriesWithEco.filter(
         (c) =>
           (regionFilter === 'All' || c.region === regionFilter) &&
           (incomeFilter === 'All' || c.income_group === incomeFilter) &&
           (statusFilter === 'All' || !colorField || c[colorField] === statusFilter)
       ),
-    [regionFilter, incomeFilter, statusFilter, colorField]
+    [countriesWithEco, regionFilter, incomeFilter, statusFilter, colorField]
   );
 
   // Countries that fail one of the OTHER toggled-on layers (not the one
@@ -75,11 +104,11 @@ export default function GlobalMap() {
   const mutedIsos = useMemo(() => {
     if (filterOnlyFields.length === 0) return new Set();
     return new Set(
-      countries.filter((c) => filterOnlyFields.some((f) => c[f] !== 'Implemented')).map((c) => c.iso)
+      countriesWithEco.filter((c) => filterOnlyFields.some((f) => c[f] !== 'Implemented')).map((c) => c.iso)
     );
-  }, [filterOnlyFields]);
+  }, [filterOnlyFields, countriesWithEco]);
 
-  const previewRow = countries.find((c) => c.iso === previewIso) || null;
+  const previewRow = countriesWithEco.find((c) => c.iso === previewIso) || null;
 
   const resetFilters = () => {
     setRegionFilter('All');
@@ -93,7 +122,7 @@ export default function GlobalMap() {
   };
 
   const openPreview = (countryName) => {
-    const row = countries.find((c) => c.country === countryName);
+    const row = countriesWithEco.find((c) => c.country === countryName);
     if (row) setPreviewIso(row.iso);
   };
 
@@ -102,8 +131,8 @@ export default function GlobalMap() {
     navigate('/country');
   };
 
-  const legendPalette = colorLayer?.isRole ? MARKET_ROLE_COLOR : STATUS_COLOR;
-  const legendValues = colorLayer ? (colorLayer.isRole ? ROLE_ORDER : STATUS_ORDER) : [];
+  const legendPalette = colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : STATUS_COLOR;
+  const legendValues = colorLayer ? (colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : STATUS_ORDER) : [];
 
   return (
     <>
@@ -172,7 +201,7 @@ export default function GlobalMap() {
           <WorldMap
             countries={view}
             statusField={colorField}
-            colorMap={colorLayer?.isRole ? MARKET_ROLE_COLOR : undefined}
+            colorMap={colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : undefined}
             mutedIsos={mutedIsos}
             onSelect={openPreview}
             selectedIso={previewIso}
@@ -197,6 +226,11 @@ export default function GlobalMap() {
           <div className="sub" style={{ marginTop: 6 }}>
             {t('globalMap.mapCaption')}
           </div>
+          {colorLayer?.isEco && (
+            <div className="sub" style={{ marginTop: 4 }}>
+              {t('globalMap.ecoCaption')}
+            </div>
+          )}
         </div>
 
         <div className="gm-panel">
@@ -221,6 +255,15 @@ export default function GlobalMap() {
                     <div style={{ marginTop: 4 }}><Badge value={previewRow[field]} /></div>
                   </div>
                 ))}
+                <div className={`gm-indicator-cell${layersOn.includes('ecological_potential') ? ' on-layer' : ''}`}>
+                  <div className="gm-indicator-label">{t('globalMap.layerEcological')}</div>
+                  <div style={{ marginTop: 4 }}><Badge value={previewRow.ecological_potential} /></div>
+                  {previewRow.blue_carbon?.mangrove_area_ha != null && (
+                    <div className="sub" style={{ marginTop: 3, fontSize: '.52rem' }}>
+                      {(previewRow.blue_carbon.mangrove_area_ha / 1000000).toFixed(2)}M ha mangrove
+                    </div>
+                  )}
+                </div>
               </div>
 
               <button className="btn" style={{ width: '100%', textAlign: 'center', marginTop: 12 }} onClick={() => goCountryIntelligence(previewRow)}>
@@ -231,7 +274,7 @@ export default function GlobalMap() {
         </div>
       </div>
 
-      <div className="section">{t('globalMap.countriesSection', { shown: view.length, total: countries.length })}{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
+      <div className="section">{t('globalMap.countriesSection', { shown: view.length, total: countriesWithEco.length })}{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
       {view
         .slice()
         .sort((a, b) => a.country.localeCompare(b.country))
