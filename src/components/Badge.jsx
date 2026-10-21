@@ -22,6 +22,10 @@ const BADGE_CLASS = {
   Extensive: 'good',
   Moderate: 'dev',
   Limited: 'plan',
+  'Transfer Completed': 'good',
+  'Authorized, Not Yet Transferred': 'dev',
+  'Framework Only': 'plan',
+  'No Confirmed Activity Found': 'na',
 };
 
 export default function Badge({ value }) {

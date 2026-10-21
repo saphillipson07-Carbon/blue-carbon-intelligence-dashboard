@@ -187,6 +187,32 @@ export default function CountryIntelligence() {
               <div className="gm-indicator-cell" key={field}>
                 <div className="gm-indicator-label">{t(`statusCols.${label}`)}</div>
                 <div style={{ marginTop: 4 }}><Badge value={row[field]} /></div>
+                {field === 'itmos_issued' && row.itmo_transfer_detail && (
+                  <div style={{ marginTop: 4 }}>
+                    <div className="sub" style={{ fontSize: '.52rem' }}>{row.itmo_transfer_detail.note}</div>
+                    {row.itmo_transfer_detail.partners?.length > 0 ? (
+                      row.itmo_transfer_detail.partners.map((p, i) => (
+                        <a
+                          key={i}
+                          className="ci-timeline-source"
+                          style={{ display: 'block' }}
+                          href={row.itmo_transfer_detail.source}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {t(p.direction === 'received_from' ? 'globalMap.itmoReceivedFrom' : 'globalMap.itmoSentTo')}: {p.country}
+                          {p.amount_tco2e ? ` · ${p.amount_tco2e.toLocaleString()} tCO2e` : ''}{p.year ? ` · ${p.year}` : ''} →
+                        </a>
+                      ))
+                    ) : (
+                      row.itmo_transfer_detail.source && (
+                        <a className="ci-timeline-source" href={row.itmo_transfer_detail.source} target="_blank" rel="noreferrer">
+                          {row.itmo_transfer_detail.source_label || t('common.source')} →
+                        </a>
+                      )
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>

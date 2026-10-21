@@ -13,7 +13,7 @@ const LAYER_FIELDS = [
   { icon: '🤝', key: 'layerBilateral', field: 'bilateral_agreements' },
   { icon: '🌿', key: 'layerNdc', field: 'blue_carbon_ndc' },
   { icon: '✅', key: 'layerAuth', field: 'article6_authorization' },
-  { icon: '🧾', key: 'layerItmo', field: 'itmos_issued' },
+  { icon: '🧾', key: 'layerItmo', field: 'itmos_issued', isItmo: true },
   { icon: '🌊', key: 'layerProjects', field: 'active_blue_carbon_projects' },
   { icon: '🔁', key: 'layerRole', field: 'market_role', isRole: true },
   { icon: '🌱', key: 'layerEcological', field: 'ecological_potential', isEco: true },
@@ -22,6 +22,7 @@ const LAYER_FIELDS = [
 const STATUS_ORDER = ['Implemented', 'In Development', 'Planned', 'Not Available', 'No Data'];
 const ROLE_ORDER = ['Host', 'Potential ITMO Supplier', 'Potential Buyer', 'Both'];
 const ECO_ORDER = ['Extensive', 'Moderate', 'Limited', 'Not Available', 'No Data'];
+const ITMO_ORDER = ['Transfer Completed', 'Authorized, Not Yet Transferred', 'Framework Only', 'No Confirmed Activity Found'];
 const INCOME_ORDER = ['Low income', 'Lower-middle income', 'Upper-middle income', 'High income'];
 
 const MARKET_ROLE_COLOR = {
@@ -29,6 +30,18 @@ const MARKET_ROLE_COLOR = {
   'Potential ITMO Supplier': '#3F9162',
   'Potential Buyer': '#D28A2E',
   Both: '#7C6FAE',
+};
+
+// Four evidence-strength tiers, ranked strongest to weakest, replacing a
+// plain Implemented/Not binary — "ITMOs issued" conflated authorization
+// with an actual completed transfer, which real-world research (Japan's
+// JCM issuances, Ghana's transfer to Switzerland, Indonesia's LoAs with
+// no confirmed transfer) shows are very different claims.
+const ITMO_COLOR = {
+  'Transfer Completed': '#1F6B46',
+  'Authorized, Not Yet Transferred': '#3F9162',
+  'Framework Only': '#D28A2E',
+  'No Confirmed Activity Found': '#AEB9BE',
 };
 
 // Mangrove area tiers, bucketed from the real mangrove_area_ha figure in
@@ -74,7 +87,7 @@ export default function GlobalMap() {
 
   const colorField = layersOn[layersOn.length - 1] || null;
   const colorLayer = LAYERS.find((l) => l.field === colorField) || null;
-  const filterOnlyFields = layersOn.filter((f) => f !== colorField && f !== 'market_role' && f !== 'ecological_potential');
+  const filterOnlyFields = layersOn.filter((f) => f !== colorField && f !== 'market_role' && f !== 'ecological_potential' && f !== 'itmos_issued');
 
   // Ecological potential is derived live from the real mangrove_area_ha
   // figure, not stored as a separate categorical fact like the policy
@@ -91,7 +104,7 @@ export default function GlobalMap() {
   );
   const statusOptions = useMemo(() => {
     if (!colorLayer) return [];
-    const order = colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : STATUS_ORDER;
+    const order = colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : colorLayer.isItmo ? ITMO_ORDER : STATUS_ORDER;
     const present = new Set(countriesWithEco.map((c) => c[colorField]).filter(Boolean));
     return order.filter((v) => present.has(v));
   }, [colorField, colorLayer, countriesWithEco]);
@@ -140,8 +153,8 @@ export default function GlobalMap() {
     navigate('/country');
   };
 
-  const legendPalette = colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : STATUS_COLOR;
-  const legendValues = colorLayer ? (colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : STATUS_ORDER) : [];
+  const legendPalette = colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : colorLayer?.isItmo ? ITMO_COLOR : STATUS_COLOR;
+  const legendValues = colorLayer ? (colorLayer.isRole ? ROLE_ORDER : colorLayer.isEco ? ECO_ORDER : colorLayer.isItmo ? ITMO_ORDER : STATUS_ORDER) : [];
 
   return (
     <>
@@ -210,7 +223,7 @@ export default function GlobalMap() {
           <WorldMap
             countries={view}
             statusField={colorField}
-            colorMap={colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : undefined}
+            colorMap={colorLayer?.isRole ? MARKET_ROLE_COLOR : colorLayer?.isEco ? ECO_COLOR : colorLayer?.isItmo ? ITMO_COLOR : undefined}
             mutedIsos={mutedIsos}
             onSelect={openPreview}
             selectedIso={previewIso}
@@ -267,6 +280,33 @@ export default function GlobalMap() {
                   <div className={`gm-indicator-cell${layersOn.includes(field) ? ' on-layer' : ''}`} key={field}>
                     <div className="gm-indicator-label">{t(`statusCols.${label}`)}</div>
                     <div style={{ marginTop: 4 }}><Badge value={previewRow[field]} /></div>
+                    {field === 'itmos_issued' && (
+                      <div style={{ marginTop: 4 }}>
+                        <div className="sub" style={{ fontSize: '.52rem', fontWeight: 700 }}>{t('globalMap.itmoPartnersLabel')}</div>
+                        {previewRow.itmo_transfer_detail?.partners?.length > 0 ? (
+                          previewRow.itmo_transfer_detail.partners.map((p, i) => (
+                            <a
+                              key={i}
+                              className="ci-timeline-source"
+                              style={{ display: 'block' }}
+                              href={previewRow.itmo_transfer_detail.source}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {p.direction === 'received_from' ? t('globalMap.itmoReceivedFrom') : t('globalMap.itmoSentTo')}: {p.country}
+                              {p.amount_tco2e ? ` · ${p.amount_tco2e.toLocaleString()} tCO2e` : ''}{p.year ? ` · ${p.year}` : ''} →
+                            </a>
+                          ))
+                        ) : (
+                          <div className="sub" style={{ fontSize: '.52rem' }}>{t('globalMap.itmoNoPartners')}</div>
+                        )}
+                        {previewRow.itmo_transfer_detail?.source && !previewRow.itmo_transfer_detail.partners?.length && (
+                          <a className="ci-timeline-source" href={previewRow.itmo_transfer_detail.source} target="_blank" rel="noreferrer">
+                            {previewRow.itmo_transfer_detail.source_label || t('common.source')} →
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
                 <div className={`gm-indicator-cell${layersOn.includes('ecological_potential') ? ' on-layer' : ''}`}>
@@ -302,6 +342,11 @@ export default function GlobalMap() {
             <div className="list-row-main">
               <div className="list-row-title">{r.country}</div>
               <div className="list-row-sub">{r.region} · {r.income_group}</div>
+              {colorField === 'itmos_issued' && r.itmo_transfer_detail?.partners?.length > 0 && (
+                <div className="list-row-sub" style={{ marginTop: 1 }}>
+                  {t(r.itmo_transfer_detail.partners[0].direction === 'received_from' ? 'globalMap.itmoReceivedFrom' : 'globalMap.itmoSentTo')}: {r.itmo_transfer_detail.partners.map((p) => p.country).join(', ')}
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: 260 }}>
               {layersOn.length > 1 ? (

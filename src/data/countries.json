@@ -11,12 +11,19 @@
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "Implemented",
-    "itmos_issued": "In Development",
+    "itmos_issued": "Authorized, Not Yet Transferred",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
     "verified": true,
     "last_verified": "2026-08-18",
     "notes": "Article 6 framework operational under Presidential Regulation 110/2025 and Ministerial Regulation 6/2026 (forestry). Letters of Authorization (LoA) issued in 2025, ending a three-year freeze on international credit transfers; Ministry of Forestry approved 4 forestry carbon projects on 6 Jul 2026 (~30M+ tCO2e potential). No confirmed ITMO unit transfer has been publicly reported yet for Indonesia (blue carbon or otherwise) as of this date.",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "Letters of Authorization for Article 6 credit exports were issued in 2025 under Presidential Regulation 110/2025, ending a three-year moratorium on international carbon credit transfers. No specific buyer country or completed ITMO transfer has been publicly reported yet, for blue carbon or any other sector.",
+      "source": "https://www.fastmarkets.com/insights/indonesia-clears-forestry-projects-to-issue-carbon-credits-after-three-year-freeze/",
+      "source_label": "Fastmarkets — Indonesia clears forestry projects to issue carbon credits after three-year freeze"
+    },
     "sources": [
       { "label": "Fastmarkets — Indonesia clears forestry projects to issue carbon credits after three-year freeze", "url": "https://www.fastmarkets.com/insights/indonesia-clears-forestry-projects-to-issue-carbon-credits-after-three-year-freeze/" },
       { "label": "IDNFinancials — Indonesia's carbon market targeted to be operational in June 2026", "url": "https://www.idnfinancials.com/news/61026/indonesias-carbon-market-targeted-to-be-operational-in-june-2026" },
@@ -53,12 +60,19 @@
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
     "verified": true,
     "last_verified": "2026-08-18",
     "notes": "Regulation on international trading of carbon credits entered into force 19 May 2026, setting caps on transferable volumes. Domestic pilot ETS (Decree 119/2025) launched Aug 2025 (110 facilities across power, steel, cement); pilot domestic exchange launched on the Hanoi Stock Exchange (HNX) 29 Jun 2026, running through 2028 with reportedly no new trades yet as participants test the system. National Blue Carbon Action Partnership (NBCAP) Secretariat established Jan 2026 to lead a national blue carbon roadmap. No confirmed ITMO transfer publicly reported yet.",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "Viet Nam has 51 projects eligible under its Joint Crediting Mechanism (JCM) partnership with Japan, and was still drafting the domestic decree governing international transfer of mitigation outcomes as of late 2025. No ITMO has been issued or transferred under this partnership yet.",
+      "source": "https://van.nongnghiepmoitruong.vn/viet-nam-japan-strengthen-carbon-credit-partnership-d785791.html",
+      "source_label": "Vietnam Agriculture & Environment News — Viet Nam, Japan strengthen carbon credit partnership"
+    },
     "sources": [
       { "label": "ICAP — Vietnam issues rules for pilot ETS, launching August 2025", "url": "https://icapcarbonaction.com/en/news/vietnam-issues-rules-pilot-ets-launching-august-2025" },
       { "label": "The Investor — Vietnam officially launches first carbon trading exchange", "url": "https://theinvestor.vn/vietnam-officially-launches-first-carbon-trading-exchange-d19425.html" },
@@ -84,9 +98,16 @@
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "In Development",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "The Philippines and Singapore exchanged a Memorandum of Understanding on Article 6 cooperation in August 2024, and reaffirmed in June 2025 their commitment to negotiate a full implementing arrangement. No implementing arrangement, authorization, or ITMO transfer has been confirmed yet.",
+      "source": "https://rtvm.gov.ph/wp-content/uploads/2025/06/2025-06-04_joint-leaders-statement.pdf",
+      "source_label": "Philippine government — Joint Leaders' Statement (4 Jun 2025)"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 311216,
       "mangrove_area_note": "2020 national total, Philippine Statistics Authority Mangrove Extent Accounts (preliminary) — up from 302,811 ha in 2015. (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat lower, at ~284,800 ha.)",
@@ -106,9 +127,16 @@
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Not Available",
     "article6_authorization": "Implemented",
-    "itmos_issued": "Implemented",
+    "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "In Development",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "buyer",
+      "partners": [],
+      "note": "South Korea signed framework MOUs with Bangladesh and Cambodia in November 2024 to set the terms for future ITMO cooperation under Article 6.2. These are preparatory agreements, not completed transfers — no ITMO issuance or transfer involving Korea has been publicly confirmed.",
+      "source": "https://koreapro.org/2024/11/south-korea-leverages-climate-deals-abroad-but-faces-environmental-scrutiny",
+      "source_label": "KoreaPro — South Korea leverages climate deals abroad but faces environmental scrutiny (Nov 2024)"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 0,
       "mangrove_area_note": "Not listed among the ~120 countries mapped in Global Mangrove Watch v3.0 (Bunting et al. 2022), the standardized global mangrove inventory — confirming the Korean Peninsula's temperate climate falls outside mangroves' tropical/subtropical range.",
@@ -128,9 +156,19 @@
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Not Available",
     "article6_authorization": "Implemented",
-    "itmos_issued": "Implemented",
+    "itmos_issued": "Transfer Completed",
     "active_blue_carbon_projects": "In Development",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "buyer",
+      "partners": [
+        { "country": "Thailand", "direction": "received_from", "amount_tco2e": 1009, "year": 2025, "mechanism": "Joint Crediting Mechanism (JCM)" },
+        { "country": "Maldives", "direction": "received_from", "amount_tco2e": null, "year": 2025, "mechanism": "Joint Crediting Mechanism (JCM)" }
+      ],
+      "note": "Japan received its first real ITMOs under the JCM from Thailand on 11 Nov 2025 (1,009 tCO2e), followed by a second issuance from the Maldives on 16 Dec 2025. Both are general-sector JCM credits, not blue carbon, and neither host country is tracked in this sample.",
+      "source": "https://www.qcintel.com/carbon/article/japan-receives-first-itmos-through-its-jcm-programme-52707.html",
+      "source_label": "Quantum Commodity Intelligence — Japan receives first ITMOs through its JCM programme"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 1031,
       "mangrove_area_note": "2020 figure, Global Mangrove Watch v3.0 (Bunting et al. 2022). Nearly all of it is concentrated in Okinawa Prefecture; the Nakama River basin on Iriomote Island holds Japan's largest single stand (~158 ha, roughly a quarter of the national total) and is a designated Natural Monument.",
@@ -150,9 +188,16 @@
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "Kenya adopted its Article 6 operational rulebook in 2026, capping international ITMO transfers at 10 million tCO2e through 2030. The cap applies to future authorization requests; no completed ITMO transfer involving Kenya has been publicly confirmed yet.",
+      "source": "https://abcnews.com/International/wireStory/kenya-unveils-carbon-market-rule-book-caps-overseas-135362523",
+      "source_label": "AP News via ABC News — Kenya unveils carbon market rule book and caps the overseas sale of carbon credits (Aug 2026)"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 61271,
       "mangrove_area_note": "Official figure from the National Mangrove Ecosystems Management Plan (2017–2027); about 61% (37,350 ha) occurs in Lamu County. A 2020 Global Mangrove Watch remote-sensing estimate puts current extent somewhat lower, at ~54,430 ha.",
@@ -172,9 +217,16 @@
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "Implemented",
-    "itmos_issued": "Implemented",
+    "itmos_issued": "No Confirmed Activity Found",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": null,
+      "partners": [],
+      "note": "Targeted research turned up no Article 6.2 bilateral implementing agreement, Letter of Authorization, or ITMO transfer for Australia. This reflects what public search could confirm as of this review, not a claim that no such agreement exists — verify directly against Australia's DCCEEW Article 6 page before relying on it.",
+      "source": null,
+      "source_label": null
+    },
     "blue_carbon": {
       "mangrove_area_ha": 854000,
       "mangrove_area_note": "2018 ABARES (Australian Bureau of Agricultural and Resource Economics and Sciences) State of the Forests figure — about 1% of Australia's total forest area, concentrated in Queensland (45%) and the Northern Territory (39%). (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat higher, at ~1.02M ha.)",
@@ -194,9 +246,16 @@
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "Brazil opened public consultation in July 2026 on a draft resolution that would let its National Designated Authority issue ITMO Authorization Letters, targeting up to 50 million tCO2e available for international transfer between 2031 and 2035. This is a draft proposal, not yet adopted, and no authorization or transfer has occurred.",
+      "source": "https://www.mayerbrown.com/pt/insights/publications/2026/07/article-62-of-the-paris-agreement-public-consultation-opened-on-the-operationalization-of-itmos",
+      "source_label": "Mayer Brown — Article 6.2 of the Paris Agreement: public consultation opened on the operationalization of ITMOs (Jul 2026)"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 1141471,
       "mangrove_area_note": "2020 figure, Global Mangrove Watch v3.0 (Bunting et al. 2022). A separate compilation from ICMBio (Instituto Chico Mendes) and federal environmental data puts the figure somewhat lower, at ~1.07M ha; roughly 90% of Brazil's mangrove extent falls within a conservation unit (ICMBio, 2018).",
@@ -216,9 +275,16 @@
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "No Confirmed Activity Found",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": null,
+      "partners": [],
+      "note": "Mexico's domestic carbon registry (RMX) remains separate from the infrastructure Article 6 would require, and as of 2026 commentary there is no official timeframe for building it. No Article 6.2 agreement, authorization, or ITMO transfer involving Mexico has been publicly confirmed.",
+      "source": "https://www.mondaq.com/mexico/climate-change/1682516/mexico-carbon-markets-poised-for-expansion-in-2026",
+      "source_label": "Mondaq — Mexico carbon markets poised for expansion in 2026"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 905086,
       "mangrove_area_note": "2020 official figure, CONABIO's Mexican Mangrove Monitoring System — 4th-largest mangrove extent in the world (~6.7% of the global total). A 2025 CONABIO update reports a decline to ~877,464 ha, partly reflecting reclassification of disturbed mangrove rather than pure loss. (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat higher, at ~1.01M ha.)",
@@ -238,9 +304,16 @@
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
-    "itmos_issued": "No Data",
+    "itmos_issued": "Authorized, Not Yet Transferred",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "itmo_transfer_detail": {
+      "role": "host",
+      "partners": [],
+      "note": "Chile and Switzerland signed a bilateral Article 6 implementing agreement on 9 December 2023. Chile issued a Letter of Authorization for a landfill biogas project in 2026, but no completed ITMO transfer to Switzerland (or any buyer) has been publicly confirmed yet.",
+      "source": "https://klik.ch/international/partner-countries/chile",
+      "source_label": "KliK Foundation — Chile partner country page"
+    },
     "blue_carbon": {
       "mangrove_area_ha": 0,
       "mangrove_area_note": "Not listed among the ~120 countries mapped in Global Mangrove Watch v3.0 (Bunting et al. 2022), the standardized global mangrove inventory — confirming Chile's cold Humboldt current and arid northern coast fall outside mangroves' tropical/subtropical range.",
