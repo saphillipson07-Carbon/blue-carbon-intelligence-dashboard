@@ -9,6 +9,13 @@ function uniqueSorted(arr, key) {
   return [...new Set(arr.map((r) => r[key]).filter(Boolean))].sort();
 }
 
+const SORT_COMPARATORS = {
+  country: (a, b) => a.country.localeCompare(b.country),
+  ecosystem: (a, b) => (a.ecosystem || '').localeCompare(b.ecosystem || ''),
+  stage: (a, b) => (a.stage || '').localeCompare(b.stage || ''),
+  project_id: (a, b) => a.project_id.localeCompare(b.project_id),
+};
+
 export default function Projects() {
   const navigate = useNavigate();
   const { t } = useApp();
@@ -16,6 +23,8 @@ export default function Projects() {
   const [ecosystemFilter, setEcosystemFilter] = useState(ALL);
   const [stageFilter, setStageFilter] = useState(ALL);
   const [blockerFilter, setBlockerFilter] = useState(ALL);
+  const [sortBy, setSortBy] = useState('default');
+  const [sortDir, setSortDir] = useState('asc');
 
   const totalProjects = projects.length;
   const countryCount = new Set(projects.map((p) => p.country)).size;
@@ -32,6 +41,12 @@ export default function Projects() {
       (blockerFilter === ALL || p.blocker_type === blockerFilter)
     );
   }, [countryFilter, ecosystemFilter, stageFilter, blockerFilter]);
+
+  const sortedView = useMemo(() => {
+    if (sortBy === 'default') return view;
+    const sorted = view.slice().sort(SORT_COMPARATORS[sortBy]);
+    return sortDir === 'desc' ? sorted.reverse() : sorted;
+  }, [view, sortBy, sortDir]);
 
   return (
     <>
@@ -93,7 +108,32 @@ export default function Projects() {
         </select>
       </div>
 
-      <div className="section">{t('projects.matchingSection', { n: view.length })}</div>
+      <div className="section" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+        <span>{t('projects.matchingSection', { n: view.length })}</span>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', textTransform: 'none', letterSpacing: 'normal', fontWeight: 400 }}>
+          <span style={{ fontSize: '.6rem', color: 'var(--muted)' }}>{t('projects.sortBy')}</span>
+          <select
+            className="select-input"
+            style={{ marginBottom: 0, width: 'auto' }}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="default">{t('projects.sortDefault')}</option>
+            <option value="project_id">{t('projects.sortId')}</option>
+            <option value="country">{t('projects.sortCountry')}</option>
+            <option value="ecosystem">{t('projects.sortEcosystem')}</option>
+            <option value="stage">{t('projects.sortStage')}</option>
+          </select>
+          <button
+            className="gm-reset"
+            style={{ opacity: sortBy === 'default' ? .4 : 1 }}
+            disabled={sortBy === 'default'}
+            onClick={() => setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))}
+          >
+            {sortDir === 'asc' ? `↑ ${t('projects.sortAsc')}` : `↓ ${t('projects.sortDesc')}`}
+          </button>
+        </div>
+      </div>
 
       {view.length === 0 && (
         <div className="card pad">
@@ -102,7 +142,7 @@ export default function Projects() {
         </div>
       )}
 
-      {view.map((r) => {
+      {sortedView.map((r) => {
         const blocker = r.blocker_type || 'No Data';
         const blockerCls = blocker.toLowerCase() === 'hard blocker' ? 'bad' : blocker.toLowerCase() === 'soft blocker' ? 'plan' : 'na';
         const note = r.transaction_note || t('projects.noTransactionNote');
