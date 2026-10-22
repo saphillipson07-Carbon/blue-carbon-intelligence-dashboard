@@ -5,7 +5,6 @@ import Badge from '../components/Badge';
 import { StdIcon, MktIcon } from '../components/Icons';
 import Donut from '../components/Donut';
 import WorldMap from '../components/WorldMap';
-import MiniMap from '../components/MiniMap';
 import { useApp } from '../AppContext';
 import { countries, projects, news, markets, methodologies, STATUS_COLS } from '../data';
 
@@ -41,8 +40,8 @@ export default function GlobalOverview() {
   };
 
   const QUICK_ACCESS = [
-    ['🌍', t('globalOverview.qaCountryTitle'), t('globalOverview.qaCountrySub'), '/country', 'dna_appointed'],
-    ['📂', t('globalOverview.qaProjectTitle'), t('globalOverview.qaProjectSub'), '/projects', 'active_blue_carbon_projects'],
+    ['🌍', t('globalOverview.qaCountryTitle'), t('globalOverview.qaCountrySub'), '/country'],
+    ['📂', t('globalOverview.qaProjectTitle'), t('globalOverview.qaProjectSub'), '/projects'],
     ['📜', t('globalOverview.qaPolicyTitle'), t('globalOverview.qaPolicySub'), '/markets'],
     ['🌊', t('globalOverview.qaMspTitle'), t('globalOverview.qaMspSub'), '/msp'],
     ['📄', t('globalOverview.qaDocsTitle'), t('globalOverview.qaDocsSub'), null],
@@ -275,24 +274,12 @@ export default function GlobalOverview() {
 
       <div className="section">{t('globalOverview.sectionQuickAccess')}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
-        {QUICK_ACCESS.map(([icon, title, sub, target, mapField]) => (
+        {QUICK_ACCESS.map(([icon, title, sub, target]) => (
           <div key={title}>
-            <div className={`qa-card${mapField ? ' qa-card-map' : ''}`}>
-              {mapField ? (
-                <>
-                  <MiniMap countries={countries} statusField={mapField} />
-                  <div className="qa-card-map-body">
-                    <div className="qa-title">{title}</div>
-                    <div className="qa-sub">{sub}</div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="qa-icon">{icon}</div>
-                  <div className="qa-title">{title}</div>
-                  <div className="qa-sub">{sub}</div>
-                </>
-              )}
+            <div className="qa-card">
+              <div className="qa-icon">{icon}</div>
+              <div className="qa-title">{title}</div>
+              <div className="qa-sub">{sub}</div>
             </div>
             {target && (
               <button
