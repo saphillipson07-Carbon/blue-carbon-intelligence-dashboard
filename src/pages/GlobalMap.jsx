@@ -329,6 +329,22 @@ export default function GlobalMap() {
       </div>
 
       <div className="section">{t('globalMap.countriesSection', { shown: view.length, total: countriesWithEco.length })}{colorLayer ? ` — ${colorLayer.label}` : ''}</div>
+      {colorLayer && statusOptions.length > 0 && (
+        <div className="mode-toggle" style={{ flexWrap: 'wrap' }}>
+          <button className={`mode-toggle-btn${statusFilter === 'All' ? ' active' : ''}`} onClick={() => setStatusFilter('All')}>
+            {t('common.allStatuses')}
+          </button>
+          {statusOptions.map((s) => (
+            <button
+              key={s}
+              className={`mode-toggle-btn${statusFilter === s ? ' active' : ''}`}
+              onClick={() => setStatusFilter(s)}
+            >
+              {t(`status.${s}`)}
+            </button>
+          ))}
+        </div>
+      )}
       {view
         .slice()
         .sort((a, b) => a.country.localeCompare(b.country))
