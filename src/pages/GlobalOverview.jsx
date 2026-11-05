@@ -6,7 +6,7 @@ import { StdIcon, MktIcon } from '../components/Icons';
 import Donut from '../components/Donut';
 import WorldMap from '../components/WorldMap';
 import { useApp } from '../AppContext';
-import { countries, projects, news, markets, methodologies, STATUS_COLS } from '../data';
+import { countries, projects, news, markets, methodologies, bilateral, STATUS_COLS } from '../data';
 
 const NEWS_TABS = ['Latest News', 'Regulatory Updates', 'New Projects', 'Agreements'];
 const NEWS_TAB_GROUPS = {
@@ -22,14 +22,31 @@ export default function GlobalOverview() {
   const [mapLayer, setMapLayer] = useState('DNA appointed');
   const layerField = STATUS_COLS[mapLayer];
 
+  // Every figure below is computed live from this sample's own sourced data
+  // (10 tracked countries) rather than hardcoded — these cards used to show
+  // illustrative "global" numbers (e.g. "127 of 193 UNFCCC Parties") that
+  // had no source anywhere in the dataset. Scoping to the tracked sample
+  // means every number here is as defensible as the Country Explorer data
+  // it's drawn from; a true 193-country global tally would need a separate
+  // research pass against primary sources like the UNFCCC DNA/Article 6
+  // registries, not a quick recomputation (see data source inventory doc).
+  const totalCountries = countries.length;
+  const countDna = countries.filter((c) => c.dna_appointed === 'Implemented').length;
+  const countA6 = countries.filter((c) => c.article6_framework === 'Implemented').length;
+  const countBilateral = countries.filter((c) => c.bilateral_agreements === 'Implemented').length;
+  const countMarket = countries.filter((c) => c.domestic_carbon_market === 'Implemented').length;
+  const countNdc = countries.filter((c) => c.blue_carbon_ndc === 'Implemented').length;
+  const countItmo = countries.filter((c) => c.itmos_issued === 'Transfer Completed').length;
+  const projectCountries = new Set(projects.map((p) => p.country)).size;
+
   const STAT_CELLS = [
-    ['👤', t('globalOverview.statDna'), '127', t('globalOverview.statDnaNote'), '/map'],
-    ['📜', t('globalOverview.statA6'), '53', t('globalOverview.statA6Note'), '/markets'],
-    ['🤝', t('globalOverview.statBilateral'), '28', t('globalOverview.statBilateralNote'), '/markets'],
-    ['🏛', t('globalOverview.statMarket'), '41', t('globalOverview.statMarketNote'), '/markets'],
-    ['🌿', t('globalOverview.statNdc'), '36', t('globalOverview.statNdcNote'), '/markets'],
-    ['🧾', t('globalOverview.statItmo'), '3', t('globalOverview.statItmoNote'), '/map?layer=itmos_issued'],
-    ['🌊', t('globalOverview.statProjects'), '19', t('globalOverview.statProjectsNote', { n: countries.length }), '/projects'],
+    ['👤', t('globalOverview.statDna'), `${countDna}/${totalCountries}`, t('globalOverview.statDnaNote'), '/map'],
+    ['📜', t('globalOverview.statA6'), `${countA6}/${totalCountries}`, t('globalOverview.statA6Note'), '/markets'],
+    ['🤝', t('globalOverview.statBilateral'), `${countBilateral}/${totalCountries}`, t('globalOverview.statBilateralNote', { n: bilateral.length }), '/markets'],
+    ['🏛', t('globalOverview.statMarket'), `${countMarket}/${totalCountries}`, t('globalOverview.statMarketNote'), '/markets'],
+    ['🌿', t('globalOverview.statNdc'), `${countNdc}/${totalCountries}`, t('globalOverview.statNdcNote'), '/markets'],
+    ['🧾', t('globalOverview.statItmo'), `${countItmo}/${totalCountries}`, t('globalOverview.statItmoNote'), '/map?layer=itmos_issued'],
+    ['🌊', t('globalOverview.statProjects'), `${projects.length}`, t('globalOverview.statProjectsNote', { n: projectCountries }), '/projects'],
   ];
 
   const NEWS_TAB_LABELS = {
@@ -227,18 +244,11 @@ export default function GlobalOverview() {
           <div className="card pad">
             <div className="title">{t('globalOverview.ndcTitle')}<span className="card-link" onClick={() => navigate('/markets')}>{t('globalOverview.viewAll')}</span></div>
             <div className="sub">{t('globalOverview.ndcSub')}</div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
               <div>
-                <div className="donut-label">{t('globalOverview.conditionalTargets')}</div>
-                <div className="donut-value">42.1 <small>MtCO2e</small></div>
-                <Donut pct={65} centerNum="36" centerLabel={t('globalOverview.countriesLabel')} color="#2478A6" />
-                <div className="donut-note">{t('globalOverview.conditionalNote')}</div>
-              </div>
-              <div>
-                <div className="donut-label">{t('globalOverview.unconditionalTargets')}</div>
-                <div className="donut-value">19.3 <small>MtCO2e</small></div>
-                <Donut pct={43} centerNum="24" centerLabel={t('globalOverview.countriesLabel')} color="#12999B" />
-                <div className="donut-note">{t('globalOverview.unconditionalNote')}</div>
+                <div className="donut-label">{t('globalOverview.ndcIncludedLabel')}</div>
+                <Donut pct={Math.round((countNdc / totalCountries) * 100)} centerNum={`${countNdc}/${totalCountries}`} centerLabel={t('globalOverview.countriesLabel')} color="#2478A6" />
+                <div className="donut-note">{t('globalOverview.ndcIncludedNote')}</div>
               </div>
             </div>
           </div>
