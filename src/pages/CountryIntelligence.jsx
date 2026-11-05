@@ -312,6 +312,12 @@ export default function CountryIntelligence() {
                   {bc.mangrove_area_source && (
                     <a className="ci-timeline-source" href={bc.mangrove_area_source} target="_blank" rel="noreferrer">{bc.mangrove_area_source_label} →</a>
                   )}
+                  {bc.seagrass_area_source && (
+                    <a className="ci-timeline-source" href={bc.seagrass_area_source} target="_blank" rel="noreferrer">{bc.seagrass_area_source_label} →</a>
+                  )}
+                  {bc.salt_marsh_source && (
+                    <a className="ci-timeline-source" href={bc.salt_marsh_source} target="_blank" rel="noreferrer">{bc.salt_marsh_source_label} →</a>
+                  )}
                   {bc.mitigation_potential_source && (
                     <a className="ci-timeline-source" href={bc.mitigation_potential_source} target="_blank" rel="noreferrer">{bc.mitigation_potential_source_label} →</a>
                   )}

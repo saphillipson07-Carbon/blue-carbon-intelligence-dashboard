@@ -83,7 +83,14 @@
       "mangrove_area_ha": 187147,
       "mangrove_area_note": "2020 figure, Global Mangrove Watch v3.0 (Bunting et al. 2022) — the standardized global remote-sensing dataset; no official national total was found. Independent academic estimates for Viet Nam range more widely (e.g. ~235,600–345,000 ha), reflecting differing survey methods.",
       "mangrove_area_source": "https://doi.org/10.5281/zenodo.6894273",
-      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo"
+      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo",
+      "seagrass_area_note": "No national seagrass or salt marsh area figure exists — Viet Nam's forest-inventory system has historically tracked only mangrove area, with seagrass and tidal marsh left out of national accounting as of this review.",
+      "seagrass_area_source": "https://van.nongnghiepmoitruong.vn/viet-nam-poised-to-reduce-3-million-tons-of-co2-through-blue-carbon-initiatives-d785325.html",
+      "seagrass_area_source_label": "Vietnam Agriculture & Environment News — Viet Nam poised to reduce 3 million tons of CO2 through blue carbon initiatives",
+      "salt_marsh_note": "Not yet nationally inventoried (see seagrass note) — tidal marsh accounting has historically been excluded from Viet Nam's forest/ecosystem inventory, which has focused on mangroves.",
+      "ndc_mangrove_target_note": "Viet Nam's blue carbon contribution toward its 2035 NDC emission-reduction target is estimated at ~3 million tonnes CO2, based on preliminary mangrove-focused calculations; further inventory of seagrass and salt marsh is still needed before they can be counted.",
+      "ndc_target_source": "https://van.nongnghiepmoitruong.vn/viet-nam-poised-to-reduce-3-million-tons-of-co2-through-blue-carbon-initiatives-d785325.html",
+      "ndc_target_source_label": "Vietnam Agriculture & Environment News — Viet Nam poised to reduce 3 million tons of CO2 through blue carbon initiatives"
     }
   },
   {
@@ -119,7 +126,17 @@
       "mangrove_area_ha": 311216,
       "mangrove_area_note": "2020 national total, Philippine Statistics Authority Mangrove Extent Accounts (preliminary) — up from 302,811 ha in 2015. (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat lower, at ~284,800 ha.)",
       "mangrove_area_source": "https://psa.gov.ph/content/philippines-mangrove-extent-reaches-311216-hectares-2020",
-      "mangrove_area_source_label": "Philippine Statistics Authority — Philippines' Mangrove Extent Reaches 311,216 Hectares in 2020"
+      "mangrove_area_source_label": "Philippine Statistics Authority — Philippines' Mangrove Extent Reaches 311,216 Hectares in 2020",
+      "seagrass_area_note": "The Philippines' own 2025 statement to the UNFCCC cites over 27,000 ha of seagrass beds. Other published estimates range far higher (into the millions of hectares) using different mapping methodologies — treat the area as unsettled pending a single standardized national count.",
+      "seagrass_area_source": "https://unfccc.int/sites/default/files/resource/Philippines_Statement_Ocean_Dialogue_2025.pdf",
+      "seagrass_area_source_label": "Philippine government — Statement at the UNFCCC Ocean Dialogue 2025",
+      "salt_marsh_note": "Not a significant ecosystem type in the Philippines' tropical climate; national attention and data remain focused on mangroves and seagrass.",
+      "ndc_mangrove_target_note": "The Philippines' current NDC does not yet include blue carbon ecosystems as a climate mitigation measure. Its 2025 UNFCCC statement says the government is exploring adding ecosystems beyond mangroves (seagrass etc.) in a future NDC update.",
+      "ndc_target_source": "https://unfccc.int/sites/default/files/resource/Philippines_Statement_Ocean_Dialogue_2025.pdf",
+      "ndc_target_source_label": "Philippine government — Statement at the UNFCCC Ocean Dialogue 2025",
+      "mitigation_potential_note": "An academic regional study estimates seagrass could contribute up to 7.03% of the Philippines' 2030 emissions-reduction goal, with the Philippines holding the largest single-country share (~11.7%) of Southeast Asia's seagrass carbon-offset potential. This is an academic estimate, not an official government figure.",
+      "mitigation_potential_source": "https://repository.unhas.ac.id/id/eprint/12945/index.html",
+      "mitigation_potential_source_label": "Quantification of blue carbon in seagrass ecosystems of Southeast Asia and their potential for climate change mitigation (academic repository)"
     }
   },
   {
@@ -156,7 +173,13 @@
       "mangrove_area_ha": 0,
       "mangrove_area_note": "Not listed among the ~120 countries mapped in Global Mangrove Watch v3.0 (Bunting et al. 2022), the standardized global mangrove inventory — confirming the Korean Peninsula's temperate climate falls outside mangroves' tropical/subtropical range.",
       "mangrove_area_source": "https://doi.org/10.5281/zenodo.6894273",
-      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo"
+      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo",
+      "salt_marsh_note": "Korea's principal blue carbon ecosystem is its tidal flats (getbol) rather than mangrove or classic salt marsh. The UNESCO-listed Getbol Korean Tidal Flats cover a 156,386 ha core zone plus a further ~105,303 ha buffer zone. A peer-reviewed modeling study estimated Korea's tidal flats hold ~11.2 million MgC (~41.3M tCO2e, to 70cm depth) and projected a 2050 contribution of ~7.64M tCO2e/year toward Korea's carbon-neutral strategy — the study's authors describe this as relevant for future NDC inclusion, though it is not yet formally counted in Korea's NDC.",
+      "salt_marsh_source": "https://pubmed.ncbi.nlm.nih.gov/40068323/",
+      "salt_marsh_source_label": "Assessing the contribution of Tidal Flats to climate change and carbon neutrality through modeling approaches (peer-reviewed)",
+      "mitigation_potential_note": "South Korea's Ministry of Oceans and Fisheries is pursuing wider IPCC recognition of blue carbon (including non-vegetated tidal flats) so it can practically contribute to Korea's NDC — a stated policy direction as of this research pass, not yet a finished accounting rule.",
+      "mitigation_potential_source": "https://biz.heraldcorp.com/article/10822206",
+      "mitigation_potential_source_label": "The Korea Herald — A detailed development plan for the blue carbon garden (Ministry of Oceans and Fisheries)"
     }
   },
   {
@@ -196,7 +219,11 @@
       "mangrove_area_ha": 1031,
       "mangrove_area_note": "2020 figure, Global Mangrove Watch v3.0 (Bunting et al. 2022). Nearly all of it is concentrated in Okinawa Prefecture; the Nakama River basin on Iriomote Island holds Japan's largest single stand (~158 ha, roughly a quarter of the national total) and is a designated Natural Monument.",
       "mangrove_area_source": "https://doi.org/10.5281/zenodo.6894273",
-      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo"
+      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo",
+      "seagrass_area_note": "National surveys disagree: a 1977–78 government survey recorded ~207,600 ha of seagrass cover, since declined roughly 22% after 2000 per the same survey series; a more recent Ministry of Environment estimate puts combined seagrass-and-seaweed-bed cover at under 200,000 ha. Japan became the first country to include seagrass-bed carbon absorption (~350,000 tCO2/year, ~0.03% of national emissions) in its national GHG inventory, submitted April 2024.",
+      "seagrass_area_source": "https://www.weforum.org/stories/2026/02/japan-s-satoumi-initiative-is-reviving-seagrass-and-advancing-blue-carbon-for-climate-action",
+      "seagrass_area_source_label": "World Economic Forum — Japan's Satoumi Initiative Is Reviving Seagrass and Advancing Blue Carbon for Climate Action",
+      "salt_marsh_note": "No national tidal-flat or salt-marsh area figure was found. Japan's J Blue Credit system covers tidal flats and mangroves alongside seagrass/seaweed beds, but hectare totals for tidal flats specifically weren't located in this research pass."
     }
   },
   {
@@ -233,7 +260,17 @@
       "mangrove_area_ha": 61271,
       "mangrove_area_note": "Official figure from the National Mangrove Ecosystems Management Plan (2017–2027); about 61% (37,350 ha) occurs in Lamu County. A 2020 Global Mangrove Watch remote-sensing estimate puts current extent somewhat lower, at ~54,430 ha.",
       "mangrove_area_source": "https://www.kenyaforestservice.org/wp-content/uploads/2025/07/national-mangrove-ecosystem-restoration-guidelines.pdf",
-      "mangrove_area_source_label": "Kenya Forest Service — National Mangrove Ecosystem Restoration Guidelines"
+      "mangrove_area_source_label": "Kenya Forest Service — National Mangrove Ecosystem Restoration Guidelines",
+      "seagrass_area_note": "~39,000 ha of existing seagrass, per Kenya's 2026 national blue carbon implementation plan. The plan's protection target for seagrass by 2035 is given inconsistently across press coverage as either 20,000 ha or 22,000 ha — check the official plan document for the exact figure.",
+      "seagrass_area_source": "https://www.pew.org/en/research-and-analysis/articles/2026/06/17/kenya-launches-national-plan-to-protect-blue-carbon-ecosystems",
+      "seagrass_area_source_label": "Pew Charitable Trusts — Kenya Launches National Plan to Protect Blue Carbon Ecosystems",
+      "salt_marsh_note": "Not a significant ecosystem type in Kenya's tropical climate; national blue carbon focus is on mangroves and seagrass.",
+      "ndc_mangrove_target_note": "Blue carbon was first included in Kenya's 2020 NDC and reinforced in its later five-year update. Kenya's 2026 national blue carbon implementation plan targets conserving all existing mangroves, restoring ~75% of degraded mangroves, and protecting at least 20,000–22,000 ha of seagrass by 2035, at an estimated delivery cost of $600M (funding sources cited include Article 6 carbon markets).",
+      "ndc_target_source": "https://www.pew.org/en/research-and-analysis/articles/2026/06/17/kenya-launches-national-plan-to-protect-blue-carbon-ecosystems",
+      "ndc_target_source_label": "Pew Charitable Trusts — Kenya Launches National Plan to Protect Blue Carbon Ecosystems",
+      "mitigation_potential_note": "Kenya's mangroves and seagrass together are estimated to hold over 75 million tonnes of CO2 in existing carbon stock (a cumulative stock figure, not an annual sequestration rate).",
+      "mitigation_potential_source": "https://www.pew.org/en/research-and-analysis/articles/2026/06/17/kenya-launches-national-plan-to-protect-blue-carbon-ecosystems",
+      "mitigation_potential_source_label": "Pew Charitable Trusts — Kenya Launches National Plan to Protect Blue Carbon Ecosystems"
     }
   },
   {
@@ -269,7 +306,14 @@
       "mangrove_area_ha": 854000,
       "mangrove_area_note": "2018 ABARES (Australian Bureau of Agricultural and Resource Economics and Sciences) State of the Forests figure — about 1% of Australia's total forest area, concentrated in Queensland (45%) and the Northern Territory (39%). (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat higher, at ~1.02M ha.)",
       "mangrove_area_source": "https://www.agriculture.gov.au/abares/forestsaustralia/australias-forests/profiles/mangrove-2019",
-      "mangrove_area_source_label": "ABARES — Australia's Forests: Mangrove profile"
+      "mangrove_area_source_label": "ABARES — Australia's Forests: Mangrove profile",
+      "seagrass_area_note": "No reliable national seagrass or salt marsh hectare figure was found — the primary peer-reviewed national assessment (Serrano et al. 2019, Nature Communications) states that mapping of Australian seagrass extent remains incomplete.",
+      "seagrass_area_source": "https://doi.org/10.1038/s41467-019-12176-8",
+      "seagrass_area_source_label": "Serrano et al. 2019, Nature Communications — Australian vegetated coastal ecosystems as global hotspots for climate change mitigation",
+      "salt_marsh_note": "Present and extensive in temperate southern Australia, but not separately quantified in the sources found (see seagrass note).",
+      "mitigation_potential_note": "The same national peer-reviewed study estimates Australia's seagrass, mangrove and salt marsh ecosystems together remove ~20 million tCO2e/year nationally, while degraded or lost blue carbon ecosystems emit an estimated 2.1–3.1 million tCO2e/year — equivalent to 12–21% of Australia's land-use-change CO2 emissions. The study does not tie these figures to a specific NDC mitigation target.",
+      "mitigation_potential_source": "https://doi.org/10.1038/s41467-019-12176-8",
+      "mitigation_potential_source_label": "Serrano et al. 2019, Nature Communications — Australian vegetated coastal ecosystems as global hotspots for climate change mitigation"
     }
   },
   {
@@ -282,12 +326,12 @@
     "dna_appointed": "Implemented",
     "domestic_carbon_market": "In Development",
     "bilateral_agreements": "In Development",
-    "blue_carbon_ndc": "Implemented",
+    "blue_carbon_ndc": "In Development",
     "article6_authorization": "In Development",
     "itmos_issued": "Framework Only",
     "verified": true,
     "last_verified": "2026-11-05",
-    "notes": "As of June 2026, Brazil had not yet published an Article 6 regulatory framework (Climate Action Tracker), though it has signed 2 bilateral agreements — with Singapore and Switzerland — now added to this dataset (see Bilateral Agreements). Its domestic emissions trading system (SBCE, the Sistema Brasileiro de Comércio de Emissões) is under construction. An Aug 2026 briefing said officials want Article 6 authorizations and regulatory groundwork to start before 2031, while keeping pre-2031 mitigation outcomes excluded and volume restrictions in the current draft. bilateral_agreements remains \"In Development\" despite the 2 signed agreements since neither can yet be operationalized without the underlying national regulation.",
+    "notes": "As of June 2026, Brazil had not yet published an Article 6 regulatory framework (Climate Action Tracker), though it has signed 2 bilateral agreements — with Singapore and Switzerland — now added to this dataset (see Bilateral Agreements). Its domestic emissions trading system (SBCE, the Sistema Brasileiro de Comércio de Emissões) is under construction. An Aug 2026 briefing said officials want Article 6 authorizations and regulatory groundwork to start before 2031, while keeping pre-2031 mitigation outcomes excluded and volume restrictions in the current draft. bilateral_agreements remains \"In Development\" despite the 2 signed agreements since neither can yet be operationalized without the underlying national regulation. blue_carbon_ndc downgraded from \"Implemented\" to \"In Development\": a 2022 peer-reviewed review found Brazil's blue carbon ecosystems explicitly NOT included in its NDC or other climate-mitigation commitments (see Blue Carbon Ecosystems below) — this finding predates any more recent NDC update and should be checked against Brazil's current NDC text if a more precise status is needed.",
     "sources": [
       { "label": "Climate Action Tracker — Assessment of Brazil's Article 6 engagement (Jun 2026)", "url": "https://climateactiontracker.org/documents/1425/CAT_2026-06_Assessment_Article6_Brazil.pdf" },
       { "label": "Carbon Pulse — BRIEFING: Brazil seeks to reassure carbon industry over Article 6 timeline", "url": "https://carbon-pulse.com/539513/" }
@@ -305,7 +349,15 @@
       "mangrove_area_ha": 1141471,
       "mangrove_area_note": "2020 figure, Global Mangrove Watch v3.0 (Bunting et al. 2022). A separate compilation from ICMBio (Instituto Chico Mendes) and federal environmental data puts the figure somewhat lower, at ~1.07M ha; roughly 90% of Brazil's mangrove extent falls within a conservation unit (ICMBio, 2018).",
       "mangrove_area_source": "https://doi.org/10.5281/zenodo.6894273",
-      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo"
+      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo",
+      "seagrass_area_note": "Estimates vary widely by scope: an older (2014) Blue Carbon Working Group figure gives >20,000 ha of seagrass meadows specifically, while a broader 2022 review puts all of Brazil's \"Blue Amazon\" coastal ecosystems (mangroves + salt marshes + seagrass + hypersaline tidal flats combined) at ≥1,100,000 ha. These are different scopes and shouldn't be added together.",
+      "seagrass_area_source": "https://www.frontiersin.org/articles/10.3389/fmars.2022.797411/full",
+      "seagrass_area_source_label": "Frontiers in Marine Science (2022) — review of Brazilian Blue Carbon Ecosystems",
+      "salt_marsh_note": "Present within Brazil's \"Blue Amazon\" coastal ecosystem complex (see seagrass note) but not separately quantified in the sources found.",
+      "ndc_mangrove_target_note": "As of a 2022 peer-reviewed review, Brazil's blue carbon ecosystems (mangroves, salt marshes, seagrass) were explicitly not included in the country's NDC or other climate-mitigation commitments. This finding predates any more recent NDC update and should be checked against Brazil's current NDC text.",
+      "ndc_target_source": "https://www.frontiersin.org/articles/10.3389/fmars.2022.797411/full",
+      "ndc_target_source_label": "Frontiers in Marine Science (2022) — review of Brazilian Blue Carbon Ecosystems",
+      "mitigation_potential_note": "The same review states that Brazil's blue carbon storage/sequestration potential \"is not completely understood\" — no quantified national mitigation-potential figure was found in the literature reviewed for this update."
     }
   },
   {
@@ -341,7 +393,14 @@
       "mangrove_area_ha": 905086,
       "mangrove_area_note": "2020 official figure, CONABIO's Mexican Mangrove Monitoring System — 4th-largest mangrove extent in the world (~6.7% of the global total). A 2025 CONABIO update reports a decline to ~877,464 ha, partly reflecting reclassification of disturbed mangrove rather than pure loss. (Global Mangrove Watch v3.0's 2020 global remote-sensing estimate is somewhat higher, at ~1.01M ha.)",
       "mangrove_area_source": "https://www.gob.mx/conabio/prensa/conabio-presenta-el-libro-manglares-de-mexico-actualizacion-y-analisis-de-los-datos-2020?idiom=es",
-      "mangrove_area_source_label": "CONABIO — Manglares de México: Actualización y análisis de los datos 2020"
+      "mangrove_area_source_label": "CONABIO — Manglares de México: Actualización y análisis de los datos 2020",
+      "seagrass_area_note": "461,059 ha nationally (Valderrama-Landeros et al. 2017 / CONABIO 2018), via a peer-reviewed systematic review — consistent with the same CONABIO lineage as Mexico's mangrove monitoring. A separate federal figure cites just over 400,000 ha. The largest single meadow system (Campeche, Gulf of Mexico) covers ~149,613 ha alone.",
+      "seagrass_area_source": "https://peerj.com/articles/8790",
+      "seagrass_area_source_label": "PeerJ — Blue carbon of Mexico, carbon stocks and fluxes: a systematic review",
+      "salt_marsh_note": "No national salt-marsh area figure was found in this research pass.",
+      "ndc_mangrove_target_note": "Mexico's 2020 NDC commits to \"strengthening instruments and executing actions for biodiversity conservation\" with an emphasis on blue carbon, including publishing and implementing a National Blue Carbon Strategy — but as of a 2022 report, no national policies or plans for operationalizing this had been adopted, and no quantified mitigation target was found.",
+      "ndc_target_source": "https://www.ipsnews.net/2022/07/mexicos-blue-carbon-pioneers-push-despite-lack-state-support/",
+      "ndc_target_source_label": "IPS News — Mexico's Blue Carbon Pioneers Push Despite Lack of State Support"
     }
   },
   {
@@ -377,7 +436,12 @@
       "mangrove_area_ha": 0,
       "mangrove_area_note": "Not listed among the ~120 countries mapped in Global Mangrove Watch v3.0 (Bunting et al. 2022), the standardized global mangrove inventory — confirming Chile's cold Humboldt current and arid northern coast fall outside mangroves' tropical/subtropical range.",
       "mangrove_area_source": "https://doi.org/10.5281/zenodo.6894273",
-      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo"
+      "mangrove_area_source_label": "Global Mangrove Watch v3.0 (1996–2020) country statistics, via Zenodo",
+      "salt_marsh_note": "Chile has temperate salt marshes, particularly in Patagonia/southern Chile, but no national hectare figure was found in this research pass. No salt-marsh-specific NDC target exists — Chile's 2020 NDC update's wetland focus was on peatlands (see NDC note), not salt marsh.",
+      "seagrass_area_note": "No national seagrass area figure was found in this research pass.",
+      "ndc_mangrove_target_note": "Chile's April 2020 NDC update added peatlands as a conservation target — a wetland carbon sink, though not strictly a coastal/marine \"blue carbon\" ecosystem in the mangrove/seagrass/salt-marsh sense this platform otherwise tracks. No mangrove-, seagrass-, or salt-marsh-specific NDC target or mitigation figure was found for Chile.",
+      "ndc_target_source": "https://www.pew.org/es/research-and-analysis/articles/2020/05/20/chile-recognizes-that-carbon-absorbing-peatlands-can-help-stem-effects-of-climate-change",
+      "ndc_target_source_label": "Pew Charitable Trusts (Spanish) — Chile reconoce que las turberas que absorben carbono pueden ayudar a frenar los efectos del cambio climático"
     }
   }
 ]
