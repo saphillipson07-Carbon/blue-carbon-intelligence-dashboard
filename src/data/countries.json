@@ -95,18 +95,25 @@
     "article6_framework": "In Development",
     "dna_appointed": "Implemented",
     "domestic_carbon_market": "In Development",
-    "bilateral_agreements": "In Development",
+    "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "In Development",
     "article6_authorization": "In Development",
     "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "A Department Circular sets out carbon credit trading guidelines, with credits verified and authorized through the Designated National Authority before counting as ITMOs or CORSIA allowances. The Philippines and Singapore signed their first Article 6 implementation agreement on 30 Apr 2026 in Manila (upgrading the Aug 2024 MOU), with Singapore committing 5% of proceeds from authorized credits to Philippine climate adaptation. Philippines–South Korea Article 6 talks were fast-tracking toward a deal as of Oct 2026. The Low Carbon Economy Investment Act and a companion Carbon Rights Bill — which would give the country a clearer legal basis for authorization and benefit-sharing — remain pending in Congress. No specific project authorization or ITMO transfer has been confirmed yet.",
+    "sources": [
+      { "label": "Net Zero Compare — Philippines and Singapore sign carbon trading agreement to support Article 6 climate projects", "url": "https://netzerocompare.com/articles/philippines-and-singapore-sign-carbon-trading-agreement-to-support-article-6-climate-projects" },
+      { "label": "Reccessary — Philippines charts carbon credit framework to link with Article 6 of Paris Agreement", "url": "https://reccessary.com/En/news/philippines-carbon-credit-framework-article-6" }
+    ],
     "itmo_transfer_detail": {
       "role": "host",
       "partners": [],
-      "note": "The Philippines and Singapore exchanged a Memorandum of Understanding on Article 6 cooperation in August 2024, and reaffirmed in June 2025 their commitment to negotiate a full implementing arrangement. No implementing arrangement, authorization, or ITMO transfer has been confirmed yet.",
-      "source": "https://rtvm.gov.ph/wp-content/uploads/2025/06/2025-06-04_joint-leaders-statement.pdf",
-      "source_label": "Philippine government — Joint Leaders' Statement (4 Jun 2025)"
+      "note": "The Philippines and Singapore signed their first Article 6 implementation agreement on 30 April 2026 in Manila, upgrading their August 2024 MOU. Eligible Philippine project credits can transfer to Singapore once they meet Article 6 rules and get government authorization, but no specific project authorization or ITMO transfer has been confirmed yet.",
+      "source": "https://netzerocompare.com/articles/philippines-and-singapore-sign-carbon-trading-agreement-to-support-article-6-climate-projects",
+      "source_label": "Net Zero Compare — Philippines and Singapore sign carbon trading agreement to support Article 6 climate projects"
     },
     "blue_carbon": {
       "mangrove_area_ha": 311216,
@@ -130,6 +137,14 @@
     "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "In Development",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "Korea's domestic K-ETS enters its fourth compliance phase (2026–2030) under an allocation plan approved Nov 2025, with allowance prices up ~50% over the past six months ahead of the tighter phase and the market newly opened to securities firms. A Korean standards body (KSA) was approved as a Designated Operational Entity under Article 6.4 in Oct 2025, giving it authority to validate/verify international mitigation activities — a technical accreditation, not the government's own DNA authorization. Korean firms are already using UN-issued Article 6/PACM credits (e.g. a Myanmar cookstove project) for K-ETS compliance. No ITMO issuance or transfer specifically involving Korea has been confirmed (see ITMO Transfer Status).",
+    "sources": [
+      { "label": "Eco-Business — South Korea opens carbon trading to securities firms in major market overhaul", "url": "https://www.eco-business.com/news/south-korea-opens-carbon-trading-to-securities-firms-in-major-market-overhaul" },
+      { "label": "Eco-Business — South Korea carbon prices jump nearly 50 per cent as tighter emissions caps loom", "url": "https://www.eco-business.com/news/south-korea-carbon-prices-jump-nearly-50-per-cent-as-tighter-emissions-caps-loom" },
+      { "label": "Korean Standards Association approved as Designated Operational Entity under Article 6.4", "url": "https://www.asiae.co.kr/en/article/2025101309171565042" }
+    ],
     "itmo_transfer_detail": {
       "role": "buyer",
       "partners": [],
@@ -159,6 +174,14 @@
     "itmos_issued": "Transfer Completed",
     "active_blue_carbon_projects": "In Development",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "Japan's GX-ETS ran as a voluntary baseline-and-credit scheme through FY2023–FY2025, then became mandatory from FY2026, covering roughly 60% of national emissions (~600 MtCO2e) with a price band (FY2026: ¥1,700 floor / ¥4,300 ceiling, rising 3%/yr); auctioning phases in from FY2033. In April 2025 the JCM Promotion and Utilization Council formally authorized the JCM as an Article 6.2 cooperative approach. As of mid-2025, Japan was reportedly considering barring international voluntary-market credits from GX-ETS compliance as the mandatory phase approached — not confirmed finalized as of this update.",
+    "sources": [
+      { "label": "IETA — Japan: Unleashing the Green Transition", "url": "https://www.ieta.org/news/japan-unleashing-the-green-transition" },
+      { "label": "Japan Ministry of the Environment — Press Release", "url": "https://www.env.go.jp/en/press/press_03994.html" },
+      { "label": "S&P Global — Japan mulls barring international VCM credits before GX-ETS launch", "url": "https://www.spglobal.com/commodity-insights/en/news-research/latest-news/energy-transition/070725-japan-mulls-barring-international-vcm-credits-before-gx-ets-launch-move-to-be-bullish-for-domestic-credits" }
+    ],
     "itmo_transfer_detail": {
       "role": "buyer",
       "partners": [
@@ -182,15 +205,23 @@
     "region": "Sub-Saharan Africa",
     "income_group": "Lower-middle income",
     "market_role": "Host",
-    "article6_framework": "In Development",
+    "article6_framework": "Implemented",
     "dna_appointed": "Implemented",
-    "domestic_carbon_market": "In Development",
+    "domestic_carbon_market": "Implemented",
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
     "itmos_issued": "Framework Only",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "The Climate Change (Carbon Markets) Regulations, 2024 were gazetted in May 2024, establishing Kenya's Designated National Authority (DNA) and its role approving carbon projects. Kenya's National Carbon Registry launched 17 Feb 2026 to centralize registration, track emission reductions, and authorize transfers. An Aug 2026 rulebook set Kenya's Article 6 international-transfer budget at 10M tCO2e through 2030 (annual allocations capped at 1.67M tCO2e), covering energy, transport, industrial processes and waste. article6_framework and domestic_carbon_market upgraded from \"In Development\" to \"Implemented\" on this basis — both DNA and registry are now live, operational institutions, not just a published framework. No specific project authorization or bilateral partner agreement has been confirmed yet, so article6_authorization and bilateral_agreements remain \"In Development\". An earlier legal analysis (pre-registry) also noted the 2024 regulations didn't fully define carbon credits' legal status or synchronization with international voluntary-market trading — unclear whether the Aug 2026 rulebook closed that gap.",
+    "sources": [
+      { "label": "ABC News (AP) — Kenya unveils carbon market rule book and caps the overseas sale of carbon credits", "url": "https://abcnews.com/International/wireStory/kenya-unveils-carbon-market-rule-book-caps-overseas-135362523" },
+      { "label": "The Standard — Kenya banks on carbon registry to strengthen integrity, global market participation", "url": "https://standardmedia.co.ke/business/amp/environment-climate/article/2001541136/kenya-banks-on-carbon-registry-to-strengthen-integrity-global-market-participation" },
+      { "label": "Cliffe Dekker Hofmeyr — Kenya unveils Carbon Market Regulations", "url": "https://www.cliffedekkerhofmeyr.com/en/news/publications/2024/Practice/Environmental/environmental-law-alert-31-may-Kenya-unveils-Carbon-Market-Regulations" }
+    ],
     "itmo_transfer_detail": {
       "role": "host",
       "partners": [],
@@ -211,15 +242,22 @@
     "region": "Oceania",
     "income_group": "High income",
     "market_role": "Host",
-    "article6_framework": "Implemented",
+    "article6_framework": "In Development",
     "dna_appointed": "Implemented",
     "domestic_carbon_market": "Implemented",
     "bilateral_agreements": "In Development",
     "blue_carbon_ndc": "Implemented",
-    "article6_authorization": "Implemented",
+    "article6_authorization": "In Development",
     "itmos_issued": "No Confirmed Activity Found",
     "active_blue_carbon_projects": "Implemented",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "article6_framework and article6_authorization downgraded from \"Implemented\" to \"In Development\" on this update: research found no confirmed Australian DNA designation or Article 6.2/6.4 authorization decision, and multiple 2025–2026 sources describe Australia as lagging on Article 6 participation (\"at risk of being left behind\") rather than having an operational framework. An Aug 2026 Safeguard Mechanism review reportedly \"dismisses international credit use for now\", and the Climate Change Authority's 5th ACCU Scheme review (reporting by end of 2026) is still assessing Article 6 arrangements, not confirming them. The domestic ACCU Scheme itself is real and operational (unaffected by this correction) — only cross-border Article 6 status is in question. This is consistent with the ITMO Transfer Status finding below (\"No Confirmed Activity Found\").",
+    "sources": [
+      { "label": "Climate Change Authority — 2026 review of the ACCU Scheme", "url": "https://www.climatechangeauthority.gov.au/2026-review-accu-scheme" },
+      { "label": "Carbon Pulse — Australia opens Safeguard Mechanism review, considers ACCU limits, vintaging, dismisses int'l credit use for now", "url": "https://carbon-pulse.com/539687/" }
+    ],
     "itmo_transfer_detail": {
       "role": null,
       "partners": [],
@@ -247,6 +285,13 @@
     "blue_carbon_ndc": "Implemented",
     "article6_authorization": "In Development",
     "itmos_issued": "Framework Only",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "As of June 2026, Brazil had not yet published an Article 6 regulatory framework (Climate Action Tracker), though it has signed 2 bilateral agreements — with Singapore and Switzerland — now added to this dataset (see Bilateral Agreements). Its domestic emissions trading system (SBCE, the Sistema Brasileiro de Comércio de Emissões) is under construction. An Aug 2026 briefing said officials want Article 6 authorizations and regulatory groundwork to start before 2031, while keeping pre-2031 mitigation outcomes excluded and volume restrictions in the current draft. bilateral_agreements remains \"In Development\" despite the 2 signed agreements since neither can yet be operationalized without the underlying national regulation.",
+    "sources": [
+      { "label": "Climate Action Tracker — Assessment of Brazil's Article 6 engagement (Jun 2026)", "url": "https://climateactiontracker.org/documents/1425/CAT_2026-06_Assessment_Article6_Brazil.pdf" },
+      { "label": "Carbon Pulse — BRIEFING: Brazil seeks to reassure carbon industry over Article 6 timeline", "url": "https://carbon-pulse.com/539513/" }
+    ],
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
     "itmo_transfer_detail": {
@@ -278,6 +323,13 @@
     "itmos_issued": "No Confirmed Activity Found",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "Mexico's domestic ETS (launched 2020, pilot 2020–2021, transitional phase 2022–2025) targets an \"Operational Phase\" around late 2025/early 2026, covering ~40% of national GHG emissions from large industrial/energy installations. Domestic offsets are currently capped at 10% of compliance, with officials floating a rise to as much as 100% depending on Mexico's updated NDC. The RMX (Mexican Registry for the Green Transition) offset standard is meant to supply ETS demand, but is explicitly separate from the national infrastructure Article 6/CORSIA authorization would require — which still doesn't exist. One analysis warns the ETS's own offset rules may complicate future Article 6.2/6.4 deals.",
+    "sources": [
+      { "label": "BDLaw — Mexico Carbon Markets Poised for Expansion in 2026", "url": "https://www.bdlaw.com/publications/mexico-carbon-markets-poised-for-expansion-in-2026/" },
+      { "label": "Carbon Pulse — BRIEFING: Mexico, Colombia finalising ETS rules ahead of 2026 rollouts, Chile continues Article 6 expansion", "url": "https://carbon-pulse.com/487833/" }
+    ],
     "itmo_transfer_detail": {
       "role": null,
       "partners": [],
@@ -298,19 +350,26 @@
     "region": "Latin America & Caribbean",
     "income_group": "High income",
     "market_role": "Host",
-    "article6_framework": "In Development",
+    "article6_framework": "Implemented",
     "dna_appointed": "Implemented",
     "domestic_carbon_market": "Implemented",
     "bilateral_agreements": "Implemented",
     "blue_carbon_ndc": "Implemented",
-    "article6_authorization": "In Development",
+    "article6_authorization": "Implemented",
     "itmos_issued": "Authorized, Not Yet Transferred",
     "active_blue_carbon_projects": "Not Available",
     "project_activity": "Active",
+    "verified": true,
+    "last_verified": "2026-11-05",
+    "notes": "Chile's 2022 framework climate law tasks its Ministry of the Environment with leading carbon-market rulemaking, including Article 6; a December 2025 regulation reportedly operationalized the sale of carbon credits abroad under Article 6 (sits under the framework law, so no separate parliamentary approval was required). Chile authorized its first Article 6.2 project — a coal-to-biomass conversion at an industrial plant — under its existing Switzerland bilateral agreement; a separate Letter of Authorization for a landfill biogas project followed in 2026 (see ITMO Transfer Status). article6_framework and article6_authorization upgraded from \"In Development\" to \"Implemented\" on this basis — Chile now has both an operative Article 6 regulation and at least one confirmed project authorization, even though no completed ITMO transfer has been confirmed yet. Chile's green tax on stationary sources (>25,000 tCO2e/yr) is increasingly offsettable with carbon credits, including Article 6-eligible ones.",
+    "sources": [
+      { "label": "Quantum Commodity Intelligence — Chile outlines Article 6 framework ahead of government change", "url": "https://www.qcintel.com/carbon/article/chile-outlines-article-6-framework-ahead-of-government-change-55013.html" },
+      { "label": "Carbon Pulse — Chile confirms changes in carbon tax, use of battery storage and coal plants repurposing with Paris Art. 6", "url": "https://carbon-pulse.com/441902/" }
+    ],
     "itmo_transfer_detail": {
       "role": "host",
       "partners": [],
-      "note": "Chile and Switzerland signed a bilateral Article 6 implementing agreement on 9 December 2023. Chile issued a Letter of Authorization for a landfill biogas project in 2026, but no completed ITMO transfer to Switzerland (or any buyer) has been publicly confirmed yet.",
+      "note": "Chile and Switzerland signed a bilateral Article 6 implementing agreement on 9 December 2023. Chile has authorized at least two projects under it — a coal-to-biomass conversion and a landfill biogas project (2026) — but no completed ITMO transfer to Switzerland (or any buyer) has been publicly confirmed yet.",
       "source": "https://klik.ch/international/partner-countries/chile",
       "source_label": "KliK Foundation — Chile partner country page"
     },

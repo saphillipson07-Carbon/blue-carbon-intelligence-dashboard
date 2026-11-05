@@ -70,6 +70,36 @@
     "source_label": "KliK Foundation — Chile partner country page"
   },
   {
+    "country_a": "Philippines",
+    "country_b": "Singapore",
+    "signed": "30 Apr 2026",
+    "status": "Operational",
+    "note": "The Philippines' first Article 6 implementation agreement, signed in Manila, upgrading an August 2024 MOU. Eligible Philippine project credits can transfer to Singapore once they meet Article 6 rules and get government authorization; Singapore committed 5% of proceeds from authorized credits to Philippine climate adaptation.",
+    "verified": true,
+    "source": "https://netzerocompare.com/articles/philippines-and-singapore-sign-carbon-trading-agreement-to-support-article-6-climate-projects",
+    "source_label": "Net Zero Compare — Philippines and Singapore sign carbon trading agreement to support Article 6 climate projects"
+  },
+  {
+    "country_a": "Brazil",
+    "country_b": "Singapore",
+    "signed": "Confirmed by Jun 2026 (exact signing date not found)",
+    "status": "In Progress",
+    "note": "One of 2 bilateral Article 6.2 agreements Brazil had signed as of June 2026, per Climate Action Tracker's assessment. No underlying national Article 6 regulation is in force yet to operationalize it.",
+    "verified": true,
+    "source": "https://climateactiontracker.org/documents/1425/CAT_2026-06_Assessment_Article6_Brazil.pdf",
+    "source_label": "Climate Action Tracker — Assessment of Brazil's Article 6 engagement (Jun 2026)"
+  },
+  {
+    "country_a": "Brazil",
+    "country_b": "Switzerland",
+    "signed": "Confirmed by Jun 2026 (exact signing date not found)",
+    "status": "In Progress",
+    "note": "One of 2 bilateral Article 6.2 agreements Brazil had signed as of June 2026, per Climate Action Tracker's assessment. No underlying national Article 6 regulation is in force yet to operationalize it.",
+    "verified": true,
+    "source": "https://climateactiontracker.org/documents/1425/CAT_2026-06_Assessment_Article6_Brazil.pdf",
+    "source_label": "Climate Action Tracker — Assessment of Brazil's Article 6 engagement (Jun 2026)"
+  },
+  {
     "country_a": "Ghana",
     "country_b": "Sweden",
     "signed": "27 May 2024",

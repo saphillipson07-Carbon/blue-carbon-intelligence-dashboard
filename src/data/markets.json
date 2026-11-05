@@ -35,7 +35,11 @@
     "article6_integration": "In Development",
     "registry": "PCRS",
     "platform": "Not Available",
-    "last_updated": "2025-10-01"
+    "last_updated": "2026-11-05",
+    "price_note": "A Department Circular sets out carbon credit trading guidelines; credits must be verified and authorized through the Designated National Authority before counting as ITMOs or CORSIA allowances. No domestic trading platform or market price data found.",
+    "verified": true,
+    "source": "https://reccessary.com/En/news/philippines-carbon-credit-framework-article-6",
+    "source_label": "Reccessary — Philippines charts carbon credit framework to link with Article 6 of Paris Agreement"
   },
   {
     "country": "Republic of Korea",
@@ -45,7 +49,11 @@
     "article6_integration": "Implemented",
     "registry": "KRX Registry",
     "platform": "KRX",
-    "last_updated": "2025-10-28"
+    "last_updated": "2026-11-05",
+    "price_note": "Phase 4 (2026–2030) National Emission Allowance Allocation Plan approved Nov 2025. Allowance prices rose ~50% over the 6 months leading into Nov 2025 ahead of the tighter cap; the market newly opened to securities firms.",
+    "verified": true,
+    "source": "https://www.eco-business.com/news/south-korea-opens-carbon-trading-to-securities-firms-in-major-market-overhaul",
+    "source_label": "Eco-Business — South Korea opens carbon trading to securities firms in major market overhaul"
   },
   {
     "country": "Japan",
@@ -55,17 +63,25 @@
     "article6_integration": "Implemented",
     "registry": "JCM Registry",
     "platform": "JPX",
-    "last_updated": "2025-10-28"
+    "last_updated": "2026-11-05",
+    "price_note": "Became mandatory from FY2026 (previously voluntary baseline-and-credit, FY2023–FY2025), covering ~60% of national emissions (~600 MtCO2e). FY2026 price band: ¥1,700 floor / ¥4,300 ceiling per tCO2e, both rising 3%/yr. Auctioning phases in from FY2033.",
+    "verified": true,
+    "source": "https://www.env.go.jp/en/press/press_03994.html",
+    "source_label": "Japan Ministry of the Environment — Press Release"
   },
   {
     "country": "Australia",
     "market_name": "Australian Carbon Credit Unit Scheme",
     "market_type": "Compliance + Voluntary",
     "status": "Operational",
-    "article6_integration": "Implemented",
+    "article6_integration": "In Development",
     "registry": "ANREU",
     "platform": "CER Registry",
-    "last_updated": "2025-10-15"
+    "last_updated": "2026-11-05",
+    "price_note": "article6_integration corrected from \"Implemented\" to \"In Development\": the domestic ACCU Scheme itself is real and operational, but no confirmed Article 6 cross-border authorization or DNA designation was found (see country notes). The Climate Change Authority's 5th ACCU Scheme review is still assessing Article 6 arrangements, due to report by end of 2026; an Aug 2026 Safeguard Mechanism review reportedly \"dismisses international credit use for now\".",
+    "verified": true,
+    "source": "https://www.climatechangeauthority.gov.au/2026-review-accu-scheme",
+    "source_label": "Climate Change Authority — 2026 review of the ACCU Scheme"
   },
   {
     "country": "Mexico",
@@ -75,16 +91,24 @@
     "article6_integration": "In Development",
     "registry": "Mexico Emissions Registry",
     "platform": "Not Available",
-    "last_updated": "2025-09-20"
+    "last_updated": "2026-11-05",
+    "price_note": "Targets an \"Operational Phase\" around late 2025/early 2026 after a 2020–2021 pilot and 2022–2025 transitional phase. Covers ~40% of national GHG emissions from large industrial/energy installations. Domestic offsets capped at 10% of compliance, with officials floating a rise to up to 100% depending on Mexico's updated NDC.",
+    "verified": true,
+    "source": "https://www.bdlaw.com/publications/mexico-carbon-markets-poised-for-expansion-in-2026/",
+    "source_label": "BDLaw — Mexico Carbon Markets Poised for Expansion in 2026"
   },
   {
     "country": "Chile",
     "market_name": "Chile Carbon Tax Offsets",
     "market_type": "Carbon Tax Offset",
     "status": "Operational",
-    "article6_integration": "In Development",
+    "article6_integration": "Implemented",
     "registry": "Chile Registry",
     "platform": "Not Available",
-    "last_updated": "2025-09-05"
+    "last_updated": "2026-11-05",
+    "price_note": "Green tax on stationary sources applies to companies emitting >25,000 tCO2e/year; the offsettable share (via carbon credits, including Article 6-eligible ones) has been expanding, with the Ministry of Energy aiming to double the carbon-tax liability payable in credits. article6_integration corrected from \"In Development\" to \"Implemented\": a Dec 2025 regulation reportedly operationalized Article 6 credit sales abroad, and Chile has authorized at least one real project (a coal-to-biomass conversion) under its Switzerland bilateral agreement.",
+    "verified": true,
+    "source": "https://www.qcintel.com/carbon/article/chile-outlines-article-6-framework-ahead-of-government-change-55013.html",
+    "source_label": "Quantum Commodity Intelligence — Chile outlines Article 6 framework ahead of government change"
   }
 ]
