@@ -10,5 +10,6 @@ export const PROJECT_COORDS = {
   'BC-104': { lat: 8.61, lon: 104.73 }, // Mui Ca Mau (Ca Mau Cape), Viet Nam
   'BC-108': { lat: 4.13, lon: 117.68 }, // Nunukan Regency, North Kalimantan — named in the project's own record
   'BC-109': { lat: -4.62, lon: 39.52 }, // Funzi Island, Kwale County, Kenya — named in the project's own record
+  'BC-005': { lat: -4.42, lon: 39.52 }, // Gazi Bay, Kwale County, Kenya — Mikoko Pamoja's own site, named in its PDD
   'BC-113': { lat: 18.77, lon: -95.76 }, // Alvarado, Veracruz, Mexico — named in the project's own record (BC-112, its withdrawn predecessor at the same site, has no separate marker to avoid an overlapping duplicate)
 };

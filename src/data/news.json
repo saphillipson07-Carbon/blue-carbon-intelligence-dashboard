@@ -72,27 +72,12 @@
     "source_label": "carboncredits.com"
   },
   {
-    "date": "2025-10-22",
+    "date": "2026-05-15",
     "type": "METHODOLOGY",
-    "headline": "Verra opens VM0033 v2 draft for public consultation",
-    "country": "Global"
-  },
-  {
-    "date": "2025-10-08",
-    "type": "POLICY",
-    "headline": "Kenya Carbon Markets Regulations enter implementation review",
-    "country": "Kenya"
-  },
-  {
-    "date": "2025-09-28",
-    "type": "PROJECT",
-    "headline": "Mikoko Pamoja mangrove project completes annual monitoring",
-    "country": "Kenya"
-  },
-  {
-    "date": "2025-09-18",
-    "type": "REGULATION",
-    "headline": "Philippines DNA appointment finalized",
-    "country": "Philippines"
+    "headline": "ICVCM approves Isometric's Mangrove Restoration Protocol as the first CCP-labelled blue carbon methodology",
+    "country": "Global",
+    "verified": true,
+    "source": "https://icvcm.org/knowledge-resources/ccp-approved-methodologies/mangrove-carbon-credits/",
+    "source_label": "ICVCM — Mangrove carbon credits: conservation and restoration"
   }
 ]

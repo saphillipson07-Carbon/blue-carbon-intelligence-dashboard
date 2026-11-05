@@ -30,6 +30,12 @@ export const STATUS_COLOR = {
   'No Data': '#E5EAED',
 };
 
+// World country boundaries, bundled locally (not fetched live). This is the
+// standard world-atlas TopoJSON redistribution of Natural Earth's Admin 0
+// countries at 1:110m scale (github.com/topojson/world-atlas) — confirmed by
+// matching its structure (ISO 3166-1 numeric country IDs, the same arc/
+// quantization format) against the published package; the file itself
+// carries no embedded source metadata, which is why this comment exists.
 const geoUrl = '/geo/countries-110m.json';
 
 export default function WorldMap({ countries, statusField, onSelect, selectedIso, colorMap, mutedIsos, markers, onMarkerSelect, selectedMarkerId, showCapitals = true }) {

@@ -2,10 +2,12 @@
   {
     "country_a": "Indonesia",
     "country_b": "Japan",
-    "signed": "Oct 2024",
+    "signed": "28 Oct 2024",
     "status": "Operational",
-    "note": "Builds on the long-standing Japan–Indonesia Joint Crediting Mechanism (JCM), formalized under an Article 6.2 mutual recognition arrangement.",
-    "verified": false
+    "note": "Mutual Recognition Arrangement (MRA) treating Japan's JCM and Indonesia's GHG Emission Reduction Certification (SPEI) system as equivalent, building on the 2013 Japan–Indonesia JCM bilateral cooperation document. Described by Indonesia's government as the world's first bilateral collaboration model under Article 6.2. In effect until 31 Dec 2030.",
+    "verified": true,
+    "source": "https://www.env.go.jp/en/press/press_03514.html",
+    "source_label": "Japan Ministry of the Environment — Press Release on the Japan–Indonesia Mutual Recognition Arrangement"
   },
   {
     "country_a": "Indonesia",
@@ -20,10 +22,12 @@
   {
     "country_a": "Indonesia",
     "country_b": "Republic of Korea",
-    "signed": "Jun 2024",
+    "signed": "6 Jun 2024",
     "status": "Operational",
-    "note": "Indonesia has signed Article 6.2 MOUs with Singapore, South Korea and Japan.",
-    "verified": false
+    "note": "MOU on implementing Article 6 of the Paris Agreement, signed in Singapore by Indonesia's Coordinating Minister for Economic Affairs and South Korea's Trade Minister on the sidelines of an IPEF ministerial meeting. Encourages joint emission-reduction projects in Indonesia, resembling Indonesia's existing JCM arrangements; both countries would receive ITMOs from selected projects.",
+    "verified": true,
+    "source": "https://www.ekon.go.id/publikasi/detail/5810/implementasikan-artikel-6-perjanjian-paris-indonesia-dan-korea-selatan-sepakati-kerja-sama-penurunan-emisi-karbon",
+    "source_label": "Coordinating Ministry for Economic Affairs of Indonesia — Implementasikan Artikel 6 Perjanjian Paris, Indonesia dan Korea Selatan Sepakati Kerja Sama Penurunan Emisi Karbon"
   },
   {
     "country_a": "Indonesia",
@@ -58,15 +62,21 @@
   {
     "country_a": "Chile",
     "country_b": "Switzerland",
-    "signed": "Feb 2024",
+    "signed": "9 Dec 2023",
     "status": "Operational",
-    "verified": false
+    "note": "Bilateral Article 6 implementing agreement between the Swiss Federal Council and the Government of Chile. Previously listed in this dataset as \"Feb 2024\", which no secondary source confirms — corrected here to match the date on the agreement itself.",
+    "verified": true,
+    "source": "https://klik.ch/international/partner-countries/chile",
+    "source_label": "KliK Foundation — Chile partner country page"
   },
   {
     "country_a": "Ghana",
     "country_b": "Sweden",
-    "signed": "May 2024",
-    "status": "In Progress",
-    "verified": false
+    "signed": "27 May 2024",
+    "status": "Operational",
+    "note": "Bilateral agreement on climate cooperation between the Swedish Energy Agency and Ghana's Ministry of Environment, regulating transfers of emission reduction/removal units — described by the Swedish Energy Agency as Sweden's first legally binding agreement on emissions trading under the Paris Agreement. Builds on a 2021 MOU between the two countries. Status corrected here from \"In Progress\" since the agreement itself is signed and in force (project-level activity under it may still be developing).",
+    "verified": true,
+    "source": "https://www.energimyndigheten.se/en/news/2024/swedens-first-legally-binding-agreement-on-emissions-trading-under-the-paris-agreement/",
+    "source_label": "Swedish Energy Agency — Sweden's first legally binding agreement on emissions trading under the Paris Agreement"
   }
 ]

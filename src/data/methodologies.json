@@ -13,22 +13,30 @@
     "source_label": "Calyx Global — Blue Carbon research"
   },
   {
-    "name": "Mangroves Methodology",
+    "name": "Methodology for Sustainable Management of Mangroves",
     "standard": "Gold Standard",
     "ecosystem": "Mangrove",
     "activity": "Restoration / Conservation",
     "article6_eligible": "Yes",
     "corsia_eligible": "No",
-    "status": "Approved"
+    "status": "Approved",
+    "note": "Published 22 Aug 2024, developed with project developer FORLIANCE. Global scope, limited to native mangrove restoration on land that historically supported mangroves; allows remote sensing combined with ground data. Replaces the older A/R methodology for new mangrove project listings.",
+    "verified": true,
+    "source": "https://www.goldstandard.org/news/new-mangrove-methodology-featuring-remote-sensing-expands-nature-based-solutions-from-gold-standard",
+    "source_label": "Gold Standard — New Mangrove Methodology Featuring Remote-Sensing Expands Nature-based Solutions"
   },
   {
-    "name": "Mangroves (Plan Vivo)",
+    "name": "PM00X Coastal Blue Carbon Methodology",
     "standard": "Plan Vivo",
     "ecosystem": "Mangrove",
-    "activity": "Restoration",
+    "activity": "Restoration / Conservation (avoided deforestation)",
     "article6_eligible": "No",
     "corsia_eligible": "No",
-    "status": "Approved"
+    "status": "Approved",
+    "note": "Modular methodology covering mangrove restoration/afforestation and conservation (avoided deforestation); currently provides accounting procedures for avoided deforestation only, not degradation. Used by real registered projects including Mikoko Pamoja and Vanga Blue Forest (Kenya).",
+    "verified": true,
+    "source": "https://s3.eu-west-2.amazonaws.com/assets.planvivo.org/documents/pm00x_pvclimate_v5_0.7.pdf",
+    "source_label": "Plan Vivo — PM00X PVClimate Coastal Blue Carbon Methodology"
   },
   {
     "name": "Blue Carbon Guidelines",
@@ -37,15 +45,21 @@
     "activity": "Restoration",
     "article6_eligible": "Yes",
     "corsia_eligible": "No",
-    "status": "In Review"
+    "status": "In Review",
+    "note": "Could not confirm a dedicated, publicly documented JCM blue-carbon/mangrove methodology as of this research pass. JCM methodologies are developed and approved per bilateral country pair by each pair's own Joint Committee, and none specifically covering mangroves or blue carbon was located in public JCM/GEC documentation. This entry's real-world basis is unconfirmed — treat as unverified pending direct confirmation from the JCM partner-country methodology lists (jcm.go.jp / gec.jp).",
+    "verified": false
   },
   {
-    "name": "Blue Carbon Principles",
+    "name": "Mangrove Carbon Credits (ISM Mangrove v1.0)",
     "standard": "ICVCM",
-    "ecosystem": "Mangrove, Seagrass",
-    "activity": "Cross-cutting eligibility",
+    "ecosystem": "Mangrove",
+    "activity": "Restoration",
     "article6_eligible": "No",
     "corsia_eligible": "No",
-    "status": "Emerging"
+    "status": "Approved",
+    "note": "ICVCM approved Isometric's Mangrove Restoration Protocol (method ID M49, \"ISM Mangrove v1.0\") for Core Carbon Principles (CCP) labelling — the first CCP-approved blue carbon methodology. Published Dec 2025; Board decision dated 30 Apr 2026. Covers restoring mangroves on degraded or lost mangrove land. This replaces an earlier, more generic \"Blue Carbon Principles / Emerging\" placeholder entry that did not reflect a confirmed, named ICVCM work product.",
+    "verified": true,
+    "source": "https://icvcm.org/knowledge-resources/ccp-approved-methodologies/mangrove-carbon-credits/",
+    "source_label": "ICVCM — Mangrove carbon credits: conservation and restoration (CCP-Approved)"
   }
 ]
